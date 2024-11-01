@@ -11,3 +11,27 @@ java_binary(
         "//src/java/sigprop/util",
     ]
 )
+
+java_binary(
+    name = "SigpropExample",
+    main_class = "sigprop.examples.SigpropExample",
+    srcs = ["SigpropExample.java"],
+    deps = [
+        "//src/java/sigprop2",
+        "//src/java/sigprop2/signal",
+        "//src/java/sigprop2/signal/concurrent",
+        "//src/java/sigprop2/util",
+    ]
+)
+
+java_binary(
+    name = "FakeTaskActivity",
+    main_class = "sigprop.examples.FakeTaskActivity",
+    srcs = ["FakeTaskActivity.java"],
+    deps = [
+        "//src/java/sigprop2",
+        "//src/java/sigprop2/signal",
+        "//src/java/sigprop2/signal/concurrent",
+        "//src/java/sigprop2/util",
+    ]
+)
