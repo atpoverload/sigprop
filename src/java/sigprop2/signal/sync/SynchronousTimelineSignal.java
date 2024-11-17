@@ -1,16 +1,16 @@
-package sigprop2.signal;
+package sigprop2.signal.sync;
 
 import java.time.Instant;
 import java.util.TreeMap;
 import sigprop2.SourceSignal;
 
 /** A {@link ProcessingSignal} that updates downstream when there are at least two data points. */
-public abstract class TimelineSignal<T, U> extends ProcessingSignal<U> {
+public abstract class SynchronousTimelineSignal<T, U> extends SynchronousProcessingSignal<U> {
   private final SourceSignal<T> source;
 
   private final TreeMap<Instant, T> timeline = new TreeMap<>();
 
-  protected TimelineSignal(SourceSignal<T> source) {
+  protected SynchronousTimelineSignal(SourceSignal<T> source) {
     this.source = source;
   }
 

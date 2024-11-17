@@ -9,6 +9,11 @@ import sigprop2.SinkSignal;
 import sigprop2.SourceSignal;
 
 public final class LoggerSink implements SinkSignal {
+  public static LoggerSink collect(
+      SourceSignal<?> first, SourceSignal<?> second, SourceSignal<?>... others) {
+    return new LoggerSink(first, second, others);
+  }
+
   private static final Logger logger = LoggerUtil.getLogger();
 
   private final ArrayList<SourceSignal<?>> sources = new ArrayList<>();
@@ -17,10 +22,11 @@ public final class LoggerSink implements SinkSignal {
     this.sources.add(source);
   }
 
-  public LoggerSink(SourceSignal<?> first, SourceSignal<?>... others) {
+  private LoggerSink(SourceSignal<?> first, SourceSignal<?> second, SourceSignal<?>... others) {
     this.sources.add(first);
-    for (SourceSignal<?> source : others) {
-      this.sources.add(source);
+    this.sources.add(second);
+    for (SourceSignal<?> other : others) {
+      this.sources.add(other);
     }
   }
 

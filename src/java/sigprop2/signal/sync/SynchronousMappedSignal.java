@@ -1,15 +1,15 @@
-package sigprop2.signal;
+package sigprop2.signal.sync;
 
 import java.time.Instant;
 import java.util.function.Function;
 import sigprop2.SourceSignal;
 
 /** A {@link ProcessingSignal} that applies a function to a {@link SourceSignal}. */
-final class MappedSignal<T, U> extends ProcessingSignal<U> {
+final class SynchronousMappedSignal<T, U> extends SynchronousProcessingSignal<U> {
   private final SourceSignal<T> source;
   private final Function<T, U> func;
 
-  MappedSignal(SourceSignal<T> source, Function<T, U> func) {
+  SynchronousMappedSignal(SourceSignal<T> source, Function<T, U> func) {
     this.source = source;
     this.func = func;
   }
