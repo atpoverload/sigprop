@@ -5,10 +5,10 @@ import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
 import sigprop3.SinkSignal;
-import sigprop3.signal.ClockSignal;
+import sigprop3.signal.SubscribeableClockSignal;
 
-/** A {@link ClockSignal} that updates the downstream synchronously. */
-public final class SynchronousClockSignal extends ClockSignal {
+/** A {@link SubscribeableClockSignal} that updates the downstream synchronously. */
+public final class SynchronousClockSignal extends SubscribeableClockSignal {
   public static SynchronousClockSignal fixedPeriodMillis(
       int millisPeriod, ScheduledExecutorService executorService) {
     final Duration period = Duration.ofMillis(millisPeriod);

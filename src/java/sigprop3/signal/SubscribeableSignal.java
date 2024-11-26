@@ -46,14 +46,9 @@ public abstract class SubscribeableSignal<T> implements ComposableSignal<T>, Map
     return sink;
   }
 
-  /** Returns a shallow copy of the downstream {@link SinkSignals}. */
-  protected final Iterable<SinkSignal> downstream() {
-    return new ArrayList<>(downstream);
-  }
-
   /** Updates all signals using {@code updateSignal}. */
   protected final void updateDownstream(Instant now) {
-    downstream().forEach(signal -> updateSignal(signal, now));
+    downstream.forEach(signal -> updateSignal(signal, now));
   }
 
   /** The individual method that updates a downstream signal. */
