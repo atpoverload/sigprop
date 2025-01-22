@@ -1,4 +1,4 @@
-package sigprop3.examples;
+package sigprop.examples;
 
 import java.time.Instant;
 import java.util.TreeMap;
@@ -6,12 +6,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
-import sigprop3.SourceSignal;
-import sigprop3.signal.concurrent.ConcurrentProcessingSignal;
-import sigprop3.signal.math.scalar.ScalarForwardDifference;
-import sigprop3.signal.sync.SynchronousClockSignal;
-import sigprop3.signal.sync.SynchronousProcessingSignal;
-import sigprop3.signal.util.ConsoleSink;
+import sigprop.SourceSignal;
+import sigprop.signal.concurrent.ConcurrentProcessingSignal;
+import sigprop.signal.math.scalar.ScalarForwardDifference;
+import sigprop.signal.sync.SynchronousClockSignal;
+import sigprop.signal.sync.SynchronousProcessingSignal;
+import sigprop.signal.util.ConsoleSink;
 
 /**
  * An example of the Muon Detection experiment (https://en.wikipedia.org/wiki/Muon_tomography). A
@@ -23,7 +23,7 @@ public class MuonTomography {
   private static final ScheduledExecutorService EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
-            Thread t = new Thread(r, "sigprop3-particle-emitter");
+            Thread t = new Thread(r, "sigprop-particle-emitter");
             t.setDaemon(true);
             return t;
           });

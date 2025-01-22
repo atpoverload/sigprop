@@ -1,4 +1,4 @@
-package sigprop.util;
+package sigprop3.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +16,7 @@ public final class LoggerUtil {
   private static String makePrefix(Date date) {
     return String.join(
         " ",
-        "sigprop",
+        "sigprop3",
         "(" + dateFormatter.format(date) + ")",
         "[" + Thread.currentThread().getName() + "]:");
   }
@@ -36,7 +36,7 @@ public final class LoggerUtil {
           }
         });
 
-    Logger logger = Logger.getLogger("sigprop");
+    Logger logger = Logger.getLogger("sigprop3");
     logger.setUseParentHandlers(false);
 
     for (Handler hdlr : logger.getHandlers()) {

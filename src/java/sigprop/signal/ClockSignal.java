@@ -1,4 +1,4 @@
-package sigprop3.signal;
+package sigprop.signal;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -7,24 +7,27 @@ import java.time.Instant;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-/** A {@link SubscribeableSignal}that {@code ticks} periodically to update its downstream. */
-public abstract class SubscribeableClockSignal extends SubscribeableSignal<Instant>
-    implements ClockSignal {
+/** A {@link SubscribeableSignal} that {@code ticks} periodically to update its downstream. */
+public final class ClockSignal extends SubscribeableSignal<Instant> {
+  public static ClockSignal fixedPeriod(Duration period, ScheduledExecutorService executor) {
+    return new ClockSignal(Instant::now, () -> period, executor, executor);
+  }
+
   private final Supplier<Instant> timeSource;
   private final Supplier<Duration> nextInterval;
   private final ScheduledExecutorService executor;
 
   private final AtomicBoolean isRunning = new AtomicBoolean(false);
   private final TreeSet<Instant> timeline = new TreeSet<>();
-  private final AtomicReference<Instant> lastTick = new AtomicReference<>();
 
-  protected SubscribeableClockSignal(
+  public ClockSignal(
       Supplier<Instant> timeSource,
       Supplier<Duration> nextInterval,
-      ScheduledExecutorService executor) {
+      ScheduledExecutorService executor,
+      ScheduledExecutorService sinkExecutor) {
+    super(sinkExecutor);
     this.timeSource = timeSource;
     this.nextInterval = nextInterval;
     this.executor = executor;
@@ -36,26 +39,18 @@ public abstract class SubscribeableClockSignal extends SubscribeableSignal<Insta
     return timeline.headSet(timestamp).last();
   }
 
-  /** Returns the most recent timestamp. */
-  @Override
-  public final Instant lastTick() {
-    return this.timeline.last();
-  }
-
   /** Starts the clock, which will update its downstream. */
-  @Override
-  public final void start() {
+  public void start() {
     synchronized (this) {
       if (!(isRunning.get() && executor.isShutdown())) {
         isRunning.set(true);
-        this.executor.submit(this::tick);
+        executor.submit(this::tick);
       }
     }
   }
 
   /** Stops the clock. */
-  @Override
-  public final void stop() {
+  public void stop() {
     isRunning.set(false);
   }
 
@@ -71,9 +66,9 @@ public abstract class SubscribeableClockSignal extends SubscribeableSignal<Insta
       return;
     }
 
-    Instant now = this.timeSource.get();
-    synchronized (this.timeline) {
-      this.timeline.add(now);
+    Instant now = timeSource.get();
+    synchronized (timeline) {
+      timeline.add(now);
     }
     updateDownstream(now);
     Duration rescheduleTime = nextInterval.get().minus(Duration.between(now, Instant.now()));

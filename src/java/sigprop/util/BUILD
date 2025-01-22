@@ -2,5 +2,5 @@ java_library(
     name = "util",
     visibility = ["//visibility:public"],
     srcs = glob(["*.java"]),
-    resources = ["//src/c/sigprop/util:libtime.so"],
+    deps = ["//src/java/sigprop3"],
 )
