@@ -7,14 +7,14 @@ import sigprop.SourceSignal;
 import sigprop.signal.TimelineSignal;
 
 /** A {@link TimelineSignal} that computes the scalar rate between two numbers signals. */
-public final class ScalarRate<N extends Number> extends TimelineSignal<N, Double> {
-  public ScalarRate(SourceSignal<N> source, Executor executor) {
+public final class ScalarRate<T extends Number> extends TimelineSignal<T, Double> {
+  public ScalarRate(SourceSignal<T> source, Executor executor) {
     super(source, executor);
   }
 
   /** Returns the ratio of the differences of the values and the timestamps. */
   @Override
-  protected Double compute(Instant start, Instant end, Number first, Number second) {
+  protected Double compute(Instant start, Instant end, T first, T second) {
     if (start.equals(end)) {
       return 0.0;
     }

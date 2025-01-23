@@ -2,10 +2,9 @@ package sigprop.signal;
 
 import java.time.Instant;
 import java.util.concurrent.Executor;
-import sigprop.SinkSignal;
 import sigprop.SourceSignal;
 
-public abstract class MappingSignal<T, U> extends PropagatingSignal<U> implements SinkSignal {
+public abstract class MappingSignal<T, U> extends DelegatingSignal<U> {
   private final SourceSignal<T> source;
 
   protected MappingSignal(SourceSignal<T> source, Executor executor) {
@@ -20,12 +19,6 @@ public abstract class MappingSignal<T, U> extends PropagatingSignal<U> implement
   @Override
   public final U sample(Instant timestamp) {
     return compute(timestamp, source.sample(timestamp));
-  }
-
-  /** Informs all downstream signals to update if there are at least two updates. */
-  @Override
-  public final void update(Instant timestamp) {
-    propagate(timestamp);
   }
 
   /** Computes the signal value over the given interval. */

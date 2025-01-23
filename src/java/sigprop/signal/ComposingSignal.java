@@ -2,14 +2,14 @@ package sigprop.signal;
 
 import java.time.Instant;
 import java.util.concurrent.Executor;
-import sigprop.SinkSignal;
 import sigprop.SourceSignal;
 
-public abstract class ComposingSignal<T, U, V> extends PropagatingSignal<V> implements SinkSignal {
+public abstract class ComposingSignal<T, U, V> extends DelegatingSignal<V> {
   private final SourceSignal<T> first;
   private final SourceSignal<U> second;
 
-  protected ComposingSignal(SourceSignal<T> first, SourceSignal<U> second, Executor executor) {
+  protected ComposingSignal(
+      SourceSignal<T> first, SourceSignal<U> second, Executor executor) {
     super(executor);
     this.first = first;
     this.second = second;
@@ -22,12 +22,6 @@ public abstract class ComposingSignal<T, U, V> extends PropagatingSignal<V> impl
   @Override
   public final V sample(Instant timestamp) {
     return compute(timestamp, first.sample(timestamp), second.sample(timestamp));
-  }
-
-  /** Informs all downstream signals to update if there are at least two updates. */
-  @Override
-  public final void update(Instant timestamp) {
-    propagate(timestamp);
   }
 
   /** Computes the signal value over the given interval. */

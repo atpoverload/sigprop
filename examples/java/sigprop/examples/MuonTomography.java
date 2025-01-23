@@ -22,10 +22,17 @@ import sigprop.signal.util.LoggerSink;
  * signal to compute the average particle rate.
  */
 public class MuonTomography {
-  private static final ScheduledExecutorService EXECUTOR =
+  private static final ScheduledExecutorService PARTICLE_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
-            Thread t = new Thread(r, "sigprop-particle-emitter");
+            Thread t = new Thread(r, "sigprop-examples-muon:emitter");
+            t.setDaemon(true);
+            return t;
+          });
+  private static final ScheduledExecutorService DETECTOR_EXECUTOR =
+      Executors.newSingleThreadScheduledExecutor(
+          r -> {
+            Thread t = new Thread(r, "sigprop-examples-muon:detector");
             t.setDaemon(true);
             return t;
           });
@@ -35,7 +42,7 @@ public class MuonTomography {
     private final int shutterPeriod;
 
     private ParticleEmitter(int shutterPeriod) {
-      super(EXECUTOR);
+      super(PARTICLE_EXECUTOR);
       this.shutterPeriod = shutterPeriod;
     }
 
@@ -59,7 +66,7 @@ public class MuonTomography {
     private final TreeMap<Instant, Integer> counts = new TreeMap<>();
 
     private ParticleDetector(SourceSignal<Integer> source, int triggerThreshold) {
-      super(EXECUTOR);
+      super(DETECTOR_EXECUTOR);
       this.source = source;
       this.triggerThreshold = triggerThreshold;
     }
@@ -88,12 +95,16 @@ public class MuonTomography {
   }
 
   public static void main(String[] args) throws Exception {
-    ClockSignal clock = ClockSignal.fixedPeriod(Duration.ofMillis(1), EXECUTOR);
-    clock
-        .map(() -> new ParticleEmitter(/* shutterPeriod= */ 10))
-        .asyncMap(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
-        .map(me -> new ScalarRate<>(me, EXECUTOR))
-        .asyncMap(LoggerSink::forSigprop);
+    ClockSignal clock =
+        new ClockSignal(
+            Instant::now, () -> Duration.ofMillis(1), PARTICLE_EXECUTOR, DETECTOR_EXECUTOR);
+    ParticleEmitter emitter = clock.map(() -> new ParticleEmitter(/* shutterPeriod= */ 10));
+    emitter.map(LoggerSink::forSigprop);
+    ScalarRate<?> flux =
+        emitter
+            .asyncMap(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
+            .map(me -> new ScalarRate<>(me, DETECTOR_EXECUTOR));
+    flux.asyncMap(LoggerSink::forSigprop);
     clock.start();
 
     while (true) {
