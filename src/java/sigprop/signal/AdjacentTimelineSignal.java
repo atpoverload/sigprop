@@ -9,12 +9,12 @@ import sigprop.SourceSignal;
 /**
  * A {@link PropagatingSignal} that updates its downstream when there is more the one data point.
  */
-public abstract class TimelineSignal<T, U> extends PropagatingSignal<U> implements SinkSignal {
+public abstract class AdjacentTimelineSignal<T, U> extends PropagatingSignal<U> implements SinkSignal {
   private final SourceSignal<T> source;
 
   private final TreeMap<Instant, T> timeline = new TreeMap<>();
 
-  protected TimelineSignal(SourceSignal<T> source, Executor executor) {
+  protected AdjacentTimelineSignal(SourceSignal<T> source, Executor executor) {
     super(executor);
     this.source = source;
   }

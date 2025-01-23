@@ -4,10 +4,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Executor;
 import sigprop.SourceSignal;
-import sigprop.signal.TimelineSignal;
+import sigprop.signal.AdjacentTimelineSignal;
 
-/** A {@link TimelineSignal} that computes the scalar rate between two numbers signals. */
-public final class ScalarRate<T extends Number> extends TimelineSignal<T, Double> {
+/** A {@link AdjacentTimelineSignal} that computes the scalar rate between two numbers signals. */
+public final class ScalarRate<T extends Number> extends AdjacentTimelineSignal<T, Double> {
   public ScalarRate(SourceSignal<T> source, Executor executor) {
     super(source, executor);
   }
