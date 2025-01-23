@@ -6,7 +6,7 @@ import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 /** A {@link SubscribeableSignal} that updates the downstream when {@code pushed}. */
-public final class ButtonSignal extends SubscribeableSignal<Instant> {
+public final class ButtonSignal extends PropagatingSignal<Instant> {
   private final Supplier<Instant> timeSource;
 
   private final TreeSet<Instant> timeline = new TreeSet<>();
@@ -28,6 +28,6 @@ public final class ButtonSignal extends SubscribeableSignal<Instant> {
     synchronized (timeline) {
       timeline.add(now);
     }
-    updateDownstream(now);
+    propagate(now);
   }
 }

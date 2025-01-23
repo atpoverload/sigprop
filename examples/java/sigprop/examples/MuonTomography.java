@@ -1,17 +1,19 @@
 package sigprop.examples;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+import sigprop.SinkSignal;
 import sigprop.SourceSignal;
-import sigprop.signal.concurrent.ConcurrentProcessingSignal;
-import sigprop.signal.math.scalar.ScalarForwardDifference;
-import sigprop.signal.sync.SynchronousClockSignal;
-import sigprop.signal.sync.SynchronousProcessingSignal;
-import sigprop.signal.util.ConsoleSink;
+import sigprop.signal.ClockSignal;
+import sigprop.signal.GeneratingSignal;
+import sigprop.signal.PropagatingSignal;
+import sigprop.signal.math.scalar.ScalarRate;
+import sigprop.signal.util.LoggerSink;
 
 /**
  * An example of the Muon Detection experiment (https://en.wikipedia.org/wiki/Muon_tomography). A
@@ -29,10 +31,8 @@ public class MuonTomography {
           });
 
   /** A signal that simulates particles being emitted from a source. */
-  private static class ParticleEmitter extends ConcurrentProcessingSignal<Integer> {
+  private static class ParticleEmitter extends GeneratingSignal<Integer> {
     private final int shutterPeriod;
-
-    private final AtomicInteger particlesEmitted = new AtomicInteger();
 
     private ParticleEmitter(int shutterPeriod) {
       super(EXECUTOR);
@@ -40,24 +40,18 @@ public class MuonTomography {
     }
 
     @Override
-    public final Integer sample(Instant timestamp) {
-      return particlesEmitted.get();
-    }
-
-    @Override
-    public final void update(Instant timestamp) {
+    public Integer generate() {
       int shutterTime = ThreadLocalRandom.current().nextInt(shutterPeriod);
       try {
         Thread.sleep(shutterTime);
       } catch (Exception e) {
       }
-      particlesEmitted.addAndGet(shutterTime);
-      updateDownstream(timestamp);
+      return shutterTime;
     }
   }
 
   /** A signal that triggers each time a threshold of counts are accumulated. */
-  private static class ParticleDetector extends SynchronousProcessingSignal<Integer> {
+  private static class ParticleDetector extends PropagatingSignal<Integer> implements SinkSignal {
     private final SourceSignal<Integer> source;
     private final int triggerThreshold;
 
@@ -65,35 +59,41 @@ public class MuonTomography {
     private final TreeMap<Instant, Integer> counts = new TreeMap<>();
 
     private ParticleDetector(SourceSignal<Integer> source, int triggerThreshold) {
+      super(EXECUTOR);
       this.source = source;
       this.triggerThreshold = triggerThreshold;
     }
 
     @Override
-    public final Integer sample(Instant timestamp) {
-      return counts.floorEntry(timestamp).getValue();
+    public Integer sample(Instant timestamp) {
+      if (counts.isEmpty()) {
+        return 0;
+      }
+      return counts.headMap(timestamp, true).lastEntry().getValue();
     }
 
     @Override
-    public final void update(Instant timestamp) {
+    public void update(Instant timestamp) {
       int totalEmitted = source.sample(timestamp).intValue();
-      if (totalEmitted - accumulatedParticles.get() > triggerThreshold) {
+      accumulatedParticles.set(accumulatedParticles.get() + totalEmitted);
+      if (accumulatedParticles.get() > triggerThreshold) {
+        int particles = accumulatedParticles.get() + sample(timestamp);
         synchronized (this) {
-          accumulatedParticles.set(totalEmitted);
-          counts.put(timestamp, totalEmitted);
-          updateDownstream(timestamp);
+          counts.put(timestamp, particles);
         }
+        accumulatedParticles.set(0);
+        propagate(timestamp);
       }
     }
   }
 
   public static void main(String[] args) throws Exception {
-    SynchronousClockSignal clock = SynchronousClockSignal.fixedPeriodMillis(1, EXECUTOR);
+    ClockSignal clock = ClockSignal.fixedPeriod(Duration.ofMillis(1), EXECUTOR);
     clock
-        .sink(new ParticleEmitter(/* shutterPeriod= */ 10))
-        .map(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
-        .map(ScalarForwardDifference::new)
-        .map(ConsoleSink::withSystemOut);
+        .map(() -> new ParticleEmitter(/* shutterPeriod= */ 10))
+        .asyncMap(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
+        .map(me -> new ScalarRate<>(me, EXECUTOR))
+        .asyncMap(LoggerSink::forSigprop);
     clock.start();
 
     while (true) {

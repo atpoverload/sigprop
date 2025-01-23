@@ -1,12 +1,22 @@
 java_binary(
-    name = "MuonTomography",
-    main_class = "sigprop3.examples.MuonTomography",
-    srcs = ["MuonTomography.java"],
+    name = "Timer",
+    srcs = ["Timer.java"],
+    main_class = "sigprop.examples.Timer",
     deps = [
-        "//src/java/sigprop3",
-        "//src/java/sigprop3/signal/concurrent",
-        "//src/java/sigprop3/signal/math/scalar",
-        "//src/java/sigprop3/signal/sync",
-        "//src/java/sigprop3/signal/util",
-    ]
+        "//src/java/sigprop",
+        "//src/java/sigprop/signal",
+        "//src/java/sigprop/signal/util",
+    ],
+)
+
+java_binary(
+    name = "MuonTomography",
+    srcs = ["MuonTomography.java"],
+    main_class = "sigprop.examples.MuonTomography",
+    deps = [
+        "//src/java/sigprop",
+        "//src/java/sigprop/signal",
+        "//src/java/sigprop/signal/math/scalar",
+        "//src/java/sigprop/signal/util",
+    ],
 )

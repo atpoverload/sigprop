@@ -9,8 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-/** A {@link SubscribeableSignal} that {@code ticks} periodically to update its downstream. */
-public final class ClockSignal extends SubscribeableSignal<Instant> {
+/** A {@link PropagatingSignal} that {@code ticks} periodically to update its downstream. */
+public final class ClockSignal extends PropagatingSignal<Instant> {
   public static ClockSignal fixedPeriod(Duration period, ScheduledExecutorService executor) {
     return new ClockSignal(Instant::now, () -> period, executor, executor);
   }
@@ -36,7 +36,7 @@ public final class ClockSignal extends SubscribeableSignal<Instant> {
   /** Returns the timestamp closest to the given one. */
   @Override
   public final Instant sample(Instant timestamp) {
-    return timeline.headSet(timestamp).last();
+    return timeline.headSet(timestamp, true).last();
   }
 
   /** Starts the clock, which will update its downstream. */
@@ -70,7 +70,7 @@ public final class ClockSignal extends SubscribeableSignal<Instant> {
     synchronized (timeline) {
       timeline.add(now);
     }
-    updateDownstream(now);
+    propagate(now);
     Duration rescheduleTime = nextInterval.get().minus(Duration.between(now, Instant.now()));
 
     if (!isStopped()) {

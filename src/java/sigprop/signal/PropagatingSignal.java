@@ -13,17 +13,14 @@ import sigprop.MappableSignal;
 import sigprop.SinkSignal;
 
 /** A signal that has a downstream of signals it updates. */
-public abstract class SubscribeableSignal<T>
-    implements AsyncComposableSignal<T>,
-        AsyncMappableSignal<T>,
-        ComposableSignal<T>,
-        MappableSignal<T> {
+public abstract class PropagatingSignal<T>
+    implements AsyncComposableSignal<T>, ComposableSignal<T> {
   private final Executor executor;
 
   private final ArrayList<SinkSignal> syncDownstream = new ArrayList<>();
   private final ArrayList<SinkSignal> asyncDownstream = new ArrayList<>();
 
-  protected SubscribeableSignal(Executor executor) {
+  protected PropagatingSignal(Executor executor) {
     this.executor = executor;
   }
 
@@ -84,7 +81,7 @@ public abstract class SubscribeableSignal<T>
   }
 
   /** Updates all downstream signals. */
-  protected final void updateDownstream(Instant now) {
+  protected final void propagate(Instant now) {
     asyncDownstream.forEach(signal -> executor.execute(() -> signal.update(now)));
     syncDownstream.forEach(signal -> signal.update(now));
   }

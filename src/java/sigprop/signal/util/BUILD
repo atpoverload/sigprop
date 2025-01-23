@@ -1,10 +1,9 @@
 java_library(
     name = "util",
-    visibility = ["//visibility:public"],
     srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
     deps = [
         "//src/java/sigprop",
-        "//src/java/sigprop/signal",
         "//src/java/sigprop/util",
     ],
 )
