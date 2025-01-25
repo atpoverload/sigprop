@@ -12,6 +12,7 @@ import sigprop.SourceSignal;
 import sigprop.signal.ClockSignal;
 import sigprop.signal.GeneratingSignal;
 import sigprop.signal.PropagatingSignal;
+import sigprop.signal.math.scalar.ScalarErrorPropagator;
 import sigprop.signal.math.scalar.ScalarRate;
 import sigprop.signal.util.LoggerSink;
 
@@ -99,12 +100,12 @@ public class MuonTomography {
         new ClockSignal(
             Instant::now, () -> Duration.ofMillis(1), PARTICLE_EXECUTOR, DETECTOR_EXECUTOR);
     ParticleEmitter emitter = clock.map(() -> new ParticleEmitter(/* shutterPeriod= */ 10));
-    emitter.map(LoggerSink::forSigprop);
     ScalarRate<?> flux =
         emitter
             .asyncMap(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
-            .map(me -> new ScalarRate<>(me, DETECTOR_EXECUTOR));
-    flux.asyncMap(LoggerSink::forSigprop);
+            .map(me -> new ScalarRate<>(me, DETECTOR_EXECUTOR))
+            .asyncMap(me -> new ScalarErrorPropagator<>(me, DETECTOR_EXECUTOR))
+            .map(LoggerSink::forSigprop);
     clock.start();
 
     while (true) {
