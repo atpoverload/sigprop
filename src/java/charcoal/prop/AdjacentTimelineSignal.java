@@ -27,6 +27,10 @@ public abstract class AdjacentTimelineSignal<T, U> extends PropagatingSignal<U>
   @Override
   public final U sample(Instant timestamp) {
     Instant end = timeline.floorKey(timestamp);
+    // TODO: There's some implicit bugs here still.
+    if (end == null) {
+      end = timeline.ceilingKey(timestamp);
+    }
     Instant start = end;
     while (start.equals(end)) {
       if (!start.equals(timeline.firstKey())) {
@@ -46,7 +50,7 @@ public abstract class AdjacentTimelineSignal<T, U> extends PropagatingSignal<U>
   @Override
   public final void update(Instant timestamp) {
     timeline.put(timestamp, source.sample(timestamp));
-    if (timeline.size() > 1) {
+    if (timeline.size() > 2) {
       propagate(timestamp);
     }
   }

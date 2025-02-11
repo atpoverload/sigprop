@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /** Utility for a general logger. Should only be used by owners of this codebase. */
 public final class LoggerUtil {
-  private static final String LOGGER_NAME = "sigprop";
+  private static final String LOGGER_NAME = "charcoal";
 
   private static final SimpleDateFormat dateFormatter =
       new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a z");

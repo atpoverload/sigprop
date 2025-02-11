@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package charcoal.profiler.linux.powercap;
+
+option java_multiple_files = true;
+option java_package = "charcoal.profiler.linux.powercap";
+
+message PowercapEnergy {
+  optional uint32 socket = 1;
+  optional double energy = 2;
+  optional double pkg = 3;
+  optional double dram = 4;
+  optional double core = 5;
+  optional double gpu = 6;
+}
+
+message PowercapPower {
+  optional uint32 socket = 1;
+  optional double power = 2;
+  optional double pkg = 3;
+  optional double dram = 4;
+  optional double core = 5;
+  optional double gpu = 6;
+}

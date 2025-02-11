@@ -30,6 +30,7 @@ public final class LoggerSink implements SinkSignal {
     } catch (Exception e) {
       logger.log(
           Level.SEVERE, String.format("failed to sample from %s at %s", source, timestamp), e);
+      e.printStackTrace();
     }
   }
 }

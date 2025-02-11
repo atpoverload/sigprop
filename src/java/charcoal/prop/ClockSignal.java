@@ -5,7 +5,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import charcoal.util.Timestamps;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -56,7 +56,7 @@ public final class ClockSignal extends PropagatingSignal<Instant> {
     isRunning.set(false);
   }
 
-  public Set<Instant> ticks() {
+  public SortedSet<Instant> ticks() {
     return new TreeSet<>(timeline);
   }
 
