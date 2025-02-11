@@ -9,6 +9,7 @@ java_binary(
     visibility = ["//benchmarks:__pkg__"],
     srcs = ["CharcoalDacapoCallback.java"],
     deps = [
+        "//profiler/java/charcoal/profiler",
         "//profiler/java/charcoal/profiler/linux/jiffies",
         "//profiler/java/charcoal/profiler/linux/powercap",
         "//profiler/proto/charcoal/profiler/linux/jiffies:jiffies_java_protos",

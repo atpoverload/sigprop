@@ -3,9 +3,9 @@ package charcoal.examples;
 import charcoal.SinkSignal;
 import charcoal.prop.ClockSignal;
 import charcoal.prop.PropagatingSignal;
+import charcoal.prop.util.ConsoleSink;
 import charcoal.prop.util.LoggerSink;
 import charcoal.util.Timestamps;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeSet;
@@ -60,7 +60,8 @@ public final class Timer {
         .compose(ts -> Timestamps.now())
         .mapBiFunc(Duration::between)
         .mapFunc(Duration::toNanos)
-        .asyncMap(LoggerSink::forSigprop);
+        // .asyncMap(ConsoleSink::withSystemOut);
+        .asyncMap(LoggerSink::withCharcoalLogger);
     clock.start();
 
     while (true) {

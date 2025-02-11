@@ -4,12 +4,17 @@ import charcoal.SinkSignal;
 import charcoal.SourceSignal;
 import charcoal.util.LoggerUtil;
 import java.time.Instant;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /** A {@link SinkSignal} that prints a {@link SourceSignal} to a logger. */
 public final class LoggerSink implements SinkSignal {
-  public static LoggerSink forSigprop(SourceSignal<?> first) {
+  public static Function<SourceSignal<?>, LoggerSink> withLogger(Logger logger) {
+    return first -> new LoggerSink(first, logger);
+  }
+
+  public static LoggerSink withCharcoalLogger(SourceSignal<?> first) {
     return new LoggerSink(first, LoggerUtil.getLogger());
   }
 

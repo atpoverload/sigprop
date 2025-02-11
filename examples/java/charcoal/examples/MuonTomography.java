@@ -7,7 +7,7 @@ import charcoal.prop.GeneratingSignal;
 import charcoal.prop.PropagatingSignal;
 import charcoal.prop.math.scalar.ScalarErrorPropagator;
 import charcoal.prop.math.scalar.ScalarRate;
-import charcoal.prop.util.LoggerSink;
+import charcoal.prop.util.ConsoleSink;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeMap;
@@ -26,14 +26,14 @@ public class MuonTomography {
   private static final ScheduledExecutorService PARTICLE_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
-            Thread t = new Thread(r, "sigprop-examples-muon:emitter");
+            Thread t = new Thread(r, "charcoal-examples-muon:emitter");
             t.setDaemon(true);
             return t;
           });
   private static final ScheduledExecutorService DETECTOR_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
-            Thread t = new Thread(r, "sigprop-examples-muon:detector");
+            Thread t = new Thread(r, "charcoal-examples-muon:detector");
             t.setDaemon(true);
             return t;
           });
@@ -104,7 +104,7 @@ public class MuonTomography {
         .asyncMap(me -> new ParticleDetector(me, /* triggerThreshold= */ 100))
         .map(me -> new ScalarRate<>(me, DETECTOR_EXECUTOR))
         .asyncMap(me -> new ScalarErrorPropagator<>(me, DETECTOR_EXECUTOR))
-        .map(LoggerSink::forSigprop);
+        .map(ConsoleSink::withSystemOut);
     clock.start();
 
     while (true) {
