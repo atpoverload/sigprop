@@ -35,7 +35,7 @@ public class CharcoalDacapoCallback extends Callback {
           });
 
   private final CharcoalProfiler profiler =
-      new CharcoalProfiler(Duration.ofMillis(500), SAMPLING_EXECUTOR, WORK_EXECUTOR);
+      new CharcoalProfiler(Duration.ofMillis(10), SAMPLING_EXECUTOR, WORK_EXECUTOR);
 
   public CharcoalDacapoCallback(CommandLineArgs args) {
     super(args);
