@@ -65,7 +65,7 @@ public class CharcoalDacapoCallback extends Callback {
               .map(
                   power ->
                       power.values().stream()
-                          .sorted(comparing(PowercapPower::getCpu))
+                          .sorted(comparing(PowercapPower::getSocket))
                           .collect(toList()))
               .collect(toList());
       logger.info("START:");
