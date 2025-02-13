@@ -91,7 +91,7 @@ public final class Powercap {
     }
     double pkg = diffWithWraparound(first.getPkg(), second.getPkg(), first.getSocket(), 0);
     double dram = diffWithWraparound(first.getDram(), second.getDram(), first.getSocket(), 1);
-    double elapsed = Duration.between(end, start).toNanos() / 1000000000.0;
+    double elapsed = Duration.between(start, end).toNanos() / 1000000000.0;
     return PowercapPower.newBuilder()
         .setSocket(first.getSocket())
         .setPower((pkg + dram) / elapsed)
