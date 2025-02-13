@@ -145,7 +145,7 @@ public final class ProcTask {
               .setTaskId(task.getTaskId())
               .setName(task.getName())
               .setCpu(task.getCpu())
-              .setPower(task.getActivityRate() * cpus.get(task.getCpu()).getPower())
+              .setPower(task.getActivityRate() * cpus.get(SOCKETS_MAP[task.getCpu()]).getPower())
               .build());
     }
     return power;
