@@ -1,4 +1,4 @@
-package jcarbon.benchmarks;
+package charcoal.benchmarks;
 
 import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.Comparator.comparing;
