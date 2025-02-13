@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toList;
 
 import charcoal.profiler.CharcoalProfiler;
 import charcoal.profiler.linux.jiffies.TaskPower;
+import charcoal.profiler.linux.powercap.PowercapPower;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.Executors;
