@@ -12,7 +12,7 @@ public final class PowercapSignal extends GeneratingSignal<Map<Integer, Powercap
   }
 
   @Override
-  public Map<Integer, PowercapEnergy> generate() {
+  protected Map<Integer, PowercapEnergy> generate() {
     return Powercap.sample();
   }
 }

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package charcoal.profiler.linux.freq;
+
+option java_multiple_files = true;
+option java_package = "charcoal.profiler.linux.freq";
+option java_outer_classname = "CpuFreqProtos";
+
+message CpuFrequency {
+  optional uint32 cpu = 1;
+  optional string governor = 2;
+  optional uint32 frequency = 3;
+  optional uint32 setFrequency = 4;
+}

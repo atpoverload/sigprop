@@ -20,7 +20,7 @@ public final class TaskPowerSignal
   }
 
   @Override
-  public Map<Long, TaskPower> compute(
+  protected Map<Long, TaskPower> compute(
       Instant timestamp, Map<Long, TaskActivityRate> first, Map<Integer, PowercapPower> second) {
     if (first.isEmpty() || second.isEmpty()) {
       return Map.of();

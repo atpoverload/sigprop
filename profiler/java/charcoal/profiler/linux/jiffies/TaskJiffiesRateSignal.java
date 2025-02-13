@@ -14,7 +14,7 @@ public final class TaskJiffiesRateSignal
   }
 
   @Override
-  public Map<Long, TaskJiffiesRate> compute(
+  protected Map<Long, TaskJiffiesRate> compute(
       Instant start, Instant end, Map<Long, TaskJiffies> first, Map<Long, TaskJiffies> second) {
     if (start.equals(end)) {
       return Map.of();

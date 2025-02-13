@@ -15,7 +15,7 @@ public final class PowercapPowerSignal
   }
 
   @Override
-  public Map<Integer, PowercapPower> compute(
+  protected Map<Integer, PowercapPower> compute(
       Instant start,
       Instant end,
       Map<Integer, PowercapEnergy> first,

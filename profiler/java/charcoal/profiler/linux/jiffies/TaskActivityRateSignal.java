@@ -19,7 +19,7 @@ public final class TaskActivityRateSignal
   }
 
   @Override
-  public Map<Long, TaskActivityRate> compute(
+  protected Map<Long, TaskActivityRate> compute(
       Instant timestamp, Map<Long, TaskJiffiesRate> first, Map<Integer, CpuJiffiesRate> second) {
     return ProcTask.taskActivityRate(first, second);
   }

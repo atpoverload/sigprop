@@ -1,5 +1,6 @@
 package charcoal.profiler;
 
+import charcoal.profiler.linux.freq.CpuFrequencySignal;
 import charcoal.profiler.linux.jiffies.CpuJiffiesRateSignal;
 import charcoal.profiler.linux.jiffies.CpuJiffiesSignal;
 import charcoal.profiler.linux.jiffies.TaskActivityRateSignal;
@@ -18,6 +19,7 @@ public final class CharcoalProfiler {
   public final TaskActivityRateSignal activity;
   public final PowercapPowerSignal power;
   public final TaskPowerSignal taskPower;
+  public final CpuFrequencySignal freqs;
 
   public CharcoalProfiler(
       Duration period,
@@ -39,5 +41,6 @@ public final class CharcoalProfiler {
             .asyncMap(me -> new PowercapPowerSignal(me, workExecutor));
     taskPower =
         activity.compose(power).map((me, them) -> new TaskPowerSignal(me, them, workExecutor));
+    freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
   }
 }

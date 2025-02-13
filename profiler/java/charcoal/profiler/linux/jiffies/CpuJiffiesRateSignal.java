@@ -14,7 +14,7 @@ public final class CpuJiffiesRateSignal
   }
 
   @Override
-  public Map<Integer, CpuJiffiesRate> compute(
+  protected Map<Integer, CpuJiffiesRate> compute(
       Instant start, Instant end, Map<Integer, CpuJiffies> first, Map<Integer, CpuJiffies> second) {
     if (start.equals(end)) {
       return Map.of();
