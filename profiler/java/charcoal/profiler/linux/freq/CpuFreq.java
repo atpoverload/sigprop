@@ -1,16 +1,22 @@
 package charcoal.profiler.linux.freq;
 
+import static charcoal.util.LoggerUtil.getLogger;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A simple (unsafe) wrapper for reading the dvfs system. Consult
  * https://www.kernel.org/doc/html/v4.14/admin-guide/pm/cpufreq.html for more details.
  */
 public final class CpuFreq {
+  private static final Logger logger = getLogger();
+
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final Path SYS_CPU = Paths.get("/sys", "devices", "system", "cpu");
 
@@ -49,7 +55,15 @@ public final class CpuFreq {
     if (counter.isBlank()) {
       return 0;
     }
-    return Integer.parseInt(counter);
+    try {
+      return Integer.parseInt(counter.strip());
+    } catch (Exception e) {
+      logger.log(
+          Level.WARNING,
+          String.format("unable to sample from %s", getComponentPath(cpu, component)),
+          e);
+      return 0;
+    }
   }
 
   private static synchronized String readFromComponent(int cpu, String component) {
