@@ -1,6 +1,6 @@
 BENCHMARK_SRCS = [
     "CharcoalDacapoCallback.java",
-    "JCarbonPlugin.java",
+    "CharcoalRenaissancePlugin.java",
 ]
 
 java_binary(
@@ -20,7 +20,7 @@ java_binary(
         "@dacapo",
     ],
     args = [
-        "--callback jcarbon.benchmarks.CharcoalDacapoCallback",
+        "--callback charcoal.benchmarks.CharcoalDacapoCallback",
         "--no-validation",
     ]
 )
@@ -29,13 +29,19 @@ java_binary(
     name = "renaissance",
     main_class = "org.renaissance.core.Launcher",
     visibility = ["//benchmarks:__pkg__"],
-    srcs = ["JCarbonPlugin.java"],
+    srcs = ["CharcoalRenaissancePlugin.java"],
     deps = [
-        "//benchmarks/src/main/java/jcarbon/benchmarks/util",
-        "//src/jcarbon-proto:jcarbon",
+        "//profiler/java/charcoal/profiler",
+        "//profiler/java/charcoal/profiler/linux/jiffies",
+        "//profiler/java/charcoal/profiler/linux/powercap",
+        "//profiler/proto/charcoal/profiler/linux/jiffies:jiffies_java_protos",
+        "//profiler/proto/charcoal/profiler/linux/powercap:powercap_java_protos",
+        "//src/java/charcoal/prop",
+        "//src/java/charcoal/prop/util",
+        "//src/java/charcoal/util",
         "@renaissance//jar",
     ],
     args = [
-        "--plugin !jcarbon.benchmarks.JCarbonPlugin",
+        "--plugin !charcoal.benchmarks.CharcoalRenaissancePlugin",
     ]
 )
