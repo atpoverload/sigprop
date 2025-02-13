@@ -5,6 +5,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import charcoal.profiler.CharcoalProfiler;
+import charcoal.profiler.linux.freq.CpuFrequency;
 import charcoal.profiler.linux.jiffies.TaskPower;
 import java.time.Duration;
 import java.util.List;
@@ -58,7 +59,7 @@ public class CharcoalDacapoCallback extends Callback {
     if (!super.runAgain()) {
       logger.info("TICKS:");
       logger.info(String.format("%s", profiler.clock.ticks()));
-      List<List<TaskPower>> data =
+      List<List<TaskPower>> taskPower =
           profiler.clock.ticks().stream()
               .map(ts -> profiler.taskPower.sample(ts))
               .map(
@@ -68,9 +69,22 @@ public class CharcoalDacapoCallback extends Callback {
                           .collect(toList()))
               .collect(toList());
       logger.info("START:");
-      logger.info(String.format("%s", data.get(0)));
+      logger.info(String.format("%s", taskPower.get(0)));
       logger.info("END:");
-      logger.info(String.format("%s", data.get(data.size() - 1)));
+      logger.info(String.format("%s", taskPower.get(taskPower.size() - 1)));
+      List<List<CpuFrequency>> freqs =
+          profiler.clock.ticks().stream()
+              .map(ts -> profiler.freqs.sample(ts))
+              .map(
+                  power ->
+                      power.values().stream()
+                          .sorted(comparing(CpuFrequency::getCpu))
+                          .collect(toList()))
+              .collect(toList());
+      logger.info("START:");
+      logger.info(String.format("%s", freqs.get(0)));
+      logger.info("END:");
+      logger.info(String.format("%s", freqs.get(freqs.size() - 1)));
       return false;
     } else {
       return true;
