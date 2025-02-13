@@ -59,7 +59,7 @@ public class CharcoalDacapoCallback extends Callback {
     if (!super.runAgain()) {
       logger.info("TICKS:");
       logger.info(String.format("%s", profiler.clock.ticks()));
-      List<List<PowercapPower>> data =
+      List<List<PowercapPower>> data1 =
           profiler.clock.ticks().stream()
               .map(ts -> profiler.power.sample(ts))
               .map(
@@ -69,9 +69,9 @@ public class CharcoalDacapoCallback extends Callback {
                           .collect(toList()))
               .collect(toList());
       logger.info("START:");
-      logger.info(String.format("%s", data.get(0)));
+      logger.info(String.format("%s", data1.get(0)));
       logger.info("END:");
-      logger.info(String.format("%s", data.get(data.size() - 1)));
+      logger.info(String.format("%s", data1.get(data1.size() - 1)));
       List<List<TaskPower>> data =
           profiler.clock.ticks().stream()
               .map(ts -> profiler.taskPower.sample(ts))
