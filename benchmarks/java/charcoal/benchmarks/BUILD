@@ -13,6 +13,7 @@ java_binary(
         "//profiler/java/charcoal/profiler/linux/jiffies",
         "//profiler/java/charcoal/profiler/linux/powercap",
         "//profiler/proto/charcoal/profiler/linux/jiffies:jiffies_java_protos",
+        "//profiler/proto/charcoal/profiler/linux/powercap:powercap_java_protos",
         "//src/java/charcoal/prop",
         "//src/java/charcoal/prop/util",
         "//src/java/charcoal/util",
