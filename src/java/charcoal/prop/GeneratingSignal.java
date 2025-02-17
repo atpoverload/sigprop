@@ -38,5 +38,5 @@ public abstract class GeneratingSignal<T> extends PropagatingSignal<T> implement
   }
 
   /** Computes the signal value over the given interval. */
-  protected abstract T generate();
+  protected abstract T compute();
 }

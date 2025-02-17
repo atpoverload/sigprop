@@ -48,7 +48,7 @@ public class MuonTomography {
     }
 
     @Override
-    public Integer generate() {
+    public Integer compute() {
       int shutterTime = ThreadLocalRandom.current().nextInt(shutterPeriod);
       try {
         Thread.sleep(shutterTime);

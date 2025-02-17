@@ -11,7 +11,7 @@ public final class CpuJiffiesSignal extends GeneratingSignal<Map<Integer, CpuJif
   }
 
   @Override
-  protected Map<Integer, CpuJiffies> generate() {
+  protected Map<Integer, CpuJiffies> compute() {
     return ProcStat.sampleCpus();
   }
 }
