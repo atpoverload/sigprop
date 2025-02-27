@@ -1,6 +1,7 @@
 package charcoal.profiler;
 
 import charcoal.profiler.emissions.CarbonLocale;
+import charcoal.profiler.linux.SocketEmissionsRateSignal;
 import charcoal.profiler.linux.TaskEmissionsRateSignal;
 import charcoal.profiler.linux.TaskPowerSignal;
 import charcoal.profiler.linux.freq.CpuFrequencySignal;
@@ -30,6 +31,7 @@ public final class CharcoalProfiler {
   public final ClockSignal clock;
   public final TaskActivityRateSignal activity;
   public final PowercapPowerSignal power;
+  public final SocketEmissionsRateSignal emissions;
   public final TaskPowerSignal taskPower;
   public final TaskEmissionsRateSignal taskEmissions;
   public final CpuFrequencySignal freqs;
@@ -52,6 +54,7 @@ public final class CharcoalProfiler {
         clock
             .map(() -> new PowercapSignal(workExecutor))
             .asyncMap(me -> new PowercapPowerSignal(me, workExecutor));
+    emissions = power.map(me -> new SocketEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
     taskPower =
         activity.compose(power).map((me, them) -> new TaskPowerSignal(me, them, workExecutor));
     taskEmissions =
