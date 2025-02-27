@@ -1,14 +1,13 @@
 package charcoal.benchmarks;
 
 import static charcoal.util.LoggerUtil.getLogger;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
 
+import charcoal.profiler.CharcoalProfile;
 import charcoal.profiler.CharcoalProfiler;
-import charcoal.profiler.linux.freq.CpuFrequency;
-import charcoal.profiler.linux.TaskPower;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.time.Duration;
-import java.util.List;
+import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
@@ -16,6 +15,10 @@ import org.dacapo.harness.Callback;
 import org.dacapo.harness.CommandLineArgs;
 
 public class CharcoalDacapoCallback extends Callback {
+  private static final String OUTPUT =
+      System.getProperty(
+          "charcoal.benchmarks.output",
+          String.format("/tmp/dacapo-%d-report.pb", ProcessHandle.current().pid()));
   private static final Logger logger = getLogger();
 
   private static final ScheduledExecutorService SAMPLING_EXECUTOR =
@@ -57,34 +60,68 @@ public class CharcoalDacapoCallback extends Callback {
   public boolean runAgain() {
     // if we have run every iteration, dump the data and terminate
     if (!super.runAgain()) {
-      logger.info("TICKS:");
-      logger.info(String.format("%s", profiler.clock.ticks()));
-      List<List<TaskPower>> taskPower =
-          profiler.clock.ticks().stream()
-              .map(ts -> profiler.taskPower.sample(ts))
-              .map(
-                  power ->
-                      power.values().stream()
-                          .sorted(comparing(TaskPower::getCpu))
-                          .collect(toList()))
-              .collect(toList());
-      logger.info("START:");
-      logger.info(String.format("%s", taskPower.get(0)));
-      logger.info("END:");
-      logger.info(String.format("%s", taskPower.get(taskPower.size() - 1)));
-      List<List<CpuFrequency>> freqs =
-          profiler.clock.ticks().stream()
-              .map(ts -> profiler.freqs.sample(ts))
-              .map(
-                  power ->
-                      power.values().stream()
-                          .sorted(comparing(CpuFrequency::getCpu))
-                          .collect(toList()))
-              .collect(toList());
-      logger.info("START:");
-      logger.info(String.format("%s", freqs.get(0)));
-      logger.info("END:");
-      logger.info(String.format("%s", freqs.get(freqs.size() - 1)));
+      CharcoalProfile.Builder profile = CharcoalProfile.newBuilder();
+      for (Instant tick : profiler.clock.ticks()) {
+        CharcoalProfile.Timestamp timestamp =
+            CharcoalProfile.Timestamp.newBuilder()
+                .setSecs(tick.getEpochSecond())
+                .setNanos(tick.getNano())
+                .build();
+        profile.addSocketPower(
+            CharcoalProfile.SocketsPowers.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllPower(profiler.socketPower.sample(tick).values()));
+        profile.addSocketEmissions(
+            CharcoalProfile.SocketsEmissionsRates.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllEmissions(profiler.socketEmissions.sample(tick).values()));
+        profile.addTaskActivity(
+            CharcoalProfile.TasksActivities.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllActivity(profiler.activity.sample(tick).values()));
+        profile.addTaskPower(
+            CharcoalProfile.TasksPowers.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllPower(profiler.taskPower.sample(tick).values()));
+        profile.addTaskEmissions(
+            CharcoalProfile.TasksEmissionsRates.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllEmissions(profiler.taskEmissions.sample(tick).values()));
+      }
+
+      try (DataOutputStream out = new DataOutputStream(new FileOutputStream(OUTPUT))) {
+        profile.build().writeTo(out);
+      } catch (Exception e) {
+
+      }
+      // logger.info("TICKS:");
+      // logger.info(String.format("%s", profiler.clock.ticks()));
+      // List<List<TaskPower>> taskPower =
+      //     profiler.clock.ticks().stream()
+      //         .map(ts -> profiler.taskPower.sample(ts))
+      //         .map(
+      //             power ->
+      //                 power.values().stream()
+      //                     .sorted(comparing(TaskPower::getCpu))
+      //                     .collect(toList()))
+      //         .collect(toList());
+      // logger.info("START:");
+      // logger.info(String.format("%s", taskPower.get(0)));
+      // logger.info("END:");
+      // logger.info(String.format("%s", taskPower.get(taskPower.size() - 1)));
+      // List<List<CpuFrequency>> freqs =
+      //     profiler.clock.ticks().stream()
+      //         .map(ts -> profiler.freqs.sample(ts))
+      //         .map(
+      //             power ->
+      //                 power.values().stream()
+      //                     .sorted(comparing(CpuFrequency::getCpu))
+      //                     .collect(toList()))
+      //         .collect(toList());
+      // logger.info("START:");
+      // logger.info(String.format("%s", freqs.get(0)));
+      // logger.info("END:");
+      // logger.info(String.format("%s", freqs.get(freqs.size() - 1)));
       return false;
     } else {
       return true;

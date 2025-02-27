@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package charcoal.profiler;
+
+import "profiler/proto/charcoal/profiler/linux/linux.proto";
+
+option java_multiple_files = true;
+option java_package = "charcoal.profiler";
+option java_outer_classname = "ProfilerProtos";
+
+message CharcoalProfile {
+  repeated SocketsPowers socket_power = 1;
+
+  repeated SocketsEmissionsRates socket_emissions = 2;
+  
+  repeated TasksActivities task_activity = 3;
+  
+  repeated TasksPowers task_power = 4;
+
+  repeated TasksEmissionsRates task_emissions = 5;
+
+  message Timestamp {
+    optional uint64 secs = 1;
+    optional uint64 nanos = 2;
+  }
+
+  message SocketsPowers {
+    optional Timestamp timestamp = 1;
+    repeated linux.SocketPower power = 2;
+  }
+
+  message SocketsEmissionsRates {
+    optional Timestamp timestamp = 1;
+    repeated linux.SocketEmissionsRate emissions = 2;
+  }
+  
+  message TasksActivities {
+    optional Timestamp timestamp = 1;
+    repeated linux.TaskActivityRate activity = 2;
+  }
+
+  message TasksPowers {
+    optional Timestamp timestamp = 1;
+    repeated linux.TaskPower power = 2;
+  }
+
+  message TasksEmissionsRates {
+    optional Timestamp timestamp = 1;
+    repeated linux.TaskEmissionsRate emissions = 2;
+  }
+}
