@@ -3,6 +3,7 @@ package charcoal.profiler.linux.powercap;
 import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.stream.Collectors.joining;
 
+import charcoal.profiler.linux.SocketPower;
 import charcoal.util.Timestamps;
 import java.time.Duration;
 import java.time.Instant;
@@ -39,9 +40,9 @@ final class PowercapSmokeTest {
     exercise();
 
     Instant end = Timestamps.now();
-    Map<Integer, PowercapPower> power = Powercap.difference(start, end, sample, Powercap.sample());
+    Map<Integer, SocketPower> power = Powercap.difference(start, end, sample, Powercap.sample());
 
-    if (power.values().stream().mapToDouble(PowercapPower::getPower).sum() == 0) {
+    if (power.values().stream().mapToDouble(SocketPower::getPower).sum() == 0) {
       logger.info("no energy consumed with the difference of two powercap samples!");
       return false;
     }

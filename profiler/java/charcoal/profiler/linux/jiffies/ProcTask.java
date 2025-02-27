@@ -3,7 +3,8 @@ package charcoal.profiler.linux.jiffies;
 import static charcoal.profiler.linux.CpuInfo.getCpuSocketMapping;
 import static charcoal.util.LoggerUtil.getLogger;
 
-import charcoal.profiler.linux.powercap.PowercapPower;
+import charcoal.profiler.linux.Task;
+import charcoal.profiler.linux.TaskActivityRate;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -80,9 +81,7 @@ public final class ProcTask {
         Math.max(0, second.getUserJiffies() - first.getUserJiffies())
             + Math.max(0, second.getSystemJiffies() - first.getSystemJiffies());
     return TaskJiffiesRate.newBuilder()
-        .setProcessId(first.getProcessId())
-        .setTaskId(first.getTaskId())
-        .setName(first.getName())
+        .setTask(first.getTask())
         .setCpu(first.getCpu())
         .setRate(jiffies / elapsed)
         .build();
@@ -115,40 +114,14 @@ public final class ProcTask {
       double cpuJiffiesRate = Math.max(cpus.get(cpu).getRate(), totalJiffiesRate[cpu]);
       double taskActivity = Math.min(1.0, task.getRate() / cpuJiffiesRate);
       activity.put(
-          task.getTaskId(),
+          task.getTask().getTaskId(),
           TaskActivityRate.newBuilder()
-              .setProcessId(task.getProcessId())
-              .setTaskId(task.getTaskId())
-              .setName(task.getName())
+              .setTask(task.getTask())
               .setCpu(task.getCpu())
-              .setActivityRate(taskActivity)
+              .setActivity(taskActivity)
               .build());
     }
     return activity;
-  }
-
-  /**
-   * Computes the activity of all tasks in the overlapping region of two intervals by using the
-   * ratio between a task's jiffies and cpu jiffies of the task's executing cpu. This also safely
-   * bounds the value from 0 to 1, in the cases that the jiffies are misaligned due to the kernel
-   * update timing.
-   */
-  // TODO: Need to find (or write) something that strictly mentions the timing issue
-  public static Map<Long, TaskPower> taskPower(
-      Map<Long, TaskActivityRate> tasks, Map<Integer, PowercapPower> cpus) {
-    HashMap<Long, TaskPower> power = new HashMap<>();
-    for (TaskActivityRate task : tasks.values()) {
-      power.put(
-          task.getTaskId(),
-          TaskPower.newBuilder()
-              .setProcessId(task.getProcessId())
-              .setTaskId(task.getTaskId())
-              .setName(task.getName())
-              .setCpu(task.getCpu())
-              .setPower(task.getActivityRate() * cpus.get(SOCKETS_MAP[task.getCpu()]).getPower())
-              .build());
-    }
-    return power;
   }
 
   /** Reads stat files of tasks directory of a process. */
@@ -187,15 +160,17 @@ public final class ProcTask {
         int offset = stat.length - STAT_LENGTH;
         TaskJiffies task =
             TaskJiffies.newBuilder()
-                .setProcessId(pid)
-                .setTaskId(Long.parseLong(stat[TaskIndex.TID.index]))
-                // TODO: the name is usually garbage unfortunately :/
-                .setName(getName(stat, offset))
+                .setTask(
+                    Task.newBuilder()
+                        .setProcessId(pid)
+                        .setTaskId(Long.parseLong(stat[TaskIndex.TID.index]))
+                        // TODO: the name is usually garbage unfortunately :/
+                        .setName(getName(stat, offset)))
                 .setCpu(Integer.parseInt(stat[TaskIndex.CPU.index + offset]))
                 .setUserJiffies(Integer.parseInt(stat[TaskIndex.USER.index + offset]))
                 .setSystemJiffies(Integer.parseInt(stat[TaskIndex.SYSTEM.index + offset]))
                 .build();
-        readings.put(task.getTaskId(), task);
+        readings.put(task.getTask().getTaskId(), task);
       }
     }
     return readings;

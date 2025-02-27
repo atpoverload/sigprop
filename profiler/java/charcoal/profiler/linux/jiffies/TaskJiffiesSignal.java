@@ -4,8 +4,7 @@ import charcoal.prop.GeneratingSignal;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-public final class TaskJiffiesSignal extends GeneratingSignal<Map<Long, TaskJiffies>>
-    implements Jiffies {
+public final class TaskJiffiesSignal extends GeneratingSignal<Map<Long, TaskJiffies>> {
   private static final long PID = ProcessHandle.current().pid();
 
   public static TaskJiffiesSignal current(Executor executor) {

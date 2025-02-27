@@ -7,8 +7,7 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 
 public final class CpuJiffiesRateSignal
-    extends AdjacentTimelineSignal<Map<Integer, CpuJiffies>, Map<Integer, CpuJiffiesRate>>
-    implements JiffiesRate {
+    extends AdjacentTimelineSignal<Map<Integer, CpuJiffies>, Map<Integer, CpuJiffiesRate>> {
   public CpuJiffiesRateSignal(SourceSignal<Map<Integer, CpuJiffies>> source, Executor executor) {
     super(source, executor);
   }

@@ -1,7 +1,7 @@
 package charcoal.profiler.linux.jiffies;
 
 import charcoal.SourceSignal;
-import charcoal.profiler.units.ActivityRate;
+import charcoal.profiler.linux.TaskActivityRate;
 import charcoal.prop.BiMappingSignal;
 import java.time.Instant;
 import java.util.Map;
@@ -9,8 +9,7 @@ import java.util.concurrent.Executor;
 
 public final class TaskActivityRateSignal
     extends BiMappingSignal<
-        Map<Long, TaskJiffiesRate>, Map<Integer, CpuJiffiesRate>, Map<Long, TaskActivityRate>>
-    implements ActivityRate {
+        Map<Long, TaskJiffiesRate>, Map<Integer, CpuJiffiesRate>, Map<Long, TaskActivityRate>> {
   public TaskActivityRateSignal(
       SourceSignal<Map<Long, TaskJiffiesRate>> tasks,
       SourceSignal<Map<Integer, CpuJiffiesRate>> cpus,

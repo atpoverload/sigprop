@@ -1,21 +1,20 @@
 package charcoal.profiler.linux.powercap;
 
 import charcoal.SourceSignal;
-import charcoal.profiler.units.Power;
+import charcoal.profiler.linux.SocketPower;
 import charcoal.prop.AdjacentTimelineSignal;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
 public final class PowercapPowerSignal
-    extends AdjacentTimelineSignal<Map<Integer, PowercapEnergy>, Map<Integer, PowercapPower>>
-    implements Power {
+    extends AdjacentTimelineSignal<Map<Integer, PowercapEnergy>, Map<Integer, SocketPower>> {
   public PowercapPowerSignal(SourceSignal<Map<Integer, PowercapEnergy>> source, Executor executor) {
     super(source, executor);
   }
 
   @Override
-  protected Map<Integer, PowercapPower> compute(
+  protected Map<Integer, SocketPower> compute(
       Instant start,
       Instant end,
       Map<Integer, PowercapEnergy> first,

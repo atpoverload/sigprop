@@ -1,30 +1,29 @@
-package charcoal.profiler.linux.jiffies;
+// package charcoal.profiler.linux.jiffies;
 
-import charcoal.SourceSignal;
-import charcoal.profiler.linux.powercap.PowercapPower;
-import charcoal.profiler.units.Power;
-import charcoal.prop.BiMappingSignal;
-import java.time.Instant;
-import java.util.Map;
-import java.util.concurrent.Executor;
+// import charcoal.SourceSignal;
+// import charcoal.profiler.linux.SocketPower;
+// import charcoal.profiler.linux.TaskPower;
+// import charcoal.prop.BiMappingSignal;
+// import java.time.Instant;
+// import java.util.Map;
+// import java.util.concurrent.Executor;
 
-public final class TaskPowerSignal
-    extends BiMappingSignal<
-        Map<Long, TaskActivityRate>, Map<Integer, PowercapPower>, Map<Long, TaskPower>>
-    implements Power {
-  public TaskPowerSignal(
-      SourceSignal<Map<Long, TaskActivityRate>> tasks,
-      SourceSignal<Map<Integer, PowercapPower>> cpus,
-      Executor executor) {
-    super(tasks, cpus, executor);
-  }
+// public final class TaskPowerSignal
+//     extends BiMappingSignal<
+//         Map<Long, TaskActivityRate>, Map<Integer, SocketPower>, Map<Long, TaskPower>> {
+//   public TaskPowerSignal(
+//       SourceSignal<Map<Long, TaskActivityRate>> tasks,
+//       SourceSignal<Map<Integer, SocketPower>> cpus,
+//       Executor executor) {
+//     super(tasks, cpus, executor);
+//   }
 
-  @Override
-  protected Map<Long, TaskPower> compute(
-      Instant timestamp, Map<Long, TaskActivityRate> first, Map<Integer, PowercapPower> second) {
-    if (first.isEmpty() || second.isEmpty()) {
-      return Map.of();
-    }
-    return ProcTask.taskPower(first, second);
-  }
-}
+//   @Override
+//   protected Map<Long, TaskPower> compute(
+//       Instant timestamp, Map<Long, TaskActivityRate> first, Map<Integer, SocketPower> second) {
+//     if (first.isEmpty() || second.isEmpty()) {
+//       return Map.of();
+//     }
+//     return ProcTask.taskPower(first, second);
+//   }
+// }

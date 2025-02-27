@@ -4,7 +4,6 @@ import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.stream.Collectors.toMap;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.time.Duration;
 import java.time.Instant;
@@ -21,7 +20,7 @@ public final class ProcStat {
 
   // system information
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-  private static final String SYSTEM_STAT_FILE = String.join(File.separator, "/proc", "stat");
+  private static final String SYSTEM_STAT_FILE = "/proc/stat";
 
   // indicies for cpu stat because there are so many
   private enum CpuIndex {

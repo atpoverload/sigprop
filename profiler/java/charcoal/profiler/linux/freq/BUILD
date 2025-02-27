@@ -3,7 +3,6 @@ java_library(
     visibility = ["//visibility:public"],
     srcs = glob(["*.java"]),
     deps = [
-        "//profiler/java/charcoal/profiler/units",
         "//profiler/proto/charcoal/profiler/linux/freq:freq_java_protos",
         "//src/java/charcoal",
         "//src/java/charcoal/prop",

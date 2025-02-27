@@ -29,7 +29,7 @@ public abstract class GeneratingSignal<T> extends PropagatingSignal<T> implement
   public final void update(Instant timestamp) {
     Instant now = Instant.now();
     // TODO: Re-evaluate how to deal with update time vs sampling time.
-    data.put(timestamp, new SimpleImmutableEntry<>(now, generate()));
+    data.put(timestamp, new SimpleImmutableEntry<>(now, compute()));
     propagate(now);
   }
 

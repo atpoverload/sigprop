@@ -1,14 +1,13 @@
 load("@protobuf//bazel:java_proto_library.bzl", "java_proto_library")
 
 proto_library(
-    name = "jiffies_protos",
+    name = "linux_protos",
     visibility = ["//visibility:public"],
-    srcs = ["jiffies.proto"],
-    deps = ["//profiler/proto/charcoal/profiler/linux:linux_protos"]
+    srcs = ["linux.proto"],
 )
 
 java_proto_library(
-    name = "jiffies_java_protos",
+    name = "linux_java_protos",
     visibility = ["//visibility:public"],
-    deps = [":jiffies_protos"],
+    deps = [":linux_protos"],
 )

@@ -3,6 +3,7 @@ package charcoal.profiler.linux.powercap;
 import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.stream.Collectors.toMap;
 
+import charcoal.profiler.linux.SocketPower;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,7 +53,7 @@ public final class Powercap {
   }
 
   /** Computes the difference of two {@link PowercapReadings}. */
-  public static Map<Integer, PowercapPower> difference(
+  public static Map<Integer, SocketPower> difference(
       Instant start,
       Instant end,
       Map<Integer, PowercapEnergy> first,
@@ -75,7 +76,7 @@ public final class Powercap {
   }
 
   /** Computes the difference of two {@link PowercapReadings}. */
-  public static PowercapPower difference(
+  public static SocketPower difference(
       Instant start, Instant end, PowercapEnergy first, PowercapEnergy second) {
     if (!start.isBefore(end)) {
       throw new IllegalArgumentException(
@@ -92,13 +93,9 @@ public final class Powercap {
     double pkg = diffWithWraparound(first.getPkg(), second.getPkg(), first.getSocket(), 0);
     double dram = diffWithWraparound(first.getDram(), second.getDram(), first.getSocket(), 1);
     double elapsed = Duration.between(start, end).toNanos() / 1000000000.0;
-    return PowercapPower.newBuilder()
+    return SocketPower.newBuilder()
         .setSocket(first.getSocket())
         .setPower((pkg + dram) / elapsed)
-        .setPkg(pkg)
-        .setDram(dram)
-        .setCore(0)
-        .setGpu(0)
         .build();
   }
 
