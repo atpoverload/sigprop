@@ -9,19 +9,26 @@ option java_package = "charcoal.profiler";
 option java_outer_classname = "ProfilerProtos";
 
 message CharcoalProfile {
-  repeated SocketsPowers socket_power = 1;
+  repeated CpusFrequencies cpu_freq = 1;
 
-  repeated SocketsEmissionsRates socket_emissions = 2;
-  
-  repeated TasksActivities task_activity = 3;
-  
-  repeated TasksPowers task_power = 4;
+  repeated SocketsPowers socket_power = 2;
 
-  repeated TasksEmissionsRates task_emissions = 5;
+  repeated SocketsEmissionsRates socket_emissions = 3;
+  
+  repeated TasksActivities task_activity = 4;
+  
+  repeated TasksPowers task_power = 5;
+
+  repeated TasksEmissionsRates task_emissions = 6;
 
   message Timestamp {
     optional uint64 secs = 1;
     optional uint64 nanos = 2;
+  }
+
+  message CpusFrequencies {
+    optional Timestamp timestamp = 1;
+    repeated linux.CpuFrequency frequency = 2;
   }
 
   message SocketsPowers {

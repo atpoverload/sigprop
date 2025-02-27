@@ -2,6 +2,7 @@ package charcoal.profiler.linux.freq;
 
 import static charcoal.util.LoggerUtil.getLogger;
 
+import charcoal.profiler.linux.CpuFrequency;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

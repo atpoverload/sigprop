@@ -1,5 +1,6 @@
 package charcoal.profiler.linux.freq;
 
+import charcoal.profiler.linux.CpuFrequency;
 import charcoal.prop.GeneratingSignal;
 import java.util.Map;
 import java.util.concurrent.Executor;

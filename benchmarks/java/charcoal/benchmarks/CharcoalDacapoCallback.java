@@ -67,6 +67,10 @@ public class CharcoalDacapoCallback extends Callback {
                 .setSecs(tick.getEpochSecond())
                 .setNanos(tick.getNano())
                 .build();
+        profile.addCpuFreq(
+            CharcoalProfile.CpusFrequencies.newBuilder()
+                .setTimestamp(timestamp)
+                .addAllFrequency(profiler.freqs.sample(tick).values()));
         profile.addSocketPower(
             CharcoalProfile.SocketsPowers.newBuilder()
                 .setTimestamp(timestamp)
@@ -94,34 +98,6 @@ public class CharcoalDacapoCallback extends Callback {
       } catch (Exception e) {
 
       }
-      // logger.info("TICKS:");
-      // logger.info(String.format("%s", profiler.clock.ticks()));
-      // List<List<TaskPower>> taskPower =
-      //     profiler.clock.ticks().stream()
-      //         .map(ts -> profiler.taskPower.sample(ts))
-      //         .map(
-      //             power ->
-      //                 power.values().stream()
-      //                     .sorted(comparing(TaskPower::getCpu))
-      //                     .collect(toList()))
-      //         .collect(toList());
-      // logger.info("START:");
-      // logger.info(String.format("%s", taskPower.get(0)));
-      // logger.info("END:");
-      // logger.info(String.format("%s", taskPower.get(taskPower.size() - 1)));
-      // List<List<CpuFrequency>> freqs =
-      //     profiler.clock.ticks().stream()
-      //         .map(ts -> profiler.freqs.sample(ts))
-      //         .map(
-      //             power ->
-      //                 power.values().stream()
-      //                     .sorted(comparing(CpuFrequency::getCpu))
-      //                     .collect(toList()))
-      //         .collect(toList());
-      // logger.info("START:");
-      // logger.info(String.format("%s", freqs.get(0)));
-      // logger.info("END:");
-      // logger.info(String.format("%s", freqs.get(freqs.size() - 1)));
       return false;
     } else {
       return true;

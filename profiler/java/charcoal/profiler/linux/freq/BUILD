@@ -3,7 +3,7 @@ java_library(
     visibility = ["//visibility:public"],
     srcs = glob(["*.java"]),
     deps = [
-        "//profiler/proto/charcoal/profiler/linux/freq:freq_java_protos",
+        "//profiler/proto/charcoal/profiler/linux:linux_java_protos",
         "//src/java/charcoal",
         "//src/java/charcoal/prop",
         "//src/java/charcoal/util",
@@ -16,7 +16,7 @@ java_binary(
     srcs = ["CpuFreqMonitor.java"],
     deps = [
         ":freq",
-        "//profiler/proto/charcoal/profiler/linux/freq:freq_java_protos",
+        "//profiler/proto/charcoal/profiler/linux:linux_java_protos",
         "//src/java/charcoal/util",
     ],
 )
