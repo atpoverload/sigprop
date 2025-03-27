@@ -16,7 +16,7 @@ public abstract class PropagatingSignal<T>
   private final ArrayList<SinkSignal> syncDownstream = new ArrayList<>();
   private final ArrayList<SinkSignal> asyncDownstream = new ArrayList<>();
 
-  protected final Executor executor;
+  private final Executor executor;
 
   protected PropagatingSignal(Executor executor) {
     this.executor = executor;
@@ -100,5 +100,9 @@ public abstract class PropagatingSignal<T>
   public final void propagate(Instant now) {
     asyncDownstream.forEach(signal -> executor.execute(() -> signal.update(now)));
     syncDownstream.forEach(signal -> signal.update(now));
+  }
+
+  protected Executor executor() {
+    return this.executor;
   }
 }

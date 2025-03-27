@@ -40,12 +40,12 @@ public final class ComposedPropagatingSignal<T, U> extends DelegatingSignal<Entr
 
   /** Creates a sink connected to this signal, which consumes this signal. */
   public <V> BiMappingSignal<T, U, V> mapBiFunc(BiFunction<T, U, V> mapping) {
-    return this.map(() -> new BiFunctionMappingSignal<>(first, second, mapping, this.executor));
+    return this.map(() -> new BiFunctionMappingSignal<>(first, second, mapping, this.executor()));
   }
 
   /** Creates a sink connected to this signal, which consumes this signal. */
   public <V> BiMappingSignal<T, U, V> asyncMapBiFunc(BiFunction<T, U, V> mapping) {
     return this.asyncMap(
-        () -> new BiFunctionMappingSignal<>(first, second, mapping, this.executor));
+        () -> new BiFunctionMappingSignal<>(first, second, mapping, this.executor()));
   }
 }
