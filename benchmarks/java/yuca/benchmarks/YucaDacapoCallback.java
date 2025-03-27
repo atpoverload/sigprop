@@ -6,7 +6,7 @@ import org.dacapo.harness.CommandLineArgs;
 
 public class YucaDacapoCallback extends Callback {
   private final YucaProfiler profiler = ProfilerUtil.newProfiler();
-
+  
   public YucaDacapoCallback(CommandLineArgs args) {
     super(args);
   }

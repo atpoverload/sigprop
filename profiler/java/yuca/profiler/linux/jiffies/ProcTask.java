@@ -1,10 +1,8 @@
 package yuca.profiler.linux.jiffies;
 
-import static yuca.profiler.linux.CpuInfo.getCpuSocketMapping;
 import static charcoal.util.LoggerUtil.getLogger;
+import static yuca.profiler.linux.CpuInfo.getCpuSocketMapping;
 
-import yuca.profiler.linux.Task;
-import yuca.profiler.linux.TaskActivityRate;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,6 +13,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import yuca.profiler.linux.Task;
+import yuca.profiler.linux.TaskActivityRate;
 
 /**
  * Helper for reading task jiffies from /proc system. Refer to

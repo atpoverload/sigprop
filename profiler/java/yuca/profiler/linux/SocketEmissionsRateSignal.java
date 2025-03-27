@@ -3,11 +3,11 @@ package yuca.profiler.linux;
 import static java.util.stream.Collectors.toMap;
 
 import charcoal.SourceSignal;
-import yuca.profiler.emissions.CarbonLocale;
 import charcoal.prop.MappingSignal;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import yuca.profiler.emissions.CarbonLocale;
 
 public class SocketEmissionsRateSignal
     extends MappingSignal<Map<Integer, SocketPower>, Map<Integer, SocketEmissionsRate>> {

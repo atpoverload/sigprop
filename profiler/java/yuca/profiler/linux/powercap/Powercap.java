@@ -3,7 +3,6 @@ package yuca.profiler.linux.powercap;
 import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.stream.Collectors.toMap;
 
-import yuca.profiler.linux.SocketPower;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import yuca.profiler.linux.SocketPower;
 
 /** Simple wrapper to read powercap's energy with pure Java. */
 // TODO: this doesn't appear to work on more modern implementations that are hierarchical
@@ -33,7 +33,7 @@ public final class Powercap {
   /**
    * Returns an {@link PowercapSample} populated by parsing the string returned by {@ readNative}.
    */
-  public static Map<Integer, PowercapEnergy> sample() {
+  public static Map<Integer, PowercapEnergy> samplePowercap() {
     HashMap<Integer, PowercapEnergy> energy = new HashMap<>();
     for (int socket = 0; socket < SOCKETS; socket++) {
       double pkg = readPackage(socket);

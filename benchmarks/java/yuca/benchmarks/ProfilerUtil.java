@@ -1,6 +1,5 @@
 package yuca.benchmarks;
 
-
 import static charcoal.util.LoggerUtil.getLogger;
 
 import yuca.profiler.YucaProfile;

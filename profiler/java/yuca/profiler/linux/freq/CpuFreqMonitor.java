@@ -4,8 +4,8 @@ import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
-import yuca.profiler.linux.CpuFrequency;
 import java.util.logging.Logger;
+import yuca.profiler.linux.CpuFrequency;
 
 /** Very simple energy monitor that reports energy consumption over 10 millisecond intervals. */
 final class CpuFreqMonitor {

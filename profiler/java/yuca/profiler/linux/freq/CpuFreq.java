@@ -2,7 +2,6 @@ package yuca.profiler.linux.freq;
 
 import static charcoal.util.LoggerUtil.getLogger;
 
-import yuca.profiler.linux.CpuFrequency;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import yuca.profiler.linux.CpuFrequency;
 
 /**
  * A simple (unsafe) wrapper for reading the dvfs system. Consult
@@ -23,12 +23,12 @@ public final class CpuFreq {
 
   /** Returns the expected frequency in KHz of a cpu. */
   public static int getFrequency(int cpu) {
-    return readCounter(cpu, "cpuinfo_cur_freq");
+    return 1000 * readCounter(cpu, "cpuinfo_cur_freq");
   }
 
   /** Returns the observed frequency in KHz of a cpu. */
   public static int getObservedFrequency(int cpu) {
-    return readCounter(cpu, "scaling_cur_freq");
+    return 1000 * readCounter(cpu, "scaling_cur_freq");
   }
 
   /** Returns the current governor of a cpu. */

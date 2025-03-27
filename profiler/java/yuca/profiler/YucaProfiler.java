@@ -1,5 +1,9 @@
 package yuca.profiler;
 
+import charcoal.prop.ClockSignal;
+import charcoal.util.Timestamps;
+import java.time.Duration;
+import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.emissions.CarbonLocale;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
 import yuca.profiler.linux.TaskEmissionsRateSignal;
@@ -12,10 +16,6 @@ import yuca.profiler.linux.jiffies.TaskJiffiesRateSignal;
 import yuca.profiler.linux.jiffies.TaskJiffiesSignal;
 import yuca.profiler.linux.powercap.PowercapPowerSignal;
 import yuca.profiler.linux.powercap.PowercapSignal;
-import charcoal.prop.ClockSignal;
-import charcoal.util.Timestamps;
-import java.time.Duration;
-import java.util.concurrent.ScheduledExecutorService;
 
 public final class YucaProfiler {
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();

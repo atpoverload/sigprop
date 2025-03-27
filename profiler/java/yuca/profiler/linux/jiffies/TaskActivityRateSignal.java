@@ -1,11 +1,11 @@
 package yuca.profiler.linux.jiffies;
 
 import charcoal.SourceSignal;
-import yuca.profiler.linux.TaskActivityRate;
 import charcoal.prop.BiMappingSignal;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import yuca.profiler.linux.TaskActivityRate;
 
 public final class TaskActivityRateSignal
     extends BiMappingSignal<

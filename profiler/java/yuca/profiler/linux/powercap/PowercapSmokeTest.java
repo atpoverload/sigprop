@@ -3,13 +3,13 @@ package yuca.profiler.linux.powercap;
 import static charcoal.util.LoggerUtil.getLogger;
 import static java.util.stream.Collectors.joining;
 
-import yuca.profiler.linux.SocketPower;
 import charcoal.util.Timestamps;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
+import yuca.profiler.linux.SocketPower;
 
 /** A smoke test to check which components are available and if they are reporting similarly. */
 final class PowercapSmokeTest {
