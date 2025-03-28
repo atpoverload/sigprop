@@ -1,12 +1,12 @@
 package yuca.benchmarks;
 
-import yuca.profiler.YucaProfiler;
 import org.dacapo.harness.Callback;
 import org.dacapo.harness.CommandLineArgs;
+import yuca.profiler.YucaProfiler;
 
 public class YucaDacapoCallback extends Callback {
   private final YucaProfiler profiler = ProfilerUtil.newProfiler();
-  
+
   public YucaDacapoCallback(CommandLineArgs args) {
     super(args);
   }
@@ -27,7 +27,7 @@ public class YucaDacapoCallback extends Callback {
   public boolean runAgain() {
     // if we have run every iteration, dump the data and terminate
     if (!super.runAgain()) {
-      ProfilerUtil.dumpProfile(profiler);
+      ProfilerUtil.dumpProfile(profiler.getProfile());
       return false;
     } else {
       return true;

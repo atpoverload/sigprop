@@ -3,6 +3,7 @@ package yuca.profiler;
 import charcoal.prop.ClockSignal;
 import charcoal.util.Timestamps;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.emissions.CarbonLocale;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
@@ -16,6 +17,7 @@ import yuca.profiler.linux.jiffies.TaskJiffiesRateSignal;
 import yuca.profiler.linux.jiffies.TaskJiffiesSignal;
 import yuca.profiler.linux.powercap.PowercapPowerSignal;
 import yuca.profiler.linux.powercap.PowercapSignal;
+import yuca.profiler.linux.thermal.ThermalZonesSignal;
 
 public final class YucaProfiler {
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
@@ -35,6 +37,7 @@ public final class YucaProfiler {
   public final SocketEmissionsRateSignal socketEmissions;
   public final TaskEmissionsRateSignal taskEmissions;
   public final CpuFrequencySignal freqs;
+  public final ThermalZonesSignal thermal;
 
   public YucaProfiler(
       Duration period,
@@ -63,5 +66,47 @@ public final class YucaProfiler {
     taskEmissions =
         taskPower.map(me -> new TaskEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
+    thermal = clock.map(() -> new ThermalZonesSignal(workExecutor));
+  }
+
+  public YucaProfile getProfile() {
+    YucaProfile.Builder profile = YucaProfile.newBuilder();
+    for (Instant tick : clock.ticks()) {
+      YucaProfile.Timestamp timestamp =
+          YucaProfile.Timestamp.newBuilder()
+              .setSecs(tick.getEpochSecond())
+              .setNanos(tick.getNano())
+              .build();
+      profile.addCpuFreq(
+          YucaProfile.CpusFrequencies.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllFrequency(freqs.sample(tick).values()));
+      profile.addThermalZoneTemperature(
+          YucaProfile.ThermalZonesTemperatures.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllTemperature(thermal.sample(tick).values()));
+      profile.addSocketPower(
+          YucaProfile.SocketsPowers.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllPower(socketPower.sample(tick).values()));
+      profile.addSocketEmissions(
+          YucaProfile.SocketsEmissionsRates.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllEmissions(socketEmissions.sample(tick).values()));
+      profile.addTaskActivity(
+          YucaProfile.TasksActivities.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllActivity(activity.sample(tick).values()));
+      profile.addTaskPower(
+          YucaProfile.TasksPowers.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllPower(taskPower.sample(tick).values()));
+      profile.addTaskEmissions(
+          YucaProfile.TasksEmissionsRates.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllEmissions(taskEmissions.sample(tick).values()));
+    }
+
+    return profile.build();
   }
 }

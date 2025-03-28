@@ -1,7 +1,7 @@
 package yuca.benchmarks;
 
-import yuca.profiler.YucaProfiler;
 import org.renaissance.Plugin;
+import yuca.profiler.YucaProfiler;
 
 public final class YucaRenaissancePlugin
     implements Plugin.BeforeBenchmarkTearDownListener,
@@ -21,6 +21,6 @@ public final class YucaRenaissancePlugin
 
   @Override
   public void beforeBenchmarkTearDown(String benchmark) {
-    ProfilerUtil.dumpProfile(profiler);
+    ProfilerUtil.dumpProfile(profiler.getProfile());
   }
 }

@@ -11,6 +11,8 @@ option java_outer_classname = "ProfilerProtos";
 message YucaProfile {
   repeated CpusFrequencies cpu_freq = 1;
 
+  repeated ThermalZonesTemperatures thermal_zone_temperature = 7;
+
   repeated SocketsPowers socket_power = 2;
 
   repeated SocketsEmissionsRates socket_emissions = 3;
@@ -29,6 +31,11 @@ message YucaProfile {
   message CpusFrequencies {
     optional Timestamp timestamp = 1;
     repeated linux.CpuFrequency frequency = 2;
+  }
+
+  message ThermalZonesTemperatures {
+    optional Timestamp timestamp = 1;
+    repeated linux.ThermalZoneTemperature temperature = 2;
   }
 
   message SocketsPowers {
