@@ -1,4 +1,5 @@
 BENCHMARK_SRCS = [
+    "CpuSocketCooldown.java",
     "YucaDacapoCallback.java",
     "YucaRenaissancePlugin.java",
 ]
@@ -54,4 +55,12 @@ java_binary(
     args = [
         "--plugin !yuca.benchmarks.YucaRenaissancePlugin",
     ]
+)
+
+java_binary(
+    name = "cooldown",
+    main_class = "yuca.benchmarks.CpuSocketCooldown",
+    visibility = ["//visibility:public"],
+    srcs = ["CpuSocketCooldown.java"],
+    deps = ["//profiler/java/yuca/profiler/linux/thermal"]
 )

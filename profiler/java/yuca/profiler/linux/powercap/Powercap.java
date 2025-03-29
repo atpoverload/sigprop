@@ -96,6 +96,8 @@ public final class Powercap {
     return SocketPower.newBuilder()
         .setSocket(first.getSocket())
         .setPower((pkg + dram) / elapsed)
+        .setPackage(pkg / elapsed)
+        .setDram(dram / elapsed)
         .build();
   }
 

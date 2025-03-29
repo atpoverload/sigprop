@@ -1,10 +1,8 @@
 package yuca.benchmarks;
 
-
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.YucaProfile;

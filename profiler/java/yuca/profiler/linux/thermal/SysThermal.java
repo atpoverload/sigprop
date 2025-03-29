@@ -16,11 +16,22 @@ public class SysThermal {
   private static final Logger logger = getLogger();
 
   private static final Path SYS_THERMAL = Paths.get("/sys", "class", "thermal");
-  private static final int ZONE_COUNT = getThermalZoneCount();
   private static final Map<Integer, String> ZONE_TYPES = getZones();
 
+  public static final int ZONE_COUNT = getThermalZoneCount();
+
   public static int getTemperature(int zone) {
+    if (zone < 0 || ZONE_COUNT <= zone) {
+      throw new IllegalArgumentException(String.format("zone %d not available", zone));
+    }
     return readCounter(zone, "temp") / 1000;
+  }
+
+  public static String getZoneType(int zone) {
+    if (zone < 0 || ZONE_COUNT <= zone) {
+      throw new IllegalArgumentException(String.format("zone %d not available", zone));
+    }
+    return ZONE_TYPES.get(zone);
   }
 
   public static Map<Integer, ThermalZoneTemperature> sampleThermalZones() {
@@ -38,7 +49,7 @@ public class SysThermal {
   }
 
   /**
-   * Reads thermal zone information from /sys/class/thermal/ and returns the number of available
+   * Reads thermal zone information from /sys/class/thermal and returns the number of available
    * thermal zones.
    */
   private static int getThermalZoneCount() {

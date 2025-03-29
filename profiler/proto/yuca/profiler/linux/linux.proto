@@ -22,6 +22,8 @@ message ThermalZoneTemperature {
 message SocketPower {
   optional uint32 socket = 1;
   optional double power = 2;
+  optional double package = 3;
+  optional double dram = 4;
 }
 
 message SocketEmissionsRate {
