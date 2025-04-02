@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package yuca.profiler.rapl;
+
+option java_multiple_files = true;
+option java_package = "yuca.profiler.rapl";
+option java_outer_classname = "Rapl";
+
+message RaplEnergy {
+  uint64 socket = 1;
+  double energy = 2;
+}
+
+message RaplPower {
+  uint64 socket = 1;
+  double energy = 2;
+}
