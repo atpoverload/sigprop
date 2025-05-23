@@ -43,7 +43,7 @@ public final class ProcStat {
     }
   }
 
-  public static Map<Integer, CpuJiffies> sampleCpus() {
+  public static Map<Integer, CpuJiffies> sampleCpuJiffies() {
     String[] stats = new String[0];
     // TODO: using the traditional java method to support android
     try {

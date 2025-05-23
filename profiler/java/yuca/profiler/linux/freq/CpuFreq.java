@@ -36,7 +36,7 @@ public final class CpuFreq {
     return readFromComponent(cpu, "scaling_governor");
   }
 
-  public static Map<Integer, CpuFrequency> sampleFrequencies() {
+  public static Map<Integer, CpuFrequency> sampleCpuFrequencies() {
     HashMap<Integer, CpuFrequency> frequencies = new HashMap<>();
     for (int cpu = 0; cpu < CPU_COUNT; cpu++) {
       frequencies.put(

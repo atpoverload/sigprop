@@ -33,7 +33,7 @@ public final class Powercap {
   /**
    * Returns an {@link PowercapSample} populated by parsing the string returned by {@ readNative}.
    */
-  public static Map<Integer, PowercapEnergy> sample() {
+  public static Map<Integer, PowercapEnergy> samplePowercap() {
     HashMap<Integer, PowercapEnergy> energy = new HashMap<>();
     for (int socket = 0; socket < SOCKETS; socket++) {
       double pkg = readPackage(socket);
@@ -71,12 +71,12 @@ public final class Powercap {
               first.size(), second.size()));
     }
     return first.keySet().stream()
-        .map(socket -> Powercap.difference(start, end, first.get(socket), second.get(socket)))
+        .map(socket -> Powercap.between(start, end, first.get(socket), second.get(socket)))
         .collect(toMap(socket -> socket.getSocket(), socket -> socket));
   }
 
   /** Computes the difference of two {@link PowercapReadings}. */
-  public static SocketPower difference(
+  public static SocketPower between(
       Instant start, Instant end, PowercapEnergy first, PowercapEnergy second) {
     if (!start.isBefore(end)) {
       throw new IllegalArgumentException(

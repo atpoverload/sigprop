@@ -42,12 +42,12 @@ public final class ProcTask {
   };
 
   /** Reads from a process's tasks and returns a {@link Sample} of it. */
-  public static Map<Long, TaskJiffies> sampleTasksFor(long pid) {
+  public static Map<Long, TaskJiffies> sampleTaskJiffiesFor(long pid) {
     return parseTasks(readTasks(pid), pid);
   }
 
   /** Reads this process's tasks and returns a {@link Sample} of it. */
-  public static Map<Long, TaskJiffies> sampleTasks() {
+  public static Map<Long, TaskJiffies> sampleTaskJiffies() {
     return sampleTasksFor(PID);
   }
 
@@ -68,7 +68,7 @@ public final class ProcTask {
     return tasks;
   }
 
-  public static TaskJiffiesRate difference(
+  public static TaskJiffiesRate between(
       Instant start, Instant end, TaskJiffies first, TaskJiffies second) {
     if (!start.isBefore(end)) {
       throw new IllegalArgumentException(

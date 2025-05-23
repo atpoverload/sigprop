@@ -20,6 +20,6 @@ public final class TaskJiffiesSignal extends GeneratingSignal<Map<Long, TaskJiff
 
   @Override
   protected Map<Long, TaskJiffies> compute() {
-    return ProcTask.sampleTasksFor(pid);
+    return ProcTask.sampleTaskJiffiesFor(pid);
   }
 }

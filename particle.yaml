@@ -1,0 +1,28 @@
+enum:
+  - name: species
+    values:
+      - hydrogen
+      - helium
+      - nitrogen
+      - oxygen
+      - argon
+
+signal:
+  - name: particle
+    type: generating
+    data:
+      fields:
+        count: long
+        species: species
+    signal:
+      fields:
+        n: long
+        species: species
+    compute:
+      output:
+        count: n
+        species: species
+
+program:
+  particle($EMISSION_RATE, $SPECIES):
+    log: $LOG_PATH
