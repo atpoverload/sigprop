@@ -10,12 +10,20 @@ message CpuFrequency {
   optional uint32 cpu = 1;
   optional string governor = 2;
   optional uint32 frequency = 3;
-  optional uint32 setFrequency = 4;
+  optional uint32 set_frequency = 4;
+}
+
+message ThermalZoneTemperature {
+  optional uint32 zone_id = 1;
+  optional string zone_type = 2;
+  optional uint32 temperature = 3;
 }
 
 message SocketPower {
   optional uint32 socket = 1;
   optional double power = 2;
+  optional double package = 3;
+  optional double dram = 4;
 }
 
 message SocketEmissionsRate {

@@ -28,6 +28,11 @@ message YucaProfile {
     repeated linux.CpuFrequency frequency = 2;
   }
 
+  message ThermalZonesTemperatures {
+    optional Timestamp timestamp = 1;
+    repeated linux.ThermalZoneTemperature temperature = 2;
+  }
+
   message SocketsPowers {
     optional Timestamp timestamp = 1;
     repeated linux.SocketPower power = 2;
