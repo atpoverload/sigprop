@@ -1,14 +1,14 @@
 # Script to reproduce the energy accounting experiments with dacapo
 
 DATA_DIR=data
-mkdir -p "${DATA_DIR}"
+# mkdir -p "${DATA_DIR}"
 
-ITERATIONS=5
+ITERATIONS=25
 LOCALE=USA
 
 run_benchmark() {
     local data_dir="${DATA_DIR}/${BENCHMARK}"
-    mkdir -p "${data_dir}"
+    # mkdir -p "${data_dir}"
     java -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
         --callback yuca.benchmarks.YucaDacapoCallback \
         --iterations ${ITERATIONS} \
