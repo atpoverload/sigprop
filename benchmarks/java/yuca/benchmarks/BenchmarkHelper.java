@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.YucaProfile;
 import yuca.profiler.YucaProfiler;
 
-public final class BenchmarkHelper {
+final class BenchmarkHelper {
   private static final ScheduledExecutorService SAMPLING_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
@@ -28,7 +28,7 @@ public final class BenchmarkHelper {
     return new YucaProfiler(Duration.ofMillis(periodMillis), SAMPLING_EXECUTOR, WORK_EXECUTOR);
   }
 
-  static String createOutputPath(String suite, String benchmark, int iteration) {
+  static String createTempOutputPath(String suite, String benchmark, int iteration) {
     return String.format("/tmp/%s-%s-%d.pb", suite, benchmark, iteration);
   }
 

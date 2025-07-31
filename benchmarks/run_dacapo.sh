@@ -3,14 +3,14 @@
 DATA_DIR=data
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=1
+ITERATIONS=5
 LOCALE=USA
 
 run_benchmark() {
     local data_dir="${DATA_DIR}/${BENCHMARK}"
     mkdir -p "${data_dir}"
-    java -jar bazel-bin/benchmarks/java/charcoal/benchmarks/dacapo_deploy.jar \
-        --callback charcoal.benchmarks.CharcoalDacapoCallback \
+    java -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
+        --callback yuca.benchmarks.YucaDacapoCallback \
         --iterations ${ITERATIONS} \
         --size ${SIZE} \
         --no-validation \
@@ -22,6 +22,7 @@ BENCHMARKS=(
     biojava
     cassandra
     fop
+    graphchi
     h2o
     jme
     jython
@@ -38,7 +39,6 @@ SIZE=default
 
 for BENCHMARK in ${BENCHMARKS[@]}; do
     run_benchmark
-    exit
 done
 
 # large size dacapo benchmarks

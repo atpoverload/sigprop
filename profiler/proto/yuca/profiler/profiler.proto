@@ -8,24 +8,21 @@ option java_multiple_files = true;
 option java_package = "yuca.profiler";
 option java_outer_classname = "ProfilerProtos";
 
+message Timestamp {
+  optional uint64 secs = 1;
+  optional uint64 nanos = 2;
+}
+
+message Duration {
+  optional uint64 secs = 1;
+  optional uint64 nanos = 2;
+}
+
+message YucaProfilingSession {
+  Duration period = 1;
+}
+
 message YucaProfile {
-  repeated CpusFrequencies cpu_freq = 1;
-
-  repeated SocketsPowers socket_power = 2;
-
-  repeated SocketsEmissionsRates socket_emissions = 3;
-  
-  repeated TasksActivities task_activity = 4;
-  
-  repeated TasksPowers task_power = 5;
-
-  repeated TasksEmissionsRates task_emissions = 6;
-
-  message Timestamp {
-    optional uint64 secs = 1;
-    optional uint64 nanos = 2;
-  }
-
   message CpusFrequencies {
     optional Timestamp timestamp = 1;
     repeated linux.CpuFrequency frequency = 2;
@@ -40,7 +37,7 @@ message YucaProfile {
     optional Timestamp timestamp = 1;
     repeated linux.SocketEmissionsRate emissions = 2;
   }
-  
+
   message TasksActivities {
     optional Timestamp timestamp = 1;
     repeated linux.TaskActivityRate activity = 2;
@@ -55,4 +52,18 @@ message YucaProfile {
     optional Timestamp timestamp = 1;
     repeated linux.TaskEmissionsRate emissions = 2;
   }
+
+  YucaProfilingSession session = 1;
+
+  repeated CpusFrequencies cpu_freq = 2;
+
+  repeated SocketsPowers socket_power = 3;
+
+  repeated SocketsEmissionsRates socket_emissions = 4;
+  
+  repeated TasksActivities task_activity = 5;
+  
+  repeated TasksPowers task_power = 6;
+
+  repeated TasksEmissionsRates task_emissions = 7;
 }

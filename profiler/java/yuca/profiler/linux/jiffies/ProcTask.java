@@ -48,7 +48,7 @@ public final class ProcTask {
 
   /** Reads this process's tasks and returns a {@link Sample} of it. */
   public static Map<Long, TaskJiffies> sampleTaskJiffies() {
-    return sampleTasksFor(PID);
+    return sampleTaskJiffiesFor(PID);
   }
 
   public static Map<Long, TaskJiffiesRate> difference(
@@ -62,7 +62,7 @@ public final class ProcTask {
     HashMap<Long, TaskJiffiesRate> tasks = new HashMap<>();
     for (long tid : first.keySet()) {
       if (second.containsKey(tid)) {
-        tasks.put(tid, ProcTask.difference(start, end, first.get(tid), second.get(tid)));
+        tasks.put(tid, ProcTask.between(start, end, first.get(tid), second.get(tid)));
       }
     }
     return tasks;

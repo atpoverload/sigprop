@@ -69,11 +69,8 @@ public final class YucaProfiler {
   public YucaProfile getProfile() {
     YucaProfile.Builder profile = YucaProfile.newBuilder();
     for (Instant tick : this.clock.ticks()) {
-      YucaProfile.Timestamp timestamp =
-          YucaProfile.Timestamp.newBuilder()
-              .setSecs(tick.getEpochSecond())
-              .setNanos(tick.getNano())
-              .build();
+      Timestamp timestamp =
+          Timestamp.newBuilder().setSecs(tick.getEpochSecond()).setNanos(tick.getNano()).build();
       profile.addCpuFreq(
           YucaProfile.CpusFrequencies.newBuilder()
               .setTimestamp(timestamp)

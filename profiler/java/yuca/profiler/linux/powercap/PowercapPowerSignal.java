@@ -8,7 +8,7 @@ import java.util.concurrent.Executor;
 import yuca.profiler.linux.SocketPower;
 
 public final class PowercapPowerSignal
-    extends SymbolicAdjacentTimelineSignal<Map<Integer, PowercapEnergy>, Map<Integer, SocketPower>> {
+    extends AdjacentTimelineSignal<Map<Integer, PowercapEnergy>, Map<Integer, SocketPower>> {
   public PowercapPowerSignal(SourceSignal<Map<Integer, PowercapEnergy>> source, Executor executor) {
     super(source, executor);
   }

@@ -3,7 +3,7 @@
 DATA_DIR=data
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=20
+ITERATIONS=5
 LOCALE=USA
 
 run_benchmark() {
@@ -12,9 +12,9 @@ run_benchmark() {
     java \
         -Djcarbon.benchmarks.output="${data_dir}" \
         -Djcarbon.emissions.locale="${LOCALE}" \
-        -jar bazel-bin/benchmarks/java/charcoal/benchmarks/renaissance_deploy.jar \
+        -jar bazel-bin/benchmarks/java/yuca/benchmarks/renaissance_deploy.jar \
         -r ${ITERATIONS} \
-        --plugin "!charcoal.benchmark.CharcoalRenaissancePlugin" \
+        --plugin "!yuca.benchmarks.YucaRenaissancePlugin" \
         ${BENCHMARK}
 }
 

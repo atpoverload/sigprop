@@ -17,7 +17,7 @@ final class CpuFreqMonitor {
       logger.info(
           String.format(
               "%s",
-              CpuFreq.sampleFrequencies().values().stream()
+              CpuFreq.sampleCpuFrequencies().values().stream()
                   .sorted(comparing(CpuFrequency::getCpu))
                   .map(
                       freq ->

@@ -26,6 +26,7 @@ public abstract class AdjacentTimelineSignal<T, U> extends PropagatingSignal<U>
    */
   @Override
   public final U sample(Instant timestamp) {
+    Instant firstTick = timeline.firstKey();
     Instant end = timeline.floorKey(timestamp);
     // TODO: There's some implicit bugs here still.
     if (end == null) {
@@ -33,7 +34,7 @@ public abstract class AdjacentTimelineSignal<T, U> extends PropagatingSignal<U>
     }
     Instant start = end;
     while (start.equals(end)) {
-      if (!start.equals(timeline.firstKey())) {
+      if (!start.equals(firstTick)) {
         start = timeline.headMap(start, false).lastKey();
       } else {
         end = timeline.tailMap(end, false).firstKey();
