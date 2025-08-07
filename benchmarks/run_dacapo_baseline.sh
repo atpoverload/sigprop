@@ -1,13 +1,13 @@
 # Script to reproduce the energy accounting experiments with dacapo
 
-DATA_DIR=profile
+DATA_DIR=baseline
 DATA_DIR="/tmp/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
 ITERATIONS=25
 LOCALE=USA
 
-PERIOD=100
+PERIOD=0
 
 run_benchmark() {
     java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
