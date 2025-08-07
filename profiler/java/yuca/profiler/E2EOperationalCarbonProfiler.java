@@ -3,6 +3,7 @@ package yuca.profiler;
 import charcoal.prop.ButtonSignal;
 import charcoal.util.Timestamps;
 import java.time.Instant;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.emissions.CarbonLocale;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
@@ -63,16 +64,18 @@ public final class E2EOperationalCarbonProfiler implements Profiler {
   @Override
   public YucaProfile getProfile() {
     YucaProfile.Builder profile = YucaProfile.newBuilder();
-    Timestamp timestamp =
-        Timestamp.newBuilder().setSecs(end.getEpochSecond()).setNanos(end.getNano()).build();
-    profile.addSocketPower(
-        YucaProfile.SocketsPowers.newBuilder()
-            .setTimestamp(timestamp)
-            .addAllPower(this.socketPower.sample(end).values()));
-    profile.addSocketEmissions(
-        YucaProfile.SocketsEmissionsRates.newBuilder()
-            .setTimestamp(timestamp)
-            .addAllEmissions(this.socketEmissions.sample(end).values()));
+    for (Instant ts : List.of(start, end)) {
+      Timestamp timestamp =
+          Timestamp.newBuilder().setSecs(ts.getEpochSecond()).setNanos(ts.getNano()).build();
+      profile.addSocketPower(
+          YucaProfile.SocketsPowers.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllPower(this.socketPower.sample(end).values()));
+      profile.addSocketEmissions(
+          YucaProfile.SocketsEmissionsRates.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllEmissions(this.socketEmissions.sample(end).values()));
+    }
     return profile.build();
   }
 }
