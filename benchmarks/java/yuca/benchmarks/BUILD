@@ -9,6 +9,7 @@ java_library(
     deps = [
         "//profiler/java/yuca/profiler",
         "//profiler/proto/yuca/profiler:profiler_java_protos",
+        "//src/java/charcoal/util",
     ]
 )
 

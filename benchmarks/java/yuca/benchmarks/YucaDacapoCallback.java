@@ -6,10 +6,10 @@ import static yuca.benchmarks.BenchmarkHelper.dumpProfile;
 
 import org.dacapo.harness.Callback;
 import org.dacapo.harness.CommandLineArgs;
-import yuca.profiler.YucaProfiler;
+import yuca.profiler.Profiler;
 
 public class YucaDacapoCallback extends Callback {
-  private YucaProfiler profiler;
+  private Profiler profiler;
   private int iteration = 0;
 
   public YucaDacapoCallback(CommandLineArgs args) {
@@ -18,15 +18,16 @@ public class YucaDacapoCallback extends Callback {
 
   @Override
   public void start(String benchmark) {
-    profiler = createProfiler(100);
-    profiler.clock.start();
+    profiler = createProfiler();
+    profiler.start();
     super.start(benchmark);
   }
 
   @Override
   public void complete(String benchmark, boolean valid, boolean warmup) {
     super.complete(benchmark, valid, warmup);
-    profiler.clock.stop();
+    profiler.stop();
+    System.out.println(profiler.getProfile());
     dumpProfile(profiler.getProfile(), createTempOutputPath("dacapo", benchmark, iteration));
     iteration++;
   }

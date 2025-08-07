@@ -1,14 +1,24 @@
 package yuca.benchmarks;
 
+import static charcoal.util.LoggerUtil.getLogger;
+
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Logger;
+import yuca.profiler.E2EOperationalCarbonProfiler;
+import yuca.profiler.Profiler;
 import yuca.profiler.YucaProfile;
 import yuca.profiler.YucaProfiler;
 
 final class BenchmarkHelper {
+  private static final Logger logger = getLogger();
+  private static final int PERIOD =
+      Integer.parseInt(System.getProperty("yuca.benchmarks.period", "100"));
+  private static final String OUTPUT_PATH = System.getProperty("yuca.benchmarks.output", "/tmp");
+
   private static final ScheduledExecutorService SAMPLING_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
           r -> {
@@ -24,12 +34,17 @@ final class BenchmarkHelper {
             return t;
           });
 
-  static YucaProfiler createProfiler(int periodMillis) {
-    return new YucaProfiler(Duration.ofMillis(periodMillis), SAMPLING_EXECUTOR, WORK_EXECUTOR);
+  static Profiler createProfiler() {
+    if (PERIOD < 1) {
+      logger.info("Creating E2E profiler");
+      return new E2EOperationalCarbonProfiler(SAMPLING_EXECUTOR);
+    }
+    logger.info(String.format("Creating profiler at %dms", PERIOD));
+    return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
   }
 
   static String createTempOutputPath(String suite, String benchmark, int iteration) {
-    return String.format("/tmp/%s-%s-%d.pb", suite, benchmark, iteration);
+    return String.format("%s/%s-%s-%d.pb", OUTPUT_PATH, suite, benchmark, iteration);
   }
 
   static void dumpProfile(YucaProfile profile, String outputPath) {

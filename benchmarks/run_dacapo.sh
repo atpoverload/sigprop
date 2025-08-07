@@ -9,7 +9,8 @@ LOCALE=USA
 run_benchmark() {
     local data_dir="${DATA_DIR}/${BENCHMARK}"
     # mkdir -p "${data_dir}"
-    java -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
+    java -Dyuca.benchmarks.period=100 -Dyuca.benchmarks.period=/tmp/$DATA_DIR \
+        -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
         --callback yuca.benchmarks.YucaDacapoCallback \
         --iterations ${ITERATIONS} \
         --size ${SIZE} \
@@ -39,6 +40,7 @@ SIZE=default
 
 for BENCHMARK in ${BENCHMARKS[@]}; do
     run_benchmark
+    exit
 done
 
 # large size dacapo benchmarks

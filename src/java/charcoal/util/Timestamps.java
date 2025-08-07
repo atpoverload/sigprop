@@ -27,15 +27,12 @@ public final class Timestamps {
     return Instant.ofEpochSecond(secs, 1000 * micros);
   }
 
-  /** Returns a JCarbon proto {@link Timestamp} of the current monotonic clock time. */
-  public static Instant monotonicTime() {
+  /** Returns the current monotonic clock time in nanoseconds. */
+  public static long monotonicTime() {
     if (!HAS_NATIVE) {
-      return Instant.now();
+      return 0;
     }
-    long monotonicTime = monotonicTimeNative();
-    long secs = monotonicTime / 1000000000;
-    long nanos = monotonicTime - 1000000000 * secs;
-    return Instant.ofEpochSecond(secs, nanos);
+    return monotonicTimeNative();
   }
 
   /** Returns the unixtime as microseconds. */

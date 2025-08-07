@@ -18,7 +18,7 @@ import yuca.profiler.linux.jiffies.TaskJiffiesSignal;
 import yuca.profiler.linux.powercap.PowercapPowerSignal;
 import yuca.profiler.linux.powercap.PowercapSignal;
 
-public final class YucaProfiler {
+public final class YucaProfiler implements Profiler {
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
 
   private static final CarbonLocale getDefaultLocale() {
@@ -36,6 +36,8 @@ public final class YucaProfiler {
   public final SocketEmissionsRateSignal socketEmissions;
   public final TaskEmissionsRateSignal taskEmissions;
   public final CpuFrequencySignal freqs;
+
+  private boolean isRunning = false;
 
   public YucaProfiler(
       Duration period,
@@ -66,6 +68,27 @@ public final class YucaProfiler {
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
   }
 
+  @Override
+  public void start() {
+    synchronized (this) {
+      if (!isRunning) {
+        clock.start();
+        isRunning = true;
+      }
+    }
+  }
+
+  @Override
+  public void stop() {
+    synchronized (this) {
+      if (isRunning) {
+        clock.stop();
+        isRunning = false;
+      }
+    }
+  }
+
+  @Override
   public YucaProfile getProfile() {
     YucaProfile.Builder profile = YucaProfile.newBuilder();
     for (Instant tick : this.clock.ticks()) {
