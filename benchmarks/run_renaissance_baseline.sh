@@ -11,6 +11,7 @@ PERIOD=0
 
 run_benchmark() {
     java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
+        -jar bazel-bin/benchmarks/java/yuca/benchmarks/renaissance_deploy.jar \
         --repetitions ${ITERATIONS} \
         --plugin "!yuca.benchmarks.YucaRenaissancePlugin" \
         ${BENCHMARK}
