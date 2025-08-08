@@ -44,7 +44,7 @@ final class BenchmarkHelper {
   }
 
   static String createTempOutputPath(String suite, String benchmark, int iteration) {
-    return String.format("%s/%s-%s-%d.pb", OUTPUT_PATH, suite, benchmark, iteration);
+    return String.format("%s/%s@%s@%d.pb", OUTPUT_PATH, suite, benchmark, iteration);
   }
 
   static void dumpProfile(YucaProfile profile, String outputPath) {
