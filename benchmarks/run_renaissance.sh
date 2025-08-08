@@ -1,15 +1,17 @@
-# Script to reproduce the energy accounting experiments with renaissance
+# Script to reproduce the energy accounting experiments with dacapo
 
-DATA_DIR=data
-# mkdir -p "${DATA_DIR}"
+DATA_DIR=profiled
+DATA_DIR="/tmp/${DATA_DIR}"
+mkdir -p "${DATA_DIR}"
 
-ITERATIONS=25
+ITERATIONS=100
 LOCALE=USA
 
+PERIOD=100
+
 run_benchmark() {
-    local data_dir="${DATA_DIR}/${BENCHMARK}"
-    # mkdir -p "${data_dir}"
-    java -jar bazel-bin/benchmarks/java/yuca/benchmarks/renaissance_deploy.jar \
+    java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
+        -jar bazel-bin/benchmarks/java/yuca/benchmarks/renaissance_deploy.jar \
         --repetitions ${ITERATIONS} \
         --plugin "!yuca.benchmarks.YucaRenaissancePlugin" \
         ${BENCHMARK}

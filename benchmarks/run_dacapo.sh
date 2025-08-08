@@ -1,10 +1,10 @@
 # Script to reproduce the energy accounting experiments with dacapo
 
-DATA_DIR=profile
+DATA_DIR=profiled
 DATA_DIR="/tmp/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=25
+ITERATIONS=100
 LOCALE=USA
 
 PERIOD=100
