@@ -51,13 +51,13 @@ def task_emissions(profile):
     carbon = 0
     last_emissions = None
     for emissions in profile.task_emissions:
-        print(emissions)
         if last_emissions is not None:
             elapsed = timestamp_diff(
                 last_emissions.timestamp, emissions.timestamp)
             rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
             time += elapsed
             carbon += rate * elapsed
+            print(carbon)
         last_emissions = emissions
 
     return carbon
