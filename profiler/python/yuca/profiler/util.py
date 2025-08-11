@@ -66,7 +66,7 @@ def main():
 
     records = []
     for f in tqdm(args.files):
-        dir_name = os.path.dirname(f)
+        dir_name = os.path.dirname(f).split('/')[-1]
         file_name = os.path.basename(f).split('-')
         if len(file_name) > 3:
             suite = file_name[0]
