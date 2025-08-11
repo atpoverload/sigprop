@@ -10,6 +10,7 @@ dependencies = [
     "protobuf",
     "tqdm",
     "pandas",
+    "matplotlib",
 ]
 
 [tool.setuptools.packages.find]
