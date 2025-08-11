@@ -46,6 +46,21 @@ def socket_emissions(profile):
 
     return carbon
 
+def task_emissions(profile):
+    time = 0
+    carbon = 0
+    last_emissions = None
+    for emissions in profile.task_emissions:
+        if last_emissions is not None:
+            elapsed = timestamp_diff(
+                last_emissions.timestamp, emissions.timestamp)
+            rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
+            time += elapsed
+            carbon += rate * elapsed
+        last_emissions = emissions
+
+    return carbon
+
 # def embodied_emissions(profile):
 
 
@@ -82,6 +97,8 @@ def main():
         records.append([dir_name, benchmark, i, 'runtime', runtime(profile)])
         records.append(
             [dir_name, benchmark, i, 'socket_emissions', socket_emissions(profile)])
+        records.append(
+            [dir_name, benchmark, i, 'task_emissions', task_emissions(profile)])
     df = pd.DataFrame(records, columns=COLUMNS)
     df.to_csv('signals.csv')
 
