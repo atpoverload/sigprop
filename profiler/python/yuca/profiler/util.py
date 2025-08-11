@@ -57,7 +57,6 @@ def task_emissions(profile):
             rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
             time += elapsed
             carbon += rate * elapsed
-            print(carbon)
         last_emissions = emissions
 
     return carbon
@@ -105,27 +104,28 @@ def main():
 
     metrics = df.groupby(
         ['benchmark', 'metric', 'case']).value.agg(('mean', 'std'))
-    data = metrics.loc[:, :, 'profiled']
-    baseline = metrics.loc[:, :, 'baseline']
-    u = 100 * (data['mean'] / baseline['mean'] - 1)
-    s = (data['std'] / data['mean'])**2 + \
-        (baseline['std'] / baseline['mean'])**2
+    # data = metrics.loc[:, :, 'profiled']
+    # baseline = metrics.loc[:, :, 'baseline']
+    # u = 100 * (data['mean'] / baseline['mean'] - 1)
+    # s = (data['std'] / data['mean'])**2 + \
+    #     (baseline['std'] / baseline['mean'])**2
 
+    print(metrics)
     metrics.to_csv('metrics.csv')
-    print(u)
-    print(s)
+    # print(u)
+    # print(s)
 
-    for (i1, u), (_, s) in zip(u.groupby('metric'), s.groupby('metric')):
-        print(u)
-        u = u.reset_index(['metric'], drop=True)
-        s = s.reset_index(['metric'], drop=True)
-        u.plot.bar(
-            yerr=s,
-            ylim=(-10, 10),
-            figsize=(16, 9)
-        )
-        plt.savefig(f'{i1}.pdf', bbox_inches='tight')
-        plt.close()
+    # for (i1, u), (_, s) in zip(u.groupby('metric'), s.groupby('metric')):
+    #     print(u)
+    #     u = u.reset_index(['metric'], drop=True)
+    #     s = s.reset_index(['metric'], drop=True)
+    #     u.plot.bar(
+    #         yerr=s,
+    #         ylim=(-10, 10),
+    #         figsize=(16, 9)
+    #     )
+    #     plt.savefig(f'{i1}.pdf', bbox_inches='tight')
+    #     plt.close()
 
 
 if __name__ == '__main__':
