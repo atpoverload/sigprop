@@ -99,9 +99,11 @@ def main():
 
     for (i1, u), (_, s) in zip(u.groupby('metric'), s.groupby('metric')):
         print(u)
-        u.reset_index(['metric'], drop=True).plot.bar(
-            yerr=s.reset_index(['metric'], drop=True),
-            logy=True,
+        u = u.reset_index(['metric'], drop=True)
+        s = s.reset_index(['metric'], drop=True)
+        u.plot.bar(
+            yerr=s,
+            ylim=(-10, 10),
             figsize=(16, 9)
         )
         plt.savefig(f'{i1}.pdf', bbox_inches='tight')
