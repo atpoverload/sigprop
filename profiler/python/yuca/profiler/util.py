@@ -87,7 +87,7 @@ def main():
 
     metrics = df.groupby(
         ['benchmark', 'metric', 'case']).value.agg(('mean', 'std'))
-    data = metrics.loc[:, :, 'data']
+    data = metrics.loc[:, :, 'profiled']
     baseline = metrics.loc[:, :, 'baseline']
     u = 100 * (data['mean'] / baseline['mean'] - 1)
     s = (data['std'] / data['mean'])**2 + \
