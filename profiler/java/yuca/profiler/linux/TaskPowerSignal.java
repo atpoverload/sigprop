@@ -25,6 +25,11 @@ public final class TaskPowerSignal
     if (tasks.isEmpty() || sockets.isEmpty()) {
       return Map.of();
     }
+    double[] totalActivityRate = new double[sockets.size()];
+    for (TaskActivityRate task : tasks.values()) {
+      int cpu = task.getCpu();
+      totalActivityRate[SOCKETS_MAP[cpu]] += task.getActivity();
+    }
     HashMap<Long, TaskPower> power = new HashMap<>();
     for (TaskActivityRate task : tasks.values()) {
       power.put(
@@ -32,7 +37,10 @@ public final class TaskPowerSignal
           TaskPower.newBuilder()
               .setTask(task.getTask())
               .setCpu(task.getCpu())
-              .setPower(task.getActivity() * sockets.get(SOCKETS_MAP[task.getCpu()]).getPower())
+              .setPower(
+                  task.getActivity()
+                      * sockets.get(SOCKETS_MAP[task.getCpu()]).getPower()
+                      / totalActivityRate[SOCKETS_MAP[task.getCpu()]])
               .build());
     }
     return power;
