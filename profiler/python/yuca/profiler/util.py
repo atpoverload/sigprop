@@ -82,13 +82,13 @@ def main():
     records = []
     for f in tqdm(args.files):
         dir_name = os.path.dirname(f).split('/')[-1]
-        file_name = os.path.basename(f).split('-')
-        if len(file_name) > 3:
-            suite = file_name[0]
-            i = file_name[-1]
-            benchmark = '-'.join(file_name[1:-1])
-        else:
-            suite, benchmark, i = file_name
+        file_name = os.path.basename(f).split('@')
+        # if len(file_name) > 3:
+        #     suite = file_name[0]
+        #     i = file_name[-1]
+        #     benchmark = '-'.join(file_name[1:-1])
+        # else:
+        suite, benchmark, i = file_name
         i = i.split(r'.')[0]
         profile = YucaProfile()
         with open(f, 'rb') as f:
