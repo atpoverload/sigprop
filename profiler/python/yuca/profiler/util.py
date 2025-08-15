@@ -90,7 +90,7 @@ def main():
 
     records = []
     with tqdm(args.files) as pbar:
-        for f in tqdm(args.files):
+        for f in args.files:
             dir_name = os.path.basename(os.path.dirname(f))
             suite, benchmark, i = os.path.basename(f).split('@')
             i = i.split(r'.')[0]
