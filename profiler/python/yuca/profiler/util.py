@@ -76,8 +76,8 @@ def parse_args():
 
     arg_parser.add_argument(
         '--aggregate',
-        is_flag=True,
         default=True,
+        action='store_false',
         help='whether to reduce the protobuf files to metrics',
         dest='aggregate',
     )
