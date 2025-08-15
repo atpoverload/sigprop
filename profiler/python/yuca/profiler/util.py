@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 from yuca.profiler.profiler_pb2 import YucaProfile
 
-COLUMNS = ['case', 'benchmark', 'iteration', 'metric', 'value']
+COLUMNS = ['case', 'suite', 'benchmark', 'iteration', 'metric', 'value']
 
 
 def timestamp_diff(start, end):
@@ -46,6 +46,7 @@ def socket_emissions(profile):
 
     return carbon
 
+
 def task_emissions(profile):
     time = 0
     carbon = 0
@@ -69,8 +70,16 @@ def parse_args():
     arg_parser.add_argument(
         nargs='+',
         type=str,
-        help='yuca profiles',
+        help='any number of yuca protobuf profiles',
         dest='files',
+    )
+
+    arg_parser.add_argument(
+        '--aggregate',
+        is_flag=True,
+        default=True,
+        help='whether to reduce the protobuf files to metrics',
+        dest='aggregate',
     )
 
     return arg_parser.parse_args()
@@ -80,52 +89,48 @@ def main():
     args = parse_args()
 
     records = []
-    for f in tqdm(args.files):
-        dir_name = os.path.dirname(f).split('/')[-1]
-        file_name = os.path.basename(f).split('@')
-        # if len(file_name) > 3:
-        #     suite = file_name[0]
-        #     i = file_name[-1]
-        #     benchmark = '-'.join(file_name[1:-1])
-        # else:
-        suite, benchmark, i = file_name
-        i = i.split(r'.')[0]
-        profile = YucaProfile()
-        with open(f, 'rb') as f:
-            profile.ParseFromString(f.read())
+    with tqdm(args.files) as pbar:
+        for f in tqdm(args.files):
+            dir_name = os.path.basename(os.path.dirname(f))
+            suite, benchmark, i = os.path.basename(f).split('@')
+            i = i.split(r'.')[0]
+            pbar.set_description(','.join([dir_name, suite, benchmark, i]))
+            profile = YucaProfile()
+            with open(f, 'rb') as f:
+                profile.ParseFromString(f.read())
 
-        records.append([dir_name, benchmark, i, 'runtime', runtime(profile)])
-        records.append(
-            [dir_name, benchmark, i, 'socket_emissions', socket_emissions(profile)])
-        records.append(
-            [dir_name, benchmark, i, 'task_emissions', task_emissions(profile)])
+            records.append([
+                dir_name,
+                suite,
+                benchmark,
+                i,
+                'runtime',
+                runtime(profile)
+            ])
+            records.append([
+                dir_name,
+                suite,
+                benchmark,
+                i,
+                'socket_emissions',
+                socket_emissions(profile)
+            ])
+            records.append([
+                dir_name,
+                suite,
+                benchmark,
+                i,
+                'task_emissions',
+                task_emissions(profile)
+            ])
     df = pd.DataFrame(records, columns=COLUMNS)
     df.to_csv('signals.csv')
 
     metrics = df.groupby(
-        ['benchmark', 'metric', 'case']).value.agg(('mean', 'std'))
-    # data = metrics.loc[:, :, 'profiled']
-    # baseline = metrics.loc[:, :, 'baseline']
-    # u = 100 * (data['mean'] / baseline['mean'] - 1)
-    # s = (data['std'] / data['mean'])**2 + \
-    #     (baseline['std'] / baseline['mean'])**2
+        ['benchmark', 'suite', 'metric', 'case']).value.agg(('mean', 'std'))
 
     print(metrics)
     metrics.to_csv('metrics.csv')
-    # print(u)
-    # print(s)
-
-    # for (i1, u), (_, s) in zip(u.groupby('metric'), s.groupby('metric')):
-    #     print(u)
-    #     u = u.reset_index(['metric'], drop=True)
-    #     s = s.reset_index(['metric'], drop=True)
-    #     u.plot.bar(
-    #         yerr=s,
-    #         ylim=(-10, 10),
-    #         figsize=(16, 9)
-    #     )
-    #     plt.savefig(f'{i1}.pdf', bbox_inches='tight')
-    #     plt.close()
 
 
 if __name__ == '__main__':
