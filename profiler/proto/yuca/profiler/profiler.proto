@@ -18,8 +18,14 @@ message Duration {
   optional uint64 nanos = 2;
 }
 
-message YucaProfilingSession {
+message YucaSession {
   Duration period = 1;
+  repeated YucaSessionMetadata metadata = 2;
+
+  message YucaSessionMetadata {
+    string key = 1;
+    string value = 2;
+  }
 }
 
 message YucaProfile {
@@ -58,7 +64,7 @@ message YucaProfile {
     repeated linux.TaskEmissionsRate emissions = 2;
   }
 
-  YucaProfilingSession session = 1;
+  YucaSession session = 1;
 
   repeated CpusFrequencies cpu_freq = 2;
 
