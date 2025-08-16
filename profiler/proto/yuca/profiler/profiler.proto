@@ -64,9 +64,16 @@ message YucaProfile {
     repeated linux.TaskEmissionsRate emissions = 2;
   }
 
+  message AmortizedEmissionsRates {
+    optional Timestamp timestamp = 1;
+    repeated linux.AmortizedEmissionsRate emissions = 2;
+  }
+
   YucaSession session = 1;
 
   repeated CpusFrequencies cpu_freq = 2;
+
+  repeated ThermalZonesTemperatures temperature = 8;
 
   repeated SocketsPowers socket_power = 3;
 
@@ -77,4 +84,6 @@ message YucaProfile {
   repeated TasksPowers task_power = 6;
 
   repeated TasksEmissionsRates task_emissions = 7;
+
+  repeated AmortizedEmissionsRates amortized_emissions = 9;
 }
