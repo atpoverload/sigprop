@@ -32,7 +32,6 @@ public class YucaDacapoCallback extends Callback {
     profiler = null;
     profile
         .getSessionBuilder()
-        .addMetadata(YucaSessionMetadata.newBuilder().setKey("case").setValue(""))
         .addMetadata(YucaSessionMetadata.newBuilder().setKey("suite").setValue("dacapo"))
         .addMetadata(YucaSessionMetadata.newBuilder().setKey("benchmark").setValue(benchmark))
         .addMetadata(

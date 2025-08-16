@@ -25,7 +25,6 @@ public final class YucaRenaissancePlugin
     profiler = null;
     profile
         .getSessionBuilder()
-        .addMetadata(YucaSessionMetadata.newBuilder().setKey("case").setValue(""))
         .addMetadata(YucaSessionMetadata.newBuilder().setKey("suite").setValue("renaissance"))
         .addMetadata(YucaSessionMetadata.newBuilder().setKey("benchmark").setValue(benchmark))
         .addMetadata(

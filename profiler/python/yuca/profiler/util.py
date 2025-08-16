@@ -1,6 +1,7 @@
 import os
 
 from argparse import ArgumentParser
+from copy import deepcopy
 from math import sqrt
 
 import matplotlib.pyplot as plt
@@ -9,8 +10,6 @@ import pandas as pd
 from tqdm import tqdm
 
 from yuca.profiler.profiler_pb2 import YucaProfile
-
-COLUMNS = ['case', 'suite', 'benchmark', 'iteration', 'metric', 'value']
 
 
 def timestamp_diff(start, end):
@@ -81,6 +80,22 @@ METRICS = [
 ]
 
 
+def process(profile, metrics, pbar=None):
+    records = []
+    period = None
+    if profile.session.HasField('period'):
+        period = profile.session.period.secs + profile.session.period.nanos / 1000000
+    metadata = dict(profile.session)
+    if pbar != None:
+        pbar.set_description(
+            f'period: {period}', list(map(lambda m: f'{m[0]}: {m[1]}', metadata.items())))
+    for metric in metrics:
+        metadata['metric'] = metric.__name__
+        metadata['value'] = metric(profile)
+        records.append(deepcopy(metadata))
+    return records
+
+
 def parse_args():
     arg_parser = ArgumentParser()
     arg_parser.add_argument(
@@ -104,34 +119,27 @@ def parse_args():
 def main():
     args = parse_args()
 
-    records = []
+    if len(args.metrics) > 0:
+        metrics = [exec(m) for m in args.metrics]
+    else:
+        metrics = METRICS
+
     with tqdm(args.files) as pbar:
+        records = []
         for f in args.files:
-            dir_name = os.path.basename(os.path.dirname(f))
-            suite, benchmark, i = os.path.basename(f).split('@')
-            i = i.split(r'.')[0]
-            pbar.set_description(','.join([dir_name, suite, benchmark, i]))
             profile = YucaProfile()
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
+            records.extend(process(profile, metrics, pbar))
 
-            for metric in METRICS:
-                records.append([
-                    dir_name,
-                    suite,
-                    benchmark,
-                    i,
-                    metric.__name__,
-                    metric(profile)
-                ])
-    df = pd.DataFrame(records, columns=COLUMNS)
-    df.to_csv('signals.csv')
+    records = pd.DataFrame.from_dict(records)
+    records.to_csv('iteration_metrics.csv')
 
-    metrics = df.groupby(
-        ['benchmark', 'suite', 'metric', 'case']).value.agg(('mean', 'std'))
+    columns = [c for c in records.columns if c != 'value']
+    metrics = records.groupby(columns).value.agg(('mean', 'std'))
+    metrics.to_csv('aggregated_metrics.csv')
 
     print(metrics)
-    metrics.to_csv('metrics.csv')
 
 
 if __name__ == '__main__':
