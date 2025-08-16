@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
@@ -46,10 +47,10 @@ final class BenchmarkHelper {
   }
 
   static void dumpProfile(YucaProfile profile, String fileName) {
+    String fullFileName = String.format("%s-%s.pb", fileName, UUID.randomUUID());
     try (DataOutputStream out =
         new DataOutputStream(
-            new FileOutputStream(
-                Path.of(OUTPUT_DIRECTORY, String.format("%s.pb", fileName)).toString()))) {
+            new FileOutputStream(Path.of(OUTPUT_DIRECTORY, fullFileName).toString()))) {
       profile.writeTo(out);
     } catch (Exception e) {
     }
