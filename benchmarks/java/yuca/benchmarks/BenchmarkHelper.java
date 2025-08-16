@@ -104,6 +104,8 @@ final class BenchmarkHelper {
     String periodValue = System.getProperty("yuca.benchmarks.period", "100");
     try {
       int period = Integer.parseInt(periodValue);
+      logger.info(String.format("got period %dms", period));
+      return period;
     } catch (Exception e) {
       logger.info(String.format("got bad period %s", periodValue));
       logger.info("falling back to default 100ms");
