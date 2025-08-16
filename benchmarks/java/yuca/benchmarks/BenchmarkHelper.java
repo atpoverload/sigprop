@@ -31,8 +31,8 @@ final class BenchmarkHelper {
           logger.info("Creating E2E profiler");
           return new E2EOperationalCarbonProfiler(SAMPLING_EXECUTOR);
         case END2END:
-          logger.info(String.format("Creating profiler at %dms", PERIOD));
-          return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
+          logger.info(String.format("Creating profiler at %dms", PERIOD_MS));
+          return new YucaProfiler(Duration.ofMillis(PERIOD_MS), SAMPLING_EXECUTOR, WORK_EXECUTOR);
         default:
           throw new IllegalStateException("how did we get here?");
       }
