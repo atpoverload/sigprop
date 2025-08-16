@@ -8,7 +8,7 @@ ITERATIONS=25
 LOCALE=USA
 
 run_benchmark() {
-    java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
+    java -Dyuca.benchmarks.profiler=$PROFILER -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
         -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
         --callback yuca.benchmarks.YucaDacapoCallback \
         --iterations ${ITERATIONS} \
@@ -17,11 +17,12 @@ run_benchmark() {
         ${BENCHMARK} 
 }
 
-PERIOD=0
+PROFILER=end2end
 BENCHMARK=sunflow
 SIZE=default
 run_benchmark
 
+PROFILER=yuca
 PERIOD=100
 BENCHMARK=sunflow
 SIZE=default
