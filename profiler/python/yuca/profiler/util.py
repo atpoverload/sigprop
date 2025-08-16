@@ -117,13 +117,19 @@ def parse_args():
         help='any number of yuca protobuf profiles',
         dest='files',
     )
-
     arg_parser.add_argument(
         '--aggregate',
         default=True,
         action='store_false',
         help='whether to reduce the protobuf files to metrics',
         dest='aggregate',
+    )
+    arg_parser.add_argument(
+        '-m'
+        '--metrics',
+        default=[],
+        help=f'the metrics to compute; options are {METRICS}',
+        dest='metrics',
     )
 
     return arg_parser.parse_args()
