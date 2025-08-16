@@ -23,14 +23,23 @@ class Duration(_message.Message):
     nanos: int
     def __init__(self, secs: _Optional[int] = ..., nanos: _Optional[int] = ...) -> None: ...
 
-class YucaProfilingSession(_message.Message):
-    __slots__ = ("period",)
+class YucaSession(_message.Message):
+    __slots__ = ("period", "metadata")
+    class YucaSessionMetadata(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
     PERIOD_FIELD_NUMBER: _ClassVar[int]
+    METADATA_FIELD_NUMBER: _ClassVar[int]
     period: Duration
-    def __init__(self, period: _Optional[_Union[Duration, _Mapping]] = ...) -> None: ...
+    metadata: _containers.RepeatedCompositeFieldContainer[YucaSession.YucaSessionMetadata]
+    def __init__(self, period: _Optional[_Union[Duration, _Mapping]] = ..., metadata: _Optional[_Iterable[_Union[YucaSession.YucaSessionMetadata, _Mapping]]] = ...) -> None: ...
 
 class YucaProfile(_message.Message):
-    __slots__ = ("session", "cpu_freq", "socket_power", "socket_emissions", "task_activity", "task_power", "task_emissions")
+    __slots__ = ("session", "cpu_freq", "temperature", "socket_power", "socket_emissions", "task_activity", "task_power", "task_emissions", "amortized_emissions")
     class CpusFrequencies(_message.Message):
         __slots__ = ("timestamp", "frequency")
         TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
@@ -80,18 +89,29 @@ class YucaProfile(_message.Message):
         timestamp: Timestamp
         emissions: _containers.RepeatedCompositeFieldContainer[_linux_pb2.TaskEmissionsRate]
         def __init__(self, timestamp: _Optional[_Union[Timestamp, _Mapping]] = ..., emissions: _Optional[_Iterable[_Union[_linux_pb2.TaskEmissionsRate, _Mapping]]] = ...) -> None: ...
+    class AmortizedEmissionsRates(_message.Message):
+        __slots__ = ("timestamp", "emissions")
+        TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+        EMISSIONS_FIELD_NUMBER: _ClassVar[int]
+        timestamp: Timestamp
+        emissions: _containers.RepeatedCompositeFieldContainer[_linux_pb2.AmortizedEmissionsRate]
+        def __init__(self, timestamp: _Optional[_Union[Timestamp, _Mapping]] = ..., emissions: _Optional[_Iterable[_Union[_linux_pb2.AmortizedEmissionsRate, _Mapping]]] = ...) -> None: ...
     SESSION_FIELD_NUMBER: _ClassVar[int]
     CPU_FREQ_FIELD_NUMBER: _ClassVar[int]
+    TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
     SOCKET_POWER_FIELD_NUMBER: _ClassVar[int]
     SOCKET_EMISSIONS_FIELD_NUMBER: _ClassVar[int]
     TASK_ACTIVITY_FIELD_NUMBER: _ClassVar[int]
     TASK_POWER_FIELD_NUMBER: _ClassVar[int]
     TASK_EMISSIONS_FIELD_NUMBER: _ClassVar[int]
-    session: YucaProfilingSession
+    AMORTIZED_EMISSIONS_FIELD_NUMBER: _ClassVar[int]
+    session: YucaSession
     cpu_freq: _containers.RepeatedCompositeFieldContainer[YucaProfile.CpusFrequencies]
+    temperature: _containers.RepeatedCompositeFieldContainer[YucaProfile.ThermalZonesTemperatures]
     socket_power: _containers.RepeatedCompositeFieldContainer[YucaProfile.SocketsPowers]
     socket_emissions: _containers.RepeatedCompositeFieldContainer[YucaProfile.SocketsEmissionsRates]
     task_activity: _containers.RepeatedCompositeFieldContainer[YucaProfile.TasksActivities]
     task_power: _containers.RepeatedCompositeFieldContainer[YucaProfile.TasksPowers]
     task_emissions: _containers.RepeatedCompositeFieldContainer[YucaProfile.TasksEmissionsRates]
-    def __init__(self, session: _Optional[_Union[YucaProfilingSession, _Mapping]] = ..., cpu_freq: _Optional[_Iterable[_Union[YucaProfile.CpusFrequencies, _Mapping]]] = ..., socket_power: _Optional[_Iterable[_Union[YucaProfile.SocketsPowers, _Mapping]]] = ..., socket_emissions: _Optional[_Iterable[_Union[YucaProfile.SocketsEmissionsRates, _Mapping]]] = ..., task_activity: _Optional[_Iterable[_Union[YucaProfile.TasksActivities, _Mapping]]] = ..., task_power: _Optional[_Iterable[_Union[YucaProfile.TasksPowers, _Mapping]]] = ..., task_emissions: _Optional[_Iterable[_Union[YucaProfile.TasksEmissionsRates, _Mapping]]] = ...) -> None: ...
+    amortized_emissions: _containers.RepeatedCompositeFieldContainer[YucaProfile.AmortizedEmissionsRates]
+    def __init__(self, session: _Optional[_Union[YucaSession, _Mapping]] = ..., cpu_freq: _Optional[_Iterable[_Union[YucaProfile.CpusFrequencies, _Mapping]]] = ..., temperature: _Optional[_Iterable[_Union[YucaProfile.ThermalZonesTemperatures, _Mapping]]] = ..., socket_power: _Optional[_Iterable[_Union[YucaProfile.SocketsPowers, _Mapping]]] = ..., socket_emissions: _Optional[_Iterable[_Union[YucaProfile.SocketsEmissionsRates, _Mapping]]] = ..., task_activity: _Optional[_Iterable[_Union[YucaProfile.TasksActivities, _Mapping]]] = ..., task_power: _Optional[_Iterable[_Union[YucaProfile.TasksPowers, _Mapping]]] = ..., task_emissions: _Optional[_Iterable[_Union[YucaProfile.TasksEmissionsRates, _Mapping]]] = ..., amortized_emissions: _Optional[_Iterable[_Union[YucaProfile.AmortizedEmissionsRates, _Mapping]]] = ...) -> None: ...

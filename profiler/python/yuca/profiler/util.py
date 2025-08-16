@@ -32,7 +32,6 @@ def runtime(profile):
 
 
 def socket_emissions(profile):
-    time = 0
     carbon = 0
     last_emissions = None
     for emissions in profile.socket_emissions:
@@ -40,7 +39,6 @@ def socket_emissions(profile):
             elapsed = timestamp_diff(
                 last_emissions.timestamp, emissions.timestamp)
             rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
-            time += elapsed
             carbon += rate * elapsed
         last_emissions = emissions
 
@@ -48,7 +46,6 @@ def socket_emissions(profile):
 
 
 def task_emissions(profile):
-    time = 0
     carbon = 0
     last_emissions = None
     for emissions in profile.task_emissions:
@@ -56,13 +53,32 @@ def task_emissions(profile):
             elapsed = timestamp_diff(
                 last_emissions.timestamp, emissions.timestamp)
             rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
-            time += elapsed
             carbon += rate * elapsed
         last_emissions = emissions
 
     return carbon
 
-# def embodied_emissions(profile):
+
+def amortized_emissions(profile):
+    carbon = 0
+    last_emissions = None
+    for emissions in profile.amortized_emissions:
+        if last_emissions is not None:
+            elapsed = timestamp_diff(
+                last_emissions.timestamp, emissions.timestamp)
+            rate = sum(map(lambda e: e.emissions, last_emissions.emissions))
+            carbon += rate * elapsed
+        last_emissions = emissions
+
+    return carbon
+
+
+METRICS = [
+    runtime,
+    socket_emissions,
+    task_emissions,
+    amortized_emissions,
+]
 
 
 def parse_args():
@@ -99,30 +115,15 @@ def main():
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
 
-            records.append([
-                dir_name,
-                suite,
-                benchmark,
-                i,
-                'runtime',
-                runtime(profile)
-            ])
-            records.append([
-                dir_name,
-                suite,
-                benchmark,
-                i,
-                'socket_emissions',
-                socket_emissions(profile)
-            ])
-            records.append([
-                dir_name,
-                suite,
-                benchmark,
-                i,
-                'task_emissions',
-                task_emissions(profile)
-            ])
+            for metric in METRICS:
+                records.append([
+                    dir_name,
+                    suite,
+                    benchmark,
+                    i,
+                    metric.__name__,
+                    metric(profile)
+                ])
     df = pd.DataFrame(records, columns=COLUMNS)
     df.to_csv('signals.csv')
 

@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from yuca.profiler.linux import linux_pb2 as yuca_dot_profiler_dot_linux_dot_linux__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cyuca/profiler/profiler.proto\x12\ryuca.profiler\x1a\x1fyuca/profiler/linux/linux.proto\"E\n\tTimestamp\x12\x11\n\x04secs\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x12\n\x05nanos\x18\x02 \x01(\x04H\x01\x88\x01\x01\x42\x07\n\x05_secsB\x08\n\x06_nanos\"D\n\x08\x44uration\x12\x11\n\x04secs\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x12\n\x05nanos\x18\x02 \x01(\x04H\x01\x88\x01\x01\x42\x07\n\x05_secsB\x08\n\x06_nanos\"?\n\x14YucaProfilingSession\x12\'\n\x06period\x18\x01 \x01(\x0b\x32\x17.yuca.profiler.Duration\"\xb5\x0b\n\x0bYucaProfile\x12\x34\n\x07session\x18\x01 \x01(\x0b\x32#.yuca.profiler.YucaProfilingSession\x12<\n\x08\x63pu_freq\x18\x02 \x03(\x0b\x32*.yuca.profiler.YucaProfile.CpusFrequencies\x12>\n\x0csocket_power\x18\x03 \x03(\x0b\x32(.yuca.profiler.YucaProfile.SocketsPowers\x12J\n\x10socket_emissions\x18\x04 \x03(\x0b\x32\x30.yuca.profiler.YucaProfile.SocketsEmissionsRates\x12\x41\n\rtask_activity\x18\x05 \x03(\x0b\x32*.yuca.profiler.YucaProfile.TasksActivities\x12:\n\ntask_power\x18\x06 \x03(\x0b\x32&.yuca.profiler.YucaProfile.TasksPowers\x12\x46\n\x0etask_emissions\x18\x07 \x03(\x0b\x32..yuca.profiler.YucaProfile.TasksEmissionsRates\x1a\x87\x01\n\x0f\x43pusFrequencies\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x34\n\tfrequency\x18\x02 \x03(\x0b\x32!.yuca.profiler.linux.CpuFrequencyB\x0c\n\n_timestamp\x1a\x9c\x01\n\x18ThermalZonesTemperatures\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12@\n\x0btemperature\x18\x02 \x03(\x0b\x32+.yuca.profiler.linux.ThermalZoneTemperatureB\x0c\n\n_timestamp\x1a\x80\x01\n\rSocketsPowers\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12/\n\x05power\x18\x02 \x03(\x0b\x32 .yuca.profiler.linux.SocketPowerB\x0c\n\n_timestamp\x1a\x94\x01\n\x15SocketsEmissionsRates\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12;\n\temissions\x18\x02 \x03(\x0b\x32(.yuca.profiler.linux.SocketEmissionsRateB\x0c\n\n_timestamp\x1a\x8a\x01\n\x0fTasksActivities\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x37\n\x08\x61\x63tivity\x18\x02 \x03(\x0b\x32%.yuca.profiler.linux.TaskActivityRateB\x0c\n\n_timestamp\x1a|\n\x0bTasksPowers\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12-\n\x05power\x18\x02 \x03(\x0b\x32\x1e.yuca.profiler.linux.TaskPowerB\x0c\n\n_timestamp\x1a\x90\x01\n\x13TasksEmissionsRates\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x39\n\temissions\x18\x02 \x03(\x0b\x32&.yuca.profiler.linux.TaskEmissionsRateB\x0c\n\n_timestampB!\n\ryuca.profilerB\x0eProfilerProtosP\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cyuca/profiler/profiler.proto\x12\ryuca.profiler\x1a\x1fyuca/profiler/linux/linux.proto\"E\n\tTimestamp\x12\x11\n\x04secs\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x12\n\x05nanos\x18\x02 \x01(\x04H\x01\x88\x01\x01\x42\x07\n\x05_secsB\x08\n\x06_nanos\"D\n\x08\x44uration\x12\x11\n\x04secs\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x12\n\x05nanos\x18\x02 \x01(\x04H\x01\x88\x01\x01\x42\x07\n\x05_secsB\x08\n\x06_nanos\"\xab\x01\n\x0bYucaSession\x12\'\n\x06period\x18\x01 \x01(\x0b\x32\x17.yuca.profiler.Duration\x12@\n\x08metadata\x18\x02 \x03(\x0b\x32..yuca.profiler.YucaSession.YucaSessionMetadata\x1a\x31\n\x13YucaSessionMetadata\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\xe3\r\n\x0bYucaProfile\x12+\n\x07session\x18\x01 \x01(\x0b\x32\x1a.yuca.profiler.YucaSession\x12<\n\x08\x63pu_freq\x18\x02 \x03(\x0b\x32*.yuca.profiler.YucaProfile.CpusFrequencies\x12H\n\x0btemperature\x18\x08 \x03(\x0b\x32\x33.yuca.profiler.YucaProfile.ThermalZonesTemperatures\x12>\n\x0csocket_power\x18\x03 \x03(\x0b\x32(.yuca.profiler.YucaProfile.SocketsPowers\x12J\n\x10socket_emissions\x18\x04 \x03(\x0b\x32\x30.yuca.profiler.YucaProfile.SocketsEmissionsRates\x12\x41\n\rtask_activity\x18\x05 \x03(\x0b\x32*.yuca.profiler.YucaProfile.TasksActivities\x12:\n\ntask_power\x18\x06 \x03(\x0b\x32&.yuca.profiler.YucaProfile.TasksPowers\x12\x46\n\x0etask_emissions\x18\x07 \x03(\x0b\x32..yuca.profiler.YucaProfile.TasksEmissionsRates\x12O\n\x13\x61mortized_emissions\x18\t \x03(\x0b\x32\x32.yuca.profiler.YucaProfile.AmortizedEmissionsRates\x1a\x87\x01\n\x0f\x43pusFrequencies\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x34\n\tfrequency\x18\x02 \x03(\x0b\x32!.yuca.profiler.linux.CpuFrequencyB\x0c\n\n_timestamp\x1a\x9c\x01\n\x18ThermalZonesTemperatures\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12@\n\x0btemperature\x18\x02 \x03(\x0b\x32+.yuca.profiler.linux.ThermalZoneTemperatureB\x0c\n\n_timestamp\x1a\x80\x01\n\rSocketsPowers\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12/\n\x05power\x18\x02 \x03(\x0b\x32 .yuca.profiler.linux.SocketPowerB\x0c\n\n_timestamp\x1a\x94\x01\n\x15SocketsEmissionsRates\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12;\n\temissions\x18\x02 \x03(\x0b\x32(.yuca.profiler.linux.SocketEmissionsRateB\x0c\n\n_timestamp\x1a\x8a\x01\n\x0fTasksActivities\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x37\n\x08\x61\x63tivity\x18\x02 \x03(\x0b\x32%.yuca.profiler.linux.TaskActivityRateB\x0c\n\n_timestamp\x1a|\n\x0bTasksPowers\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12-\n\x05power\x18\x02 \x03(\x0b\x32\x1e.yuca.profiler.linux.TaskPowerB\x0c\n\n_timestamp\x1a\x90\x01\n\x13TasksEmissionsRates\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12\x39\n\temissions\x18\x02 \x03(\x0b\x32&.yuca.profiler.linux.TaskEmissionsRateB\x0c\n\n_timestamp\x1a\x99\x01\n\x17\x41mortizedEmissionsRates\x12\x30\n\ttimestamp\x18\x01 \x01(\x0b\x32\x18.yuca.profiler.TimestampH\x00\x88\x01\x01\x12>\n\temissions\x18\x02 \x03(\x0b\x32+.yuca.profiler.linux.AmortizedEmissionsRateB\x0c\n\n_timestampB!\n\ryuca.profilerB\x0eProfilerProtosP\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,22 +37,26 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TIMESTAMP']._serialized_end=149
   _globals['_DURATION']._serialized_start=151
   _globals['_DURATION']._serialized_end=219
-  _globals['_YUCAPROFILINGSESSION']._serialized_start=221
-  _globals['_YUCAPROFILINGSESSION']._serialized_end=284
-  _globals['_YUCAPROFILE']._serialized_start=287
-  _globals['_YUCAPROFILE']._serialized_end=1748
-  _globals['_YUCAPROFILE_CPUSFREQUENCIES']._serialized_start=758
-  _globals['_YUCAPROFILE_CPUSFREQUENCIES']._serialized_end=893
-  _globals['_YUCAPROFILE_THERMALZONESTEMPERATURES']._serialized_start=896
-  _globals['_YUCAPROFILE_THERMALZONESTEMPERATURES']._serialized_end=1052
-  _globals['_YUCAPROFILE_SOCKETSPOWERS']._serialized_start=1055
-  _globals['_YUCAPROFILE_SOCKETSPOWERS']._serialized_end=1183
-  _globals['_YUCAPROFILE_SOCKETSEMISSIONSRATES']._serialized_start=1186
-  _globals['_YUCAPROFILE_SOCKETSEMISSIONSRATES']._serialized_end=1334
-  _globals['_YUCAPROFILE_TASKSACTIVITIES']._serialized_start=1337
-  _globals['_YUCAPROFILE_TASKSACTIVITIES']._serialized_end=1475
-  _globals['_YUCAPROFILE_TASKSPOWERS']._serialized_start=1477
-  _globals['_YUCAPROFILE_TASKSPOWERS']._serialized_end=1601
-  _globals['_YUCAPROFILE_TASKSEMISSIONSRATES']._serialized_start=1604
-  _globals['_YUCAPROFILE_TASKSEMISSIONSRATES']._serialized_end=1748
+  _globals['_YUCASESSION']._serialized_start=222
+  _globals['_YUCASESSION']._serialized_end=393
+  _globals['_YUCASESSION_YUCASESSIONMETADATA']._serialized_start=344
+  _globals['_YUCASESSION_YUCASESSIONMETADATA']._serialized_end=393
+  _globals['_YUCAPROFILE']._serialized_start=396
+  _globals['_YUCAPROFILE']._serialized_end=2159
+  _globals['_YUCAPROFILE_CPUSFREQUENCIES']._serialized_start=1013
+  _globals['_YUCAPROFILE_CPUSFREQUENCIES']._serialized_end=1148
+  _globals['_YUCAPROFILE_THERMALZONESTEMPERATURES']._serialized_start=1151
+  _globals['_YUCAPROFILE_THERMALZONESTEMPERATURES']._serialized_end=1307
+  _globals['_YUCAPROFILE_SOCKETSPOWERS']._serialized_start=1310
+  _globals['_YUCAPROFILE_SOCKETSPOWERS']._serialized_end=1438
+  _globals['_YUCAPROFILE_SOCKETSEMISSIONSRATES']._serialized_start=1441
+  _globals['_YUCAPROFILE_SOCKETSEMISSIONSRATES']._serialized_end=1589
+  _globals['_YUCAPROFILE_TASKSACTIVITIES']._serialized_start=1592
+  _globals['_YUCAPROFILE_TASKSACTIVITIES']._serialized_end=1730
+  _globals['_YUCAPROFILE_TASKSPOWERS']._serialized_start=1732
+  _globals['_YUCAPROFILE_TASKSPOWERS']._serialized_end=1856
+  _globals['_YUCAPROFILE_TASKSEMISSIONSRATES']._serialized_start=1859
+  _globals['_YUCAPROFILE_TASKSEMISSIONSRATES']._serialized_end=2003
+  _globals['_YUCAPROFILE_AMORTIZEDEMISSIONSRATES']._serialized_start=2006
+  _globals['_YUCAPROFILE_AMORTIZEDEMISSIONSRATES']._serialized_end=2159
 # @@protoc_insertion_point(module_scope)

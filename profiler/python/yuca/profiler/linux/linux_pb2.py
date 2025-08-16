@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1fyuca/profiler/linux/linux.proto\x12\x13yuca.profiler.linux\"\xa0\x01\n\x0c\x43puFrequency\x12\x10\n\x03\x63pu\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x15\n\x08governor\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x16\n\tfrequency\x18\x03 \x01(\rH\x02\x88\x01\x01\x12\x1a\n\rset_frequency\x18\x04 \x01(\rH\x03\x88\x01\x01\x42\x06\n\x04_cpuB\x0b\n\t_governorB\x0c\n\n_frequencyB\x10\n\x0e_set_frequency\"\x8a\x01\n\x16ThermalZoneTemperature\x12\x14\n\x07zone_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x16\n\tzone_type\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x18\n\x0btemperature\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\n\n\x08_zone_idB\x0c\n\n_zone_typeB\x0e\n\x0c_temperature\"\x89\x01\n\x0bSocketPower\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05power\x18\x02 \x01(\x01H\x01\x88\x01\x01\x12\x14\n\x07package\x18\x03 \x01(\x01H\x02\x88\x01\x01\x12\x11\n\x04\x64ram\x18\x04 \x01(\x01H\x03\x88\x01\x01\x42\t\n\x07_socketB\x08\n\x06_powerB\n\n\x08_packageB\x07\n\x05_dram\"[\n\x13SocketEmissionsRate\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x16\n\temissions\x18\x02 \x01(\x01H\x01\x88\x01\x01\x42\t\n\x07_socketB\x0c\n\n_emissions\"l\n\x04Task\x12\x17\n\nprocess_id\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x14\n\x07task_id\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x11\n\x04name\x18\x03 \x01(\tH\x02\x88\x01\x01\x42\r\n\x0b_process_idB\n\n\x08_task_idB\x07\n\x05_name\"\x87\x01\n\x10TaskActivityRate\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x15\n\x08\x61\x63tivity\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x0b\n\t_activity\"z\n\tTaskPower\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x12\n\x05power\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x08\n\x06_power\"\x8a\x01\n\x11TaskEmissionsRate\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x16\n\temissions\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x0c\n\n_emissionsB$\n\x13yuca.profiler.linuxB\x0bLinuxProtosP\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1fyuca/profiler/linux/linux.proto\x12\x13yuca.profiler.linux\"\x89\x01\n\x0bSocketPower\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05power\x18\x02 \x01(\x01H\x01\x88\x01\x01\x12\x14\n\x07package\x18\x03 \x01(\x01H\x02\x88\x01\x01\x12\x11\n\x04\x64ram\x18\x04 \x01(\x01H\x03\x88\x01\x01\x42\t\n\x07_socketB\x08\n\x06_powerB\n\n\x08_packageB\x07\n\x05_dram\"[\n\x13SocketEmissionsRate\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x16\n\temissions\x18\x02 \x01(\x01H\x01\x88\x01\x01\x42\t\n\x07_socketB\x0c\n\n_emissions\"l\n\x04Task\x12\x17\n\nprocess_id\x18\x01 \x01(\x04H\x00\x88\x01\x01\x12\x14\n\x07task_id\x18\x02 \x01(\x04H\x01\x88\x01\x01\x12\x11\n\x04name\x18\x03 \x01(\tH\x02\x88\x01\x01\x42\r\n\x0b_process_idB\n\n\x08_task_idB\x07\n\x05_name\"\x87\x01\n\x10TaskActivityRate\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x15\n\x08\x61\x63tivity\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x0b\n\t_activity\"z\n\tTaskPower\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x12\n\x05power\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x08\n\x06_power\"\x8a\x01\n\x11TaskEmissionsRate\x12,\n\x04task\x18\x01 \x01(\x0b\x32\x19.yuca.profiler.linux.TaskH\x00\x88\x01\x01\x12\x10\n\x03\x63pu\x18\x02 \x01(\rH\x01\x88\x01\x01\x12\x16\n\temissions\x18\x03 \x01(\x01H\x02\x88\x01\x01\x42\x07\n\x05_taskB\x06\n\x04_cpuB\x0c\n\n_emissions\"\xa0\x01\n\x0c\x43puFrequency\x12\x10\n\x03\x63pu\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x15\n\x08governor\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x16\n\tfrequency\x18\x03 \x01(\rH\x02\x88\x01\x01\x12\x1a\n\rset_frequency\x18\x04 \x01(\rH\x03\x88\x01\x01\x42\x06\n\x04_cpuB\x0b\n\t_governorB\x0c\n\n_frequencyB\x10\n\x0e_set_frequency\"\x8a\x01\n\x16ThermalZoneTemperature\x12\x14\n\x07zone_id\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x16\n\tzone_type\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x18\n\x0btemperature\x18\x03 \x01(\rH\x02\x88\x01\x01\x42\n\n\x08_zone_idB\x0c\n\n_zone_typeB\x0e\n\x0c_temperature\"I\n\tAgingRate\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05\x61ging\x18\x02 \x01(\x01H\x01\x88\x01\x01\x42\t\n\x07_socketB\x08\n\x06_aging\"^\n\x16\x41mortizedEmissionsRate\x12\x13\n\x06socket\x18\x01 \x01(\rH\x00\x88\x01\x01\x12\x16\n\temissions\x18\x02 \x01(\x01H\x01\x88\x01\x01\x42\t\n\x07_socketB\x0c\n\n_emissionsB$\n\x13yuca.profiler.linuxB\x0bLinuxProtosP\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,20 +32,24 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'yuca.profiler.linux.linux_p
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\023yuca.profiler.linuxB\013LinuxProtosP\001'
-  _globals['_CPUFREQUENCY']._serialized_start=57
-  _globals['_CPUFREQUENCY']._serialized_end=217
-  _globals['_THERMALZONETEMPERATURE']._serialized_start=220
-  _globals['_THERMALZONETEMPERATURE']._serialized_end=358
-  _globals['_SOCKETPOWER']._serialized_start=361
-  _globals['_SOCKETPOWER']._serialized_end=498
-  _globals['_SOCKETEMISSIONSRATE']._serialized_start=500
-  _globals['_SOCKETEMISSIONSRATE']._serialized_end=591
-  _globals['_TASK']._serialized_start=593
-  _globals['_TASK']._serialized_end=701
-  _globals['_TASKACTIVITYRATE']._serialized_start=704
-  _globals['_TASKACTIVITYRATE']._serialized_end=839
-  _globals['_TASKPOWER']._serialized_start=841
-  _globals['_TASKPOWER']._serialized_end=963
-  _globals['_TASKEMISSIONSRATE']._serialized_start=966
-  _globals['_TASKEMISSIONSRATE']._serialized_end=1104
+  _globals['_SOCKETPOWER']._serialized_start=57
+  _globals['_SOCKETPOWER']._serialized_end=194
+  _globals['_SOCKETEMISSIONSRATE']._serialized_start=196
+  _globals['_SOCKETEMISSIONSRATE']._serialized_end=287
+  _globals['_TASK']._serialized_start=289
+  _globals['_TASK']._serialized_end=397
+  _globals['_TASKACTIVITYRATE']._serialized_start=400
+  _globals['_TASKACTIVITYRATE']._serialized_end=535
+  _globals['_TASKPOWER']._serialized_start=537
+  _globals['_TASKPOWER']._serialized_end=659
+  _globals['_TASKEMISSIONSRATE']._serialized_start=662
+  _globals['_TASKEMISSIONSRATE']._serialized_end=800
+  _globals['_CPUFREQUENCY']._serialized_start=803
+  _globals['_CPUFREQUENCY']._serialized_end=963
+  _globals['_THERMALZONETEMPERATURE']._serialized_start=966
+  _globals['_THERMALZONETEMPERATURE']._serialized_end=1104
+  _globals['_AGINGRATE']._serialized_start=1106
+  _globals['_AGINGRATE']._serialized_end=1179
+  _globals['_AMORTIZEDEMISSIONSRATE']._serialized_start=1181
+  _globals['_AMORTIZEDEMISSIONSRATE']._serialized_end=1275
 # @@protoc_insertion_point(module_scope)
