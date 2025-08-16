@@ -43,12 +43,8 @@ final class BenchmarkHelper {
     return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
   }
 
-  static String createTempOutputPath(String suite, String benchmark, int iteration) {
-    return String.format("%s/%s@%s@%d.pb", OUTPUT_PATH, suite, benchmark, iteration);
-  }
-
-  static void dumpProfile(YucaProfile profile, String outputPath) {
-    try (DataOutputStream out = new DataOutputStream(new FileOutputStream(outputPath))) {
+  static void dumpProfile(YucaProfile profile) {
+    try (DataOutputStream out = new DataOutputStream(new FileOutputStream(OUTPUT_PATH))) {
       profile.writeTo(out);
     } catch (Exception e) {
     }

@@ -1,11 +1,12 @@
 package yuca.benchmarks;
 
 import static yuca.benchmarks.BenchmarkHelper.createProfiler;
-import static yuca.benchmarks.BenchmarkHelper.createTempOutputPath;
 import static yuca.benchmarks.BenchmarkHelper.dumpProfile;
 
 import org.renaissance.Plugin;
 import yuca.profiler.Profiler;
+import yuca.profiler.YucaProfile;
+import yuca.profiler.YucaSession.YucaSessionMetadata;
 
 public final class YucaRenaissancePlugin
     implements Plugin.AfterOperationSetUpListener, Plugin.BeforeOperationTearDownListener {
@@ -20,6 +21,17 @@ public final class YucaRenaissancePlugin
   @Override
   public void beforeOperationTearDown(String benchmark, int opIndex, long durationNanos) {
     profiler.stop();
-    dumpProfile(profiler.getProfile(), createTempOutputPath("renaissance", benchmark, opIndex));
+    YucaProfile.Builder profile = profiler.getProfile().toBuilder();
+    profiler = null;
+    profile
+        .getSessionBuilder()
+        .addMetadata(YucaSessionMetadata.newBuilder().setKey("case").setValue(""))
+        .addMetadata(YucaSessionMetadata.newBuilder().setKey("suite").setValue("renaissance"))
+        .addMetadata(YucaSessionMetadata.newBuilder().setKey("benchmark").setValue(benchmark))
+        .addMetadata(
+            YucaSessionMetadata.newBuilder()
+                .setKey("iteration")
+                .setValue(Integer.toString(opIndex)));
+    dumpProfile(profile.build());
   }
 }

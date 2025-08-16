@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.emissions.CarbonLocale;
+import yuca.profiler.linux.AgingRateSignal;
+import yuca.profiler.linux.AmortizedEmissionsRateSignal;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
 import yuca.profiler.linux.TaskEmissionsRateSignal;
 import yuca.profiler.linux.TaskPowerSignal;
@@ -17,15 +19,25 @@ import yuca.profiler.linux.jiffies.TaskJiffiesRateSignal;
 import yuca.profiler.linux.jiffies.TaskJiffiesSignal;
 import yuca.profiler.linux.powercap.PowercapPowerSignal;
 import yuca.profiler.linux.powercap.PowercapSignal;
+import yuca.profiler.linux.thermal.ThermalZonesSignal;
 
 public final class YucaProfiler implements Profiler {
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
+  private static final double EMBODIED_CARBON = getCpuEmbodiedCarbon();
 
   private static final CarbonLocale getDefaultLocale() {
     try {
       return CarbonLocale.valueOf(System.getProperty("yuca.profiler.emissions.locale", "USA"));
     } catch (Exception e) {
       return CarbonLocale.GLOBAL;
+    }
+  }
+
+  private static final double getCpuEmbodiedCarbon() {
+    try {
+      return Double.parseDouble(System.getProperty("yuca.profiler.emissions.embodied", "1.0"));
+    } catch (Exception e) {
+      return 1.0;
     }
   }
 
@@ -36,6 +48,7 @@ public final class YucaProfiler implements Profiler {
   public final SocketEmissionsRateSignal socketEmissions;
   public final TaskEmissionsRateSignal taskEmissions;
   public final CpuFrequencySignal freqs;
+  public final ThermalZonesSignal temperature;
 
   private boolean isRunning = false;
 
@@ -66,6 +79,13 @@ public final class YucaProfiler implements Profiler {
     taskEmissions =
         taskPower.map(me -> new TaskEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
+    temperature = clock.map(() -> new ThermalZonesSignal(workExecutor));
+    // TODO: add the amortized carbon
+    freqs
+        .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
+        .map(
+            (me, other) ->
+                new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
   }
 
   @Override
