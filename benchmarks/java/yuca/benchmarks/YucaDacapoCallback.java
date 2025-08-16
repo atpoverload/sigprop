@@ -1,7 +1,7 @@
 package yuca.benchmarks;
 
 import static yuca.benchmarks.BenchmarkHelper.createProfiler;
-import static yuca.benchmarks.BenchmarkHelper.dumpProfile;
+import static yuca.benchmarks.BenchmarkHelper.writeProfile;
 
 import org.dacapo.harness.Callback;
 import org.dacapo.harness.CommandLineArgs;
@@ -38,7 +38,7 @@ public class YucaDacapoCallback extends Callback {
             YucaSessionMetadata.newBuilder()
                 .setKey("iteration")
                 .setValue(Integer.toString(iteration)));
-    dumpProfile(profile.build(), String.format("%s-%d", benchmark, iteration));
+    writeProfile(profile.build(), String.format("%s-%d", benchmark, iteration));
     iteration++;
   }
 }

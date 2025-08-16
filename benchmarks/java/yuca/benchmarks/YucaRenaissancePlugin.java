@@ -1,7 +1,7 @@
 package yuca.benchmarks;
 
 import static yuca.benchmarks.BenchmarkHelper.createProfiler;
-import static yuca.benchmarks.BenchmarkHelper.dumpProfile;
+import static yuca.benchmarks.BenchmarkHelper.writeProfile;
 
 import org.renaissance.Plugin;
 import yuca.profiler.Profiler;
@@ -31,6 +31,6 @@ public final class YucaRenaissancePlugin
             YucaSessionMetadata.newBuilder()
                 .setKey("iteration")
                 .setValue(Integer.toString(opIndex)));
-    dumpProfile(profile.build(), String.format("%s-%d", benchmark, opIndex));
+    writeProfile(profile.build(), String.format("%s-%d", benchmark, opIndex));
   }
 }

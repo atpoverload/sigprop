@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import yuca.profiler.E2EOperationalCarbonProfiler;
 import yuca.profiler.Profiler;
@@ -46,14 +47,20 @@ final class BenchmarkHelper {
     return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
   }
 
-  static void dumpProfile(YucaProfile profile, String fileName) {
+  static void writeProfile(YucaProfile profile, String fileName) {
     String fullFileName = String.format("%s-%s.pb", fileName, UUID.randomUUID());
+    logger.info(String.format("writing %s to %s", fullFileName, OUTPUT_DIRECTORY));
     try (DataOutputStream out =
         new DataOutputStream(
             new FileOutputStream(Path.of(OUTPUT_DIRECTORY, fullFileName).toString()))) {
       profile.writeTo(out);
     } catch (Exception e) {
+      logger.log(
+          Level.SEVERE,
+          String.format("couldn't write %s to %s", fullFileName, OUTPUT_DIRECTORY),
+          e);
     }
+    logger.info(String.format("wrote %s to %s", fullFileName, OUTPUT_DIRECTORY));
   }
 
   private BenchmarkHelper() {}
