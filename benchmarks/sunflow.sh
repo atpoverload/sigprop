@@ -7,8 +7,6 @@ mkdir -p "${DATA_DIR}"
 ITERATIONS=25
 LOCALE=USA
 
-PERIOD=100
-
 run_benchmark() {
     java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
         -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
@@ -19,13 +17,12 @@ run_benchmark() {
         ${BENCHMARK} 
 }
 
-# default size dacapo benchmarks
-BENCHMARKS=(
-    sunflow
-)
-
+PERIOD=0
+BENCHMARK=sunflow
 SIZE=default
+run_benchmar
 
-for BENCHMARK in ${BENCHMARKS[@]}; do
-    run_benchmark
-done
+PERIOD=100
+BENCHMARK=sunflow
+SIZE=default
+run_benchmark
