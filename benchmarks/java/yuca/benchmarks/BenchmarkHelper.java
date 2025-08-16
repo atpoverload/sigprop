@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,8 +20,48 @@ import yuca.profiler.YucaProfiler;
 
 final class BenchmarkHelper {
   private static final Logger logger = getLogger();
+
+  private enum ProfilerKind {
+    YUCA,
+    END2END;
+
+    private Profiler createProfiler() {
+      switch (this) {
+        case YUCA:
+          logger.info("Creating E2E profiler");
+          return new E2EOperationalCarbonProfiler(SAMPLING_EXECUTOR);
+        case END2END:
+          logger.info(String.format("Creating profiler at %dms", PERIOD));
+          return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
+        default:
+          throw new IllegalStateException("how did we get here?");
+      }
+    }
+
+    private static ProfilerKind getProfilerKind() {
+      String kindValue = System.getProperty("yuca.benchmarks.profiler", "yuca");
+      logger.info(String.format("checking for profiler %s", kindValue));
+      try {
+        ProfilerKind kind = ProfilerKind.valueOf(kindValue.toUpperCase(Locale.getDefault()));
+        logger.info(String.format("using %s profiler", kind));
+        return kind;
+      } catch (IllegalArgumentException e) {
+        logger.info(String.format("no profiler founds for %s", kindValue));
+        logger.info(String.format("options are %s", Arrays.toString(ProfilerKind.values())));
+        logger.info(String.format("falling back to period check"));
+        if (PERIOD < 1) {
+          logger.info(String.format("using %s profiler", ProfilerKind.END2END));
+          return ProfilerKind.END2END;
+        }
+        logger.info(String.format("using %s profiler", ProfilerKind.YUCA));
+        return ProfilerKind.YUCA;
+      }
+    }
+  }
+
   private static final int PERIOD =
       Integer.parseInt(System.getProperty("yuca.benchmarks.period", "100"));
+  private static final ProfilerKind PROFILER_KIND = ProfilerKind.getProfilerKind();
   private static final String OUTPUT_DIRECTORY =
       System.getProperty("yuca.benchmarks.output", "/tmp");
 
@@ -39,16 +81,11 @@ final class BenchmarkHelper {
           });
 
   static Profiler createProfiler() {
-    if (PERIOD < 1) {
-      logger.info("Creating E2E profiler");
-      return new E2EOperationalCarbonProfiler(SAMPLING_EXECUTOR);
-    }
-    logger.info(String.format("Creating profiler at %dms", PERIOD));
-    return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
+    return PROFILER_KIND.createProfiler();
   }
 
   static void writeProfile(YucaProfile profile, String fileName) {
-    String fullFileName = String.format("%s-%s.pb", fileName, UUID.randomUUID());
+    String fullFileName = String.format("%s_%s.pb", fileName, UUID.randomUUID());
     logger.info(String.format("writing %s to %s", fullFileName, OUTPUT_DIRECTORY));
     try (DataOutputStream out =
         new DataOutputStream(
