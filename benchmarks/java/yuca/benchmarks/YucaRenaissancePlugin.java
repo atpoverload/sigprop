@@ -32,6 +32,6 @@ public final class YucaRenaissancePlugin
             YucaSessionMetadata.newBuilder()
                 .setKey("iteration")
                 .setValue(Integer.toString(opIndex)));
-    dumpProfile(profile.build());
+    dumpProfile(profile.build(), String.format("%s-%d", benchmark, opIndex));
   }
 }

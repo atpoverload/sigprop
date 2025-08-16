@@ -39,7 +39,7 @@ public class YucaDacapoCallback extends Callback {
             YucaSessionMetadata.newBuilder()
                 .setKey("iteration")
                 .setValue(Integer.toString(iteration)));
-    dumpProfile(profile.build());
+    dumpProfile(profile.build(), String.format("%s-%d", benchmark, iteration));
     iteration++;
   }
 }

@@ -4,6 +4,7 @@ import static charcoal.util.LoggerUtil.getLogger;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,7 +18,8 @@ final class BenchmarkHelper {
   private static final Logger logger = getLogger();
   private static final int PERIOD =
       Integer.parseInt(System.getProperty("yuca.benchmarks.period", "100"));
-  private static final String OUTPUT_PATH = System.getProperty("yuca.benchmarks.output", "/tmp");
+  private static final String OUTPUT_DIRECTORY =
+      System.getProperty("yuca.benchmarks.output", "/tmp");
 
   private static final ScheduledExecutorService SAMPLING_EXECUTOR =
       Executors.newSingleThreadScheduledExecutor(
@@ -43,8 +45,11 @@ final class BenchmarkHelper {
     return new YucaProfiler(Duration.ofMillis(PERIOD), SAMPLING_EXECUTOR, WORK_EXECUTOR);
   }
 
-  static void dumpProfile(YucaProfile profile) {
-    try (DataOutputStream out = new DataOutputStream(new FileOutputStream(OUTPUT_PATH))) {
+  static void dumpProfile(YucaProfile profile, String fileName) {
+    try (DataOutputStream out =
+        new DataOutputStream(
+            new FileOutputStream(
+                Path.of(OUTPUT_DIRECTORY, String.format("%s.pb", fileName)).toString()))) {
       profile.writeTo(out);
     } catch (Exception e) {
     }
