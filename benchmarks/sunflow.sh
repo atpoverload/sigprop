@@ -20,7 +20,7 @@ run_benchmark() {
 PERIOD=0
 BENCHMARK=sunflow
 SIZE=default
-run_benchmar
+run_benchmark
 
 PERIOD=100
 BENCHMARK=sunflow
