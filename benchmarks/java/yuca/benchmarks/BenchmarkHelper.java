@@ -49,7 +49,7 @@ final class BenchmarkHelper {
         logger.info(String.format("no profiler founds for %s", kindValue));
         logger.info(String.format("options are %s", Arrays.toString(ProfilerKind.values())));
         logger.info(String.format("falling back to period check"));
-        if (PERIOD < 1) {
+        if (PERIOD_MS < 1) {
           logger.info(String.format("using %s profiler", ProfilerKind.END2END));
           return ProfilerKind.END2END;
         }
@@ -59,8 +59,7 @@ final class BenchmarkHelper {
     }
   }
 
-  private static final int PERIOD =
-      Integer.parseInt(System.getProperty("yuca.benchmarks.period", "100"));
+  private static final int PERIOD_MS = getPeriodMillis();
   private static final ProfilerKind PROFILER_KIND = ProfilerKind.getProfilerKind();
   private static final String OUTPUT_DIRECTORY =
       System.getProperty("yuca.benchmarks.output", "/tmp");
@@ -98,6 +97,18 @@ final class BenchmarkHelper {
           e);
     }
     logger.info(String.format("wrote %s to %s", fullFileName, OUTPUT_DIRECTORY));
+  }
+
+  private static int getPeriodMillis() {
+    logger.info("checking for period in ms");
+    String periodValue = System.getProperty("yuca.benchmarks.period", "100");
+    try {
+      int period = Integer.parseInt(periodValue);
+    } catch (Exception e) {
+      logger.info(String.format("got bad period %s", periodValue));
+      logger.info("falling back to default 100ms");
+      return 100;
+    }
   }
 
   private BenchmarkHelper() {}
