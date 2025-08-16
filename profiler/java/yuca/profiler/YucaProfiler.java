@@ -49,6 +49,7 @@ public final class YucaProfiler implements Profiler {
   public final TaskEmissionsRateSignal taskEmissions;
   public final CpuFrequencySignal freqs;
   public final ThermalZonesSignal temperature;
+  public final AmortizedEmissionsRateSignal amortizedEmissions;
 
   private boolean isRunning = false;
 
@@ -81,11 +82,12 @@ public final class YucaProfiler implements Profiler {
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
     temperature = clock.map(() -> new ThermalZonesSignal(workExecutor));
     // TODO: add the amortized carbon
-    freqs
-        .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
-        .map(
-            (me, other) ->
-                new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
+    amortizedEmissions =
+        freqs
+            .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
+            .map(
+                (me, other) ->
+                    new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
   }
 
   @Override
@@ -118,6 +120,10 @@ public final class YucaProfiler implements Profiler {
           YucaProfile.CpusFrequencies.newBuilder()
               .setTimestamp(timestamp)
               .addAllFrequency(this.freqs.sample(tick).values()));
+      profile.addTemperature(
+          YucaProfile.ThermalZonesTemperatures.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllTemperature(this.temperature.sample(tick).values()));
       profile.addSocketPower(
           YucaProfile.SocketsPowers.newBuilder()
               .setTimestamp(timestamp)
@@ -138,6 +144,10 @@ public final class YucaProfiler implements Profiler {
           YucaProfile.TasksEmissionsRates.newBuilder()
               .setTimestamp(timestamp)
               .addAllEmissions(this.taskEmissions.sample(tick).values()));
+      profile.addAmortizedEmissions(
+          YucaProfile.AmortizedEmissionsRates.newBuilder()
+              .setTimestamp(timestamp)
+              .addAllEmissions(this.amortizedEmissions.sample(tick).values()));
     }
     return profile.build();
   }
