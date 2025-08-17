@@ -119,7 +119,7 @@ public final class YucaProfiler implements Profiler {
     profile
         .getSessionBuilder()
         .getPeriodBuilder()
-        .setSecs(period.toNanosPart())
+        .setSecs(period.toSecondsPart())
         .setNanos(period.toNanosPart());
     for (Instant tick : this.clock.ticks()) {
       Timestamp timestamp =
