@@ -18,7 +18,7 @@ public final class AgingRateSignal
   private static final double epsilon = B * V_dd / t_ox - E_0; // Aging parameter
 
   private static final double computeAging(int temperature) {
-    return Math.exp(epsilon * temperature / k_b);
+    return Math.exp(epsilon * (temperature + 273.15) / k_b);
   }
 
   public AgingRateSignal(
@@ -29,6 +29,7 @@ public final class AgingRateSignal
   @Override
   protected Map<Integer, AgingRate> compute(
       Instant timestamp, Map<Integer, ThermalZoneTemperature> sockets) {
+    System.out.println(sockets);
     return sockets.entrySet().stream()
         .collect(
             toMap(
