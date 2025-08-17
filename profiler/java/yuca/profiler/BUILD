@@ -11,6 +11,7 @@ java_library(
         "//profiler/java/yuca/profiler/linux/thermal",
         "//profiler/proto/yuca/profiler:profiler_java_protos",
         "//src/java/charcoal/prop",
+        "//src/java/charcoal/prop/util",
         "//src/java/charcoal/util",
     ]
 )
