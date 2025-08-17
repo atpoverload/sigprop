@@ -147,14 +147,16 @@ def main():
         metrics = METRICS
 
     print(args.files)
-    with tqdm(args.files) as pbar:
+    with tqdm(len(args.files)) as pbar:
         records = []
-        for f in args.files:
+        for i, f in enumerate(args.files):
             print(f)
             profile = YucaProfile()
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
             records.extend(process(profile, metrics, pbar))
+            pbar.update(i)
+            print(records)
 
     records = pd.DataFrame.from_dict(records)
     records.to_csv('iteration_metrics.csv')
