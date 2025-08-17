@@ -31,7 +31,8 @@ public final class AmortizedEmissionsRateSignal
       int socket = SOCKETS_MAP[freq.getCpu()];
       emissions.putIfAbsent(socket, 0.0);
       emissions.put(
-          socket, emissions.get(socket) + freq.getObservedFrequency * aging.get(socket).getAging());
+          socket,
+          emissions.get(socket) + freq.getObservedFrequency() * aging.get(socket).getAging());
     }
     HashMap<Integer, AmortizedEmissionsRate> amortized = new HashMap<>();
     for (int socket : emissions.keySet()) {
