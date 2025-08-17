@@ -51,12 +51,15 @@ public final class YucaProfiler implements Profiler {
   public final ThermalZonesSignal temperature;
   public final AmortizedEmissionsRateSignal amortizedEmissions;
 
+  private final Duration period;
+
   private boolean isRunning = false;
 
   public YucaProfiler(
       Duration period,
       ScheduledExecutorService clockExecutor,
       ScheduledExecutorService workExecutor) {
+    this.period = period;
     clock = new ClockSignal(Timestamps::now, () -> period, clockExecutor, workExecutor);
     activity =
         clock
@@ -113,6 +116,11 @@ public final class YucaProfiler implements Profiler {
   @Override
   public YucaProfile getProfile() {
     YucaProfile.Builder profile = YucaProfile.newBuilder();
+    profile
+        .getSessionBuilder()
+        .getPeriodBuilder()
+        .setSecs(period.toNanosPart())
+        .setNanos(period.toNanosPart());
     for (Instant tick : this.clock.ticks()) {
       Timestamp timestamp =
           Timestamp.newBuilder().setSecs(tick.getEpochSecond()).setNanos(tick.getNano()).build();
