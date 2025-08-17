@@ -2,6 +2,7 @@
 
 DATA_DIR=test
 DATA_DIR="/tmp/${DATA_DIR}"
+rm -r "${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
 ITERATIONS=25
