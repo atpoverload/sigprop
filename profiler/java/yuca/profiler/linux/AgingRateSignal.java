@@ -19,9 +19,8 @@ public final class AgingRateSignal
 
   private static final double computeAging(int temperature) {
     System.out.println(epsilon);
-    System.out.println(k_b);
-    System.out.println(epsilon * (temperature + 273.15) / k_b);
-    return Math.exp(epsilon * (temperature + 273.15) / k_b);
+    System.out.println(epsilon / k_b / (temperature + 273.15));
+    return Math.exp(epsilon / k_b / (temperature + 273.15));
   }
 
   public AgingRateSignal(
