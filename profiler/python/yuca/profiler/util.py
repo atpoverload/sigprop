@@ -84,7 +84,8 @@ def process(profile, metrics, pbar=None):
     records = []
     period = None
     if profile.session.HasField('period'):
-        period = 1000 * profile.session.period.secs + profile.session.period.nanos // 1000000
+        period = 1000 * profile.session.period.secs + \
+            profile.session.period.nanos // 1000000
         if period < 1:
             period = profile.session.period.nanos // 1000
             if period < 1:
@@ -97,9 +98,9 @@ def process(profile, metrics, pbar=None):
                 period = f'{period}us'
         else:
             period = f'{period}ms'
-    metadata = dict(profile.session.metadata)
+    metadata = dict((m.key, m.value) for m in profile.session.metadata)
     metadata['period'] = period
-    if pbar != None:
+    if pbar is not None:
         pbar.set_description(
             f'period: {period}', list(map(lambda m: f'{m[0]}: {m[1]}', metadata.items())))
     for metric in metrics:
