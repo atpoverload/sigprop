@@ -94,7 +94,7 @@ public final class YucaProfiler implements Profiler {
                     new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
     // temperature.map(LoggerSink::withCharcoalLogger);
     // freqs.map(LoggerSink::withCharcoalLogger);
-    // amortizedEmissions.map(LoggerSink::withCharcoalLogger);
+    amortizedEmissions.map(LoggerSink::withCharcoalLogger);
   }
 
   @Override
