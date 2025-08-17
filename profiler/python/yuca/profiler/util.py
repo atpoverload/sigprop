@@ -145,11 +145,11 @@ def main():
                 profile.ParseFromString(f.read())
             records.extend(process(profile, signals, pbar))
             pbar.update(i)
-            print(records)
         pbar.close()
 
     records = pd.DataFrame.from_dict(records)
     records.to_csv('signals.csv')
+    print(records)
 
 
 if __name__ == '__main__':
