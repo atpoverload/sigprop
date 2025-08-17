@@ -157,6 +157,7 @@ def main():
             records.extend(process(profile, metrics, pbar))
             pbar.update(i)
             print(records)
+        pbar.close()
 
     records = pd.DataFrame.from_dict(records)
     records.to_csv('iteration_metrics.csv')
