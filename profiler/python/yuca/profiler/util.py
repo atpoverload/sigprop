@@ -72,7 +72,7 @@ def amortized_emissions(profile):
     return carbon
 
 
-METRICS = [
+SIGNALS = [
     runtime,
     socket_emissions,
     task_emissions,
@@ -80,7 +80,7 @@ METRICS = [
 ]
 
 
-def process(profile, metrics, pbar=None):
+def process(profile, signals, pbar=None):
     records = []
     period = None
     if profile.session.HasField('period'):
@@ -103,11 +103,9 @@ def process(profile, metrics, pbar=None):
     if pbar is not None:
         pbar.set_description(
             f'period: {period}', list(map(lambda m: f'{m[0]}: {m[1]}', metadata.items())))
-    for metric in metrics:
-        print(metric)
-        metadata['metric'] = metric.__name__
-        metadata['value'] = metric(profile)
-        print(metadata)
+    for signal in signals:
+        metadata['signal'] = signal.__name__
+        metadata['value'] = signal(profile)
         records.append(deepcopy(metadata))
     return records
 
@@ -121,6 +119,13 @@ def parse_args():
         dest='files',
     )
     arg_parser.add_argument(
+        '-s'
+        '--signals',
+        default=[],
+        help=f'the signals to compute; options are {SIGNALS}',
+        dest='signals',
+    )
+    arg_parser.add_argument(
         '--aggregate',
         default=True,
         action='store_false',
@@ -131,7 +136,7 @@ def parse_args():
         '-m'
         '--metrics',
         default=[],
-        help=f'the metrics to compute; options are {METRICS}',
+        help=f'the metrics to ; options are {METRICS}',
         dest='metrics',
     )
 
@@ -141,32 +146,25 @@ def parse_args():
 def main():
     args = parse_args()
 
-    if len(args.metrics) > 0:
-        metrics = [exec(m) for m in args.metrics]
+    if len(args.signals) > 0:
+        signals = [exec(m) for m in args.signals]
     else:
-        metrics = METRICS
+        signals = SIGNALS
 
     print(args.files)
     with tqdm(len(args.files)) as pbar:
         records = []
         for i, f in enumerate(args.files):
-            print(f)
             profile = YucaProfile()
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
-            records.extend(process(profile, metrics, pbar))
+            records.extend(process(profile, signals, pbar))
             pbar.update(i)
             print(records)
         pbar.close()
 
     records = pd.DataFrame.from_dict(records)
-    records.to_csv('iteration_metrics.csv')
-
-    columns = [c for c in records.columns if c != 'value']
-    metrics = records.groupby(columns).value.agg(('mean', 'std'))
-    metrics.to_csv('aggregated_metrics.csv')
-
-    print(metrics)
+    records.to_csv('signals.csv')
 
 
 if __name__ == '__main__':
