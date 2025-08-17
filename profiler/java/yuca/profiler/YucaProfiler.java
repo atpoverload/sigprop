@@ -1,7 +1,6 @@
 package yuca.profiler;
 
 import charcoal.prop.ClockSignal;
-import charcoal.prop.util.LoggerSink;
 import charcoal.util.Timestamps;
 import java.time.Duration;
 import java.time.Instant;
@@ -85,17 +84,12 @@ public final class YucaProfiler implements Profiler {
         taskPower.map(me -> new TaskEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
     temperature = clock.map(() -> new ThermalZonesSignal(workExecutor));
-    AgingRateSignal aging = temperature.map(me -> new AgingRateSignal(me, workExecutor));
     amortizedEmissions =
         freqs
-            .compose(aging)
+            .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
             .map(
                 (me, other) ->
                     new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
-    // temperature.map(LoggerSink::withCharcoalLogger);
-    // freqs.map(LoggerSink::withCharcoalLogger);
-    aging.map(LoggerSink::withCharcoalLogger);
-    amortizedEmissions.map(LoggerSink::withCharcoalLogger);
   }
 
   @Override

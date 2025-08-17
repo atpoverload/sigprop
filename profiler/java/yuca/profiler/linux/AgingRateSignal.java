@@ -18,8 +18,6 @@ public final class AgingRateSignal
   private static final double epsilon = B * V_dd / t_ox - E_0; // Aging parameter
 
   private static final double computeAging(int temperature) {
-    System.out.println(epsilon);
-    System.out.println(epsilon / k_b / (temperature + 273.15));
     return Math.exp(epsilon / k_b / (temperature + 273.15));
   }
 
