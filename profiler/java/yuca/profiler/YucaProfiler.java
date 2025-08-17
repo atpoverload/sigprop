@@ -85,15 +85,16 @@ public final class YucaProfiler implements Profiler {
         taskPower.map(me -> new TaskEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
     freqs = clock.map(() -> new CpuFrequencySignal(workExecutor));
     temperature = clock.map(() -> new ThermalZonesSignal(workExecutor));
-    // TODO: add the amortized carbon
+    AgingRateSignal aging = temperature.map(me -> new AgingRateSignal(me, workExecutor));
     amortizedEmissions =
         freqs
-            .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
+            .compose(aging)
             .map(
                 (me, other) ->
                     new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
     // temperature.map(LoggerSink::withCharcoalLogger);
     // freqs.map(LoggerSink::withCharcoalLogger);
+    aging.map(LoggerSink::withCharcoalLogger);
     amortizedEmissions.map(LoggerSink::withCharcoalLogger);
   }
 
