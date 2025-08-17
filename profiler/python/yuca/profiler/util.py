@@ -144,9 +144,11 @@ def main():
     else:
         metrics = METRICS
 
+    print(args.files)
     with tqdm(args.files) as pbar:
         records = []
         for f in args.files:
+            print(f)
             profile = YucaProfile()
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
