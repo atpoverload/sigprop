@@ -98,6 +98,7 @@ def process(profile, metrics, pbar=None):
                 period = f'{period}us'
         else:
             period = f'{period}ms'
+    print(profile.session.metadata)
     metadata = dict((m.key, m.value) for m in profile.session.metadata)
     metadata['period'] = period
     if pbar is not None:
