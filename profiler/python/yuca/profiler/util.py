@@ -100,13 +100,14 @@ def process(profile, metrics, pbar=None):
             period = f'{period}ms'
     metadata = dict((m.key, m.value) for m in profile.session.metadata)
     metadata['period'] = period
-    print(metadata)
     if pbar is not None:
         pbar.set_description(
             f'period: {period}', list(map(lambda m: f'{m[0]}: {m[1]}', metadata.items())))
     for metric in metrics:
+        print(metric)
         metadata['metric'] = metric.__name__
         metadata['value'] = metric(profile)
+        print(metadata)
         records.append(deepcopy(metadata))
     return records
 
