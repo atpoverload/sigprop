@@ -125,21 +125,6 @@ def parse_args():
         help=f'the signals to compute; options are {SIGNALS}',
         dest='signals',
     )
-    arg_parser.add_argument(
-        '--aggregate',
-        default=True,
-        action='store_false',
-        help='whether to reduce the protobuf files to metrics',
-        dest='aggregate',
-    )
-    arg_parser.add_argument(
-        '-m'
-        '--metrics',
-        default=[],
-        help=f'the metrics to ; options are {METRICS}',
-        dest='metrics',
-    )
-
     return arg_parser.parse_args()
 
 
