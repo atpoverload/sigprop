@@ -12,7 +12,6 @@ public final class CpuFrequencySignal extends GeneratingSignal<Map<Integer, CpuF
 
   @Override
   protected Map<Integer, CpuFrequency> compute() {
-    System.out.println(CpuFreq.sampleCpuFrequencies());
     return CpuFreq.sampleCpuFrequencies();
   }
 }
