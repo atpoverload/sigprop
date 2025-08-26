@@ -4,6 +4,7 @@ import charcoal.prop.ClockSignal;
 import charcoal.util.Timestamps;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
 import yuca.profiler.emissions.CarbonLocale;
 import yuca.profiler.linux.AgingRateSignal;
@@ -46,6 +47,7 @@ public final class YucaProfiler implements Profiler {
 
   private static int getNormalFrequency() {
     int[] freqs = CpuFreq.getSetFrequencies();
+    System.out.println(Arrays.toString(freqs));
     return freqs[(int) Math.floor(freqs.length / 2)];
   }
 
