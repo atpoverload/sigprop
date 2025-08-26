@@ -29,9 +29,6 @@ public final class CpuFreq {
 
   /** Returns the observed frequency in Hz of a cpu. */
   public static long getObservedFrequency(int cpu) {
-    var count =  readCounter(cpu, "scaling_cur_freq");
-    System.out.println(count);
-    System.out.println(1000 * count);
     return 1000 * readCounter(cpu, "scaling_cur_freq");
   }
 
@@ -43,7 +40,6 @@ public final class CpuFreq {
   public static Map<Integer, CpuFrequency> sampleCpuFrequencies() {
     HashMap<Integer, CpuFrequency> frequencies = new HashMap<>();
     for (int cpu = 0; cpu < CPU_COUNT; cpu++) {
-      // System.out.println(getObservedFrequency(cpu));
       frequencies.put(
           cpu,
           CpuFrequency.newBuilder()
@@ -52,8 +48,6 @@ public final class CpuFreq {
               .setFrequency(getObservedFrequency(cpu))
               .setSetFrequency(getFrequency(cpu))
               .build());
-      // System.out.println(frequencies.get(cpu));
-      // System.out.println(frequencies.get(cpu).getFrequency());
     }
     return frequencies;
   }
