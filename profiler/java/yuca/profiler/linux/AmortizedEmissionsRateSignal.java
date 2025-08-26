@@ -13,7 +13,7 @@ public final class AmortizedEmissionsRateSignal
   private static final int[] SOCKETS_MAP = CpuInfo.getCpuSocketMapping();
 
   private final double embodiedCarbon;
-  private final int normalFrequency;
+  private final long normalFrequency;
 
   public AmortizedEmissionsRateSignal(
       double embodiedCarbon,
