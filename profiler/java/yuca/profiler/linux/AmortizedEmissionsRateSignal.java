@@ -29,7 +29,7 @@ public final class AmortizedEmissionsRateSignal
   @Override
   protected Map<Integer, AmortizedEmissionsRate> compute(
       Instant timestamp, Map<Integer, CpuFrequency> cpuFreqs, Map<Integer, AgingRate> aging) {
-    System.out.println(cpuFreqs);
+    // System.out.println(cpuFreqs);
     HashMap<Integer, Double> emissions = new HashMap<>();
     for (CpuFrequency freq : cpuFreqs.values()) {
       // System.out.println("????");
