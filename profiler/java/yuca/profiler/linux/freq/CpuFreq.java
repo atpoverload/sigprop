@@ -29,7 +29,9 @@ public final class CpuFreq {
 
   /** Returns the observed frequency in Hz of a cpu. */
   public static long getObservedFrequency(int cpu) {
-    System.out.println(1000 * readCounter(cpu, "scaling_cur_freq"));
+    var count =  readCounter(cpu, "scaling_cur_freq");
+    System.out.println(count);
+    System.out.println(1000 * count);
     return 1000 * readCounter(cpu, "scaling_cur_freq");
   }
 
@@ -64,6 +66,7 @@ public final class CpuFreq {
 
   private static int readCounter(int cpu, String component) {
     String counter = readFromComponent(cpu, component).strip();
+    System.err.println(String.format("%s: %s", component, counter));
     if (counter.isBlank()) {
       return 0;
     }
