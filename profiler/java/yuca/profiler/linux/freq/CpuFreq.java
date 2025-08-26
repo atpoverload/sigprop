@@ -48,6 +48,8 @@ public final class CpuFreq {
               .setFrequency(getObservedFrequency(cpu))
               .setSetFrequency(getFrequency(cpu))
               .build());
+      System.out.println(frequencies.get(cpu));
+      System.out.println(frequencies.get(cpu).getFrequency());
     }
     return frequencies;
   }
