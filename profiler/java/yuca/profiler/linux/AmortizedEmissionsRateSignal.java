@@ -30,6 +30,8 @@ public final class AmortizedEmissionsRateSignal
   protected Map<Integer, AmortizedEmissionsRate> compute(
       Instant timestamp, Map<Integer, CpuFrequency> cpuFreqs, Map<Integer, AgingRate> aging) {
     HashMap<Integer, Double> emissions = new HashMap<>();
+    System.out.println(cpuFreqs);
+    System.out.println(aging);
     for (CpuFrequency freq : cpuFreqs.values()) {
       int socket = SOCKETS_MAP[freq.getCpu()];
       double emission = embodiedCarbon * freq.getFrequency() * aging.get(socket).getAging() / normalFrequency;
