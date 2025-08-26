@@ -27,7 +27,7 @@ public final class YucaProfiler implements Profiler {
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
   private static final double EMBODIED_CARBON = getCpuEmbodiedCarbon();
-  private static final int NORMAL_FREQUENCY = getNormalFrequency();
+  private static final long NORMAL_FREQUENCY = getNormalFrequency();
 
   private static CarbonLocale getDefaultLocale() {
     try {

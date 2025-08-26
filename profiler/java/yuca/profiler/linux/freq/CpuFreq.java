@@ -23,13 +23,13 @@ public final class CpuFreq {
   private static final Path SYS_CPU = Paths.get("/sys", "devices", "system", "cpu");
 
   /** Returns the expected frequency in Hz of a cpu. */
-  public static int getFrequency(int cpu) {
+  public static long getFrequency(int cpu) {
     return 1000 * readCounter(cpu, "cpuinfo_cur_freq");
   }
 
   /** Returns the observed frequency in Hz of a cpu. */
-  public static int getObservedFrequency(int cpu) {
-    return readCounter(cpu, "scaling_cur_freq");
+  public static long getObservedFrequency(int cpu) {
+    return 1000 * readCounter(cpu, "scaling_cur_freq");
   }
 
   /** Returns the current governor of a cpu. */
@@ -53,9 +53,9 @@ public final class CpuFreq {
   }
 
   /** Returns the expected frequency in Hz of a cpu. */
-  public static int[] getSetFrequencies() {
+  public static long[] getSetFrequencies() {
     String[] frequencies = readFromComponent(0, "scaling_available_frequencies").trim().split(" ");
-    return Arrays.stream(frequencies).filter(s -> !s.isBlank()).mapToInt(freq -> 1000 * Integer.parseInt(freq)).sorted().toArray();
+    return Arrays.stream(frequencies).filter(s -> !s.isBlank()).mapToLong(freq -> 1000 * Integer.parseInt(freq)).sorted().toArray();
   }
 
   private static int readCounter(int cpu, String component) {
