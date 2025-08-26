@@ -18,10 +18,10 @@ run_benchmark() {
         ${BENCHMARK} 
 }
 
-# PROFILER=end2end
-# BENCHMARK=sunflow
-# SIZE=default
-# run_benchmark
+PROFILER=end2end
+BENCHMARK=sunflow
+SIZE=default
+run_benchmark
 
 PROFILER=yuca
 PERIOD=100
