@@ -29,7 +29,7 @@ public final class CpuFreq {
 
   /** Returns the observed frequency in Hz of a cpu. */
   public static long getObservedFrequency(int cpu) {
-    System.out.println(readCounter(cpu, "scaling_cur_freq"));
+    System.out.println(1000 * readCounter(cpu, "scaling_cur_freq"));
     return 1000 * readCounter(cpu, "scaling_cur_freq");
   }
 
