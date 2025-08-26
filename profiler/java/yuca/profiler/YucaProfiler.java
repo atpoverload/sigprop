@@ -47,7 +47,6 @@ public final class YucaProfiler implements Profiler {
 
   private static int getNormalFrequency() {
     int[] freqs = CpuFreq.getSetFrequencies();
-    System.out.println(Arrays.toString(freqs));
     return freqs[(int) Math.floor(freqs.length / 2)];
   }
 
