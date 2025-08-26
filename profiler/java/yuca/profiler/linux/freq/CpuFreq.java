@@ -54,7 +54,7 @@ public final class CpuFreq {
 
   /** Returns the expected frequency in Hz of a cpu. */
   public static int[] getSetFrequencies() {
-    String[] frequencies = readFromComponent(0, "").split(" ");
+    String[] frequencies = readFromComponent(0, "").trim().split(" ");
     return Arrays.stream(frequencies).mapToInt(freq -> Integer.parseInt(freq)).sorted().toArray();
   }
 
