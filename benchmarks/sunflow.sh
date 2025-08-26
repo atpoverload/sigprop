@@ -15,6 +15,7 @@ run_benchmark() {
         --iterations ${ITERATIONS} \
         --size ${SIZE} \
         --no-validation \
+        --scratch-directory /tmp/scratch \
         ${BENCHMARK} 
 }
 
