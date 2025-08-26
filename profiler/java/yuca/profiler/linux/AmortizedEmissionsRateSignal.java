@@ -36,7 +36,7 @@ public final class AmortizedEmissionsRateSignal
       System.out.println(String.format("freqs %s", freq));
       System.out.println(String.format("freq %s", freq.getFrequency()));
       int socket = SOCKETS_MAP[freq.getCpu()];
-      System.out.println(String.format("freq %s", aging.get(socket).getAging()));
+      System.out.println(String.format("aging %s", aging.get(socket).getAging()));
       double emission = embodiedCarbon * freq.getFrequency() * aging.get(socket).getAging() / normalFrequency;
       System.out.println(emission);
       emissions.putIfAbsent(socket, 0.0);
