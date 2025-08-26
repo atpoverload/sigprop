@@ -64,14 +64,14 @@ public final class CpuFreq {
     return Arrays.stream(frequencies).filter(s -> !s.isBlank()).mapToLong(freq -> 1000 * Integer.parseInt(freq)).sorted().toArray();
   }
 
-  private static int readCounter(int cpu, String component) {
+  private static long readCounter(int cpu, String component) {
     String counter = readFromComponent(cpu, component).strip();
     System.err.println(String.format("%s: %s", component, counter));
     if (counter.isBlank()) {
       return 0;
     }
     try {
-      return Integer.parseInt(counter.strip());
+      return Long.parseLong(counter.strip());
     } catch (Exception e) {
       logger.log(
           Level.WARNING,
