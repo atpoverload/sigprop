@@ -33,14 +33,10 @@ public final class AmortizedEmissionsRateSignal
     HashMap<Integer, Double> emissions = new HashMap<>();
     for (CpuFrequency freq : cpuFreqs.values()) {
       System.out.println("????");
-      System.out.println(freq);
-      System.out.println(freq.getFrequency());
+      System.out.println(String.format("freqs %s", freq));
+      System.out.println(String.format("freq %s", freq.getFrequency()));
       int socket = SOCKETS_MAP[freq.getCpu()];
-      System.out.println(embodiedCarbon);
-      System.out.println(freq.getFrequency());
-      System.out.println(aging.get(socket).getAging());
-      System.out.println(normalFrequency);
-      System.out.println("!!!!");
+      System.out.println(String.format("freq %s", aging.get(socket).getAging()));
       double emission = embodiedCarbon * freq.getFrequency() * aging.get(socket).getAging() / normalFrequency;
       System.out.println(emission);
       emissions.putIfAbsent(socket, 0.0);
