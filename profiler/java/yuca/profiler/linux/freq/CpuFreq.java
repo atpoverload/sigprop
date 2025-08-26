@@ -46,7 +46,7 @@ public final class CpuFreq {
           CpuFrequency.newBuilder()
               .setCpu(cpu)
               .setGovernor(getGovernor(cpu))
-              .setFrequency()
+              .setFrequency(getObservedFrequency(cpu))
               .setSetFrequency(getFrequency(cpu))
               .build());
       System.out.println(frequencies.get(cpu));
