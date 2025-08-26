@@ -34,7 +34,7 @@ public final class CpuFreq {
 
   /** Returns the current governor of a cpu. */
   public static String getGovernor(int cpu) {
-    return readFromComponent(cpu, "scaling_governor");
+    return readFromComponent(cpu, "scaling_governor").trim();
   }
 
   public static Map<Integer, CpuFrequency> sampleCpuFrequencies() {
