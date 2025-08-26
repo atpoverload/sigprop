@@ -29,7 +29,7 @@ public final class CpuFreq {
 
   /** Returns the observed frequency in Hz of a cpu. */
   public static int getObservedFrequency(int cpu) {
-    return 1000 * readCounter(cpu, "scaling_cur_freq");
+    return readCounter(cpu, "scaling_cur_freq");
   }
 
   /** Returns the current governor of a cpu. */
