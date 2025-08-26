@@ -40,12 +40,13 @@ public final class CpuFreq {
   public static Map<Integer, CpuFrequency> sampleCpuFrequencies() {
     HashMap<Integer, CpuFrequency> frequencies = new HashMap<>();
     for (int cpu = 0; cpu < CPU_COUNT; cpu++) {
+      System.out.println(getObservedFrequency(cpu));
       frequencies.put(
           cpu,
           CpuFrequency.newBuilder()
               .setCpu(cpu)
               .setGovernor(getGovernor(cpu))
-              .setFrequency(getObservedFrequency(cpu))
+              .setFrequency()
               .setSetFrequency(getFrequency(cpu))
               .build());
       System.out.println(frequencies.get(cpu));
