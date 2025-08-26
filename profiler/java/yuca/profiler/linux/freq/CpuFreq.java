@@ -5,6 +5,7 @@ import static charcoal.util.LoggerUtil.getLogger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -49,6 +50,12 @@ public final class CpuFreq {
               .build());
     }
     return frequencies;
+  }
+
+  /** Returns the expected frequency in Hz of a cpu. */
+  public static int[] getSetFrequencies() {
+    String[] frequencies = readFromComponent(0, "").split(" ");
+    return Arrays.stream(frequencies).mapToInt(freq -> Integer.parseInt(freq)).sorted().toArray();
   }
 
   private static int readCounter(int cpu, String component) {

@@ -11,6 +11,7 @@ import yuca.profiler.linux.AmortizedEmissionsRateSignal;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
 import yuca.profiler.linux.TaskEmissionsRateSignal;
 import yuca.profiler.linux.TaskPowerSignal;
+import yuca.profiler.linux.freq.CpuFreq;
 import yuca.profiler.linux.freq.CpuFrequencySignal;
 import yuca.profiler.linux.jiffies.CpuJiffiesRateSignal;
 import yuca.profiler.linux.jiffies.CpuJiffiesSignal;
@@ -22,10 +23,12 @@ import yuca.profiler.linux.powercap.PowercapSignal;
 import yuca.profiler.linux.thermal.ThermalZonesSignal;
 
 public final class YucaProfiler implements Profiler {
+  private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
   private static final double EMBODIED_CARBON = getCpuEmbodiedCarbon();
+  private static final int NORMAL_FREQUENCY = getNormalFrequency();
 
-  private static final CarbonLocale getDefaultLocale() {
+  private static CarbonLocale getDefaultLocale() {
     try {
       return CarbonLocale.valueOf(System.getProperty("yuca.profiler.emissions.locale", "USA"));
     } catch (Exception e) {
@@ -33,12 +36,17 @@ public final class YucaProfiler implements Profiler {
     }
   }
 
-  private static final double getCpuEmbodiedCarbon() {
+  private static double getCpuEmbodiedCarbon() {
     try {
       return Double.parseDouble(System.getProperty("yuca.profiler.emissions.embodied", "1.0"));
     } catch (Exception e) {
       return 1.0;
     }
+  }
+
+  private static int getNormalFrequency() {
+    int[] freqs = CpuFreq.getSetFrequencies();
+    return freqs[(int) Math.floor(freqs.length / 2)];
   }
 
   public final ClockSignal clock;
@@ -89,7 +97,7 @@ public final class YucaProfiler implements Profiler {
             .compose(temperature.map(me -> new AgingRateSignal(me, workExecutor)))
             .map(
                 (me, other) ->
-                    new AmortizedEmissionsRateSignal(EMBODIED_CARBON, me, other, workExecutor));
+                    new AmortizedEmissionsRateSignal(EMBODIED_CARBON, NORMAL_FREQUENCY, me, other, workExecutor));
   }
 
   @Override
