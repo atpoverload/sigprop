@@ -17,7 +17,7 @@ public final class AmortizedEmissionsRateSignal
 
   public AmortizedEmissionsRateSignal(
       double embodiedCarbon,
-      int normalFrequency,
+      long normalFrequency,
       SourceSignal<Map<Integer, CpuFrequency>> cpuFreqs,
       SourceSignal<Map<Integer, AgingRate>> aging,
       Executor executor) {
