@@ -32,6 +32,7 @@ public final class AmortizedEmissionsRateSignal
     System.out.println(cpuFreqs);
     HashMap<Integer, Double> emissions = new HashMap<>();
     for (CpuFrequency freq : cpuFreqs.values()) {
+      System.out.println(freq);
       int socket = SOCKETS_MAP[freq.getCpu()];
       System.out.println("????");
       System.out.println(embodiedCarbon);
