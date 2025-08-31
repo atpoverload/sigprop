@@ -21,11 +21,11 @@ run_benchmark() {
 
 PROFILER=end2end
 BENCHMARK=sunflow
-SIZE=default
+SIZE=large
 run_benchmark
 
 PROFILER=yuca
 PERIOD=100
 BENCHMARK=sunflow
-SIZE=default
+SIZE=large
 run_benchmark
