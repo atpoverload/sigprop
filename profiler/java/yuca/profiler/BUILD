@@ -3,8 +3,8 @@ java_library(
     visibility = ["//visibility:public"],
     srcs = glob(["*.java"]),
     deps = [
-        "//profiler/java/yuca/profiler/linux",
         "//profiler/java/yuca/profiler/emissions",
+        "//profiler/java/yuca/profiler/linux",
         "//profiler/java/yuca/profiler/linux/freq",
         "//profiler/java/yuca/profiler/linux/jiffies",
         "//profiler/java/yuca/profiler/linux/powercap",

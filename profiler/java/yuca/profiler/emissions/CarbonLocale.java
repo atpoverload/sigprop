@@ -256,4 +256,14 @@ public enum CarbonLocale {
     this.country = country;
     this.carbonIntensity = carbonIntensity;
   }
+
+  public static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
+
+  private static CarbonLocale getDefaultLocale() {
+    try {
+      return CarbonLocale.valueOf(System.getProperty("yuca.profiler.emissions.locale", "GLOBAL"));
+    } catch (Exception e) {
+      return CarbonLocale.GLOBAL;
+    }
+  }
 }

@@ -22,6 +22,20 @@ public final class CpuFreq {
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final Path SYS_CPU = Paths.get("/sys", "devices", "system", "cpu");
 
+  public static final long MEAN_FREQUENCY;
+  public static final long MEDIAN_FREQUENCY;
+  
+  static {
+    long[] freqs = getSetFrequencies();
+    if (freqs.length > 0) {
+      MEAN_FREQUENCY = (long) Arrays.stream(freqs).average().getAsDouble();
+      MEDIAN_FREQUENCY = freqs[(int) Math.floor(freqs.length / 2)];
+    } else {
+      MEAN_FREQUENCY = 0;
+      MEDIAN_FREQUENCY = 0;
+    }
+  }
+
   /** Returns the expected frequency in Hz of a cpu. */
   public static long getFrequency(int cpu) {
     return 1000 * readCounter(cpu, "cpuinfo_cur_freq");
@@ -52,8 +66,7 @@ public final class CpuFreq {
     return frequencies;
   }
 
-  /** Returns the expected frequency in Hz of a cpu. */
-  public static long[] getSetFrequencies() {
+  private static long[] getSetFrequencies() {
     String[] frequencies = readFromComponent(0, "scaling_available_frequencies").trim().split(" ");
     return Arrays.stream(frequencies).filter(s -> !s.isBlank()).mapToLong(freq -> 1000 * Integer.parseInt(freq)).sorted().toArray();
   }
