@@ -1,16 +1,16 @@
 package yuca.benchmarks;
 
-import static yuca.benchmarks.BenchmarkHelper.createProfiler;
-import static yuca.benchmarks.BenchmarkHelper.writeProfile;
+import static yuca.benchmarks.YucaBenchmarkModule.createProfiler;
+import static yuca.benchmarks.YucaBenchmarkModule.writeProfile;
 
 import org.renaissance.Plugin;
-import yuca.profiler.Profiler;
 import yuca.profiler.YucaProfile;
+import yuca.profiler.YucaProfiler;
 import yuca.profiler.YucaSession.YucaSessionMetadata;
 
 public final class YucaRenaissancePlugin
     implements Plugin.AfterOperationSetUpListener, Plugin.BeforeOperationTearDownListener {
-  private Profiler profiler;
+  private YucaProfiler profiler;
 
   @Override
   public void afterOperationSetUp(String benchmark, int opIndex, boolean isLastOp) {

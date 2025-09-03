@@ -8,6 +8,9 @@ java_library(
     srcs = glob(["*.java"], exclude=BENCHMARK_SRCS),
     deps = [
         "//profiler/java/yuca/profiler",
+        "//profiler/java/yuca/profiler/emissions",
+        "//profiler/java/yuca/profiler/linux/freq",
+        "//profiler/java/yuca/profiler/util",
         "//profiler/proto/yuca/profiler:profiler_java_protos",
         "//src/java/charcoal/util",
     ]

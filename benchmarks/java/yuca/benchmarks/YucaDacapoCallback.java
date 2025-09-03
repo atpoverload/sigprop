@@ -1,16 +1,16 @@
 package yuca.benchmarks;
 
-import static yuca.benchmarks.BenchmarkHelper.createProfiler;
-import static yuca.benchmarks.BenchmarkHelper.writeProfile;
+import static yuca.benchmarks.YucaBenchmarkModule.createProfiler;
+import static yuca.benchmarks.YucaBenchmarkModule.writeProfile;
 
 import org.dacapo.harness.Callback;
 import org.dacapo.harness.CommandLineArgs;
-import yuca.profiler.Profiler;
 import yuca.profiler.YucaProfile;
+import yuca.profiler.YucaProfiler;
 import yuca.profiler.YucaSession.YucaSessionMetadata;
 
 public class YucaDacapoCallback extends Callback {
-  private Profiler profiler;
+  private YucaProfiler profiler;
   private int iteration = 0;
 
   public YucaDacapoCallback(CommandLineArgs args) {

@@ -36,7 +36,7 @@ public final class YucaProfilerFactory {
     return new EndToEndProfiler(timeSource, locale, samplingExecutor);
   }
 
-  public OnlineYucaProfiler fixedPeriod(Duration period) {
+  public OnlineYucaProfiler createFixedPeriod(Duration period) {
     return new OnlineYucaProfiler(
         timeSource,
         () -> period,

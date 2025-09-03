@@ -21,7 +21,7 @@ public final class AgingRateSignal
   private static final double t_ox = 0.9; // effective oxide thickness in 0.9 nm
   private static final double epsilon = B * V_dd / t_ox - E_0; // Aging parameter
 
-  private static final double computeAging(int temperature) {
+  private static double computeAging(int temperature) {
     return Math.exp(epsilon / k_b / (temperature + 273.15));
   }
 
