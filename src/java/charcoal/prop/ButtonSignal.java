@@ -3,7 +3,7 @@ package charcoal.prop;
 import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
 
-/* A propagating signal that  to trigger other signals */
+/* A propagating signal that can be used to trigger other signals */
 public final class ButtonSignal extends PropagatingSignal<Void> {
   public ButtonSignal(ScheduledExecutorService executor) {
     super(executor);

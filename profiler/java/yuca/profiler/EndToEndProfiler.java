@@ -1,50 +1,44 @@
 package yuca.profiler;
 
 import charcoal.prop.ButtonSignal;
-import charcoal.util.Timestamps;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Supplier;
 import yuca.profiler.emissions.CarbonLocale;
 import yuca.profiler.linux.SocketEmissionsRateSignal;
 import yuca.profiler.linux.powercap.PowercapPowerSignal;
 import yuca.profiler.linux.powercap.PowercapSignal;
 
-public final class E2EOperationalCarbonProfiler implements Profiler {
-  private static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
-
-  private static final CarbonLocale getDefaultLocale() {
-    try {
-      return CarbonLocale.valueOf(System.getProperty("yuca.profiler.emissions.locale", "USA"));
-    } catch (Exception e) {
-      return CarbonLocale.GLOBAL;
-    }
-  }
-
-  public final ButtonSignal button;
+public final class EndToEndProfiler implements YucaProfiler {
   public final PowercapPowerSignal socketPower;
   public final SocketEmissionsRateSignal socketEmissions;
+
+  private final Supplier<Instant> timeSource;
+  private final ButtonSignal button;
 
   private boolean isRunning = false;
   private Instant start = Instant.EPOCH;
   private Instant end = Instant.EPOCH;
 
-  public E2EOperationalCarbonProfiler(ScheduledExecutorService workExecutor) {
-    button = new ButtonSignal(Timestamps::now, workExecutor);
-    socketPower =
-        button
+  public EndToEndProfiler(
+      Supplier<Instant> timeSource, CarbonLocale locale, ScheduledExecutorService workExecutor) {
+    this.timeSource = timeSource;
+    this.button = new ButtonSignal(workExecutor);
+    this.socketPower =
+        this.button
             .map(() -> new PowercapSignal(workExecutor))
             .map(me -> new PowercapPowerSignal(me, workExecutor));
-    socketEmissions =
-        socketPower.map(me -> new SocketEmissionsRateSignal(DEFAULT_LOCALE, me, workExecutor));
+    this.socketEmissions =
+        this.socketPower.map(me -> new SocketEmissionsRateSignal(locale, me, workExecutor));
   }
 
   @Override
   public void start() {
     synchronized (this) {
       if (!isRunning) {
-        start = button.sample(null);
-        button.propagate(start);
+        start = timeSource.get();
+        this.button.propagate(start);
         isRunning = true;
       }
     }
@@ -54,7 +48,7 @@ public final class E2EOperationalCarbonProfiler implements Profiler {
   public void stop() {
     synchronized (this) {
       if (isRunning) {
-        end = button.sample(null);
+        end = timeSource.get();
         button.propagate(end);
         isRunning = false;
       }

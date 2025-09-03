@@ -7,7 +7,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.logging.Logger;
 import yuca.profiler.linux.CpuFrequency;
 
-/** Very simple energy monitor that reports energy consumption over 10 millisecond intervals. */
+/** A program that reports the frequencies of each cpu to smoke test the package. */
 final class CpuFreqMonitor {
   private static final Logger logger = getLogger();
 

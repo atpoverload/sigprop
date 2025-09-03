@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+/**
+ * Signal that computes the amortized emissions of a system's CPUs. Consult
+ * https://www.sciencedirect.com/science/article/abs/pii/S0026271413004368 for more information.
+ */
 public final class AmortizedEmissionsRateSignal
     extends BiMappingSignal<
         Map<Integer, CpuFrequency>, Map<Integer, AgingRate>, Map<Integer, AmortizedEmissionsRate>> {
@@ -32,10 +36,10 @@ public final class AmortizedEmissionsRateSignal
     HashMap<Integer, Double> emissions = new HashMap<>();
     for (CpuFrequency freq : cpuFreqs.values()) {
       int socket = SOCKETS_MAP[freq.getCpu()];
-      double emission = embodiedCarbon * freq.getFrequency() * aging.get(socket).getAging() / normalFrequency;
+      double emission =
+          embodiedCarbon * freq.getFrequency() * aging.get(socket).getAging() / normalFrequency;
       emissions.putIfAbsent(socket, 0.0);
-      emissions.put(
-          socket, emissions.get(socket) + emission);
+      emissions.put(socket, emissions.get(socket) + emission);
     }
     HashMap<Integer, AmortizedEmissionsRate> amortized = new HashMap<>();
     for (int socket : emissions.keySet()) {

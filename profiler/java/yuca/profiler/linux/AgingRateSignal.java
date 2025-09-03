@@ -8,6 +8,10 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+/**
+ * Signal that computes the aging of a system's CPUs. Consult
+ * https://www.sciencedirect.com/science/article/abs/pii/S0026271413004368 for more information.
+ */
 public final class AgingRateSignal
     extends MappingSignal<Map<Integer, ThermalZoneTemperature>, Map<Integer, AgingRate>> {
   private static final double E_0 = 0.1897; // transistor channel energy in eV
