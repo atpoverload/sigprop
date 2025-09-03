@@ -4,3 +4,5 @@ bazel-*
 scratch
 __pycache__
 *.lock
+
+.venv
