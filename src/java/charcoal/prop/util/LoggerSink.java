@@ -2,7 +2,7 @@ package charcoal.prop.util;
 
 import charcoal.SinkSignal;
 import charcoal.SourceSignal;
-import charcoal.util.LoggerUtil;
+import static charcoal.util.LoggerUtil.getLogger;
 import java.time.Instant;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -15,7 +15,7 @@ public final class LoggerSink implements SinkSignal {
   }
 
   public static LoggerSink withCharcoalLogger(SourceSignal<?> first) {
-    return new LoggerSink(first, LoggerUtil.getLogger());
+    return new LoggerSink(first, getLogger("charcoal-logger"));
   }
 
   private final SourceSignal<?> source;

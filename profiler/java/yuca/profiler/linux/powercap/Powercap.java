@@ -17,7 +17,7 @@ import yuca.profiler.linux.SocketPower;
 /** Simple wrapper to read powercap's energy with pure Java. */
 // TODO: this doesn't appear to work on more modern implementations that are hierarchical
 public final class Powercap {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("powercap");
 
   private static final Path POWERCAP_ROOT =
       Paths.get("/sys", "devices", "virtual", "powercap", "intel-rapl");

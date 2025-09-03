@@ -17,7 +17,7 @@ import yuca.profiler.linux.CpuFrequency;
  * https://www.kernel.org/doc/html/v4.14/admin-guide/pm/cpufreq.html for more details.
  */
 public final class CpuFreq {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("cpu-freq");
 
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final Path SYS_CPU = Paths.get("/sys", "devices", "system", "cpu");

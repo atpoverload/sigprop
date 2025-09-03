@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /** A class to expose the hardware's microarchitecture. */
 public final class MicroArchitecture {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("micro-architecture");
 
   // Taken from //src\native\src\main\c\micro_architecture.c
   public static final String UNKNOWN = "UNDEFINED_MICROARCHITECTURE";

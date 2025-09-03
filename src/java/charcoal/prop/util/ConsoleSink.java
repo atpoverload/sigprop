@@ -1,9 +1,8 @@
 package charcoal.prop.util;
 
-import static charcoal.util.LoggerUtil.getLogger;
-
 import charcoal.SinkSignal;
 import charcoal.SourceSignal;
+import static charcoal.util.LoggerUtil.getLogger;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
 
 /** A {@link SinkSignal} that prints a @{link SourceSignal} to an updating console. */
 public final class ConsoleSink implements SinkSignal {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("charcoal-console");
 
   private static final SimpleDateFormat dateFormatter =
       new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a z");

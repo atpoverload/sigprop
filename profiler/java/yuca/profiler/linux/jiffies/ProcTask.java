@@ -21,7 +21,7 @@ import yuca.profiler.linux.TaskActivityRate;
  * https://man7.org/linux/man-pages/man5/proc.5.html
  */
 public final class ProcTask {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("proc-task");
 
   private static final long PID = ProcessHandle.current().pid();
   private static final int[] SOCKETS_MAP = getCpuSocketMapping();

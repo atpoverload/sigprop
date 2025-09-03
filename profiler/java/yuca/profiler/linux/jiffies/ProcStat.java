@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * https://man7.org/linux/man-pages/man5/proc.5.html
  */
 public final class ProcStat {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("proc-task");
 
   // system information
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();

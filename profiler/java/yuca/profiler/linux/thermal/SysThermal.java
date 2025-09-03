@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import yuca.profiler.linux.ThermalZoneTemperature;
 
 public class SysThermal {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("sys-thermal");
 
   private static final Path SYS_THERMAL = Paths.get("/sys", "class", "thermal");
   private static final Map<Integer, String> ZONE_TYPES = getZones();

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /** A class that exposes information from /proc/cpuinfo. */
 public final class CpuInfo {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("cpu-info");
   private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
   private static final String CPU_INFO = "/proc/cpuinfo";
   private static final int[] CPU_TO_SOCKETS = createCpuSocketMapping();

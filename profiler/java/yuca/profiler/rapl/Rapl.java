@@ -18,7 +18,7 @@ import yuca.signal.SignalInterval.SignalData;
 
 /** Simple wrapper around rapl access that requires libjrapl.so. */
 public final class Rapl {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("rapl");
   // TODO: the delimiter is currently hacked-in to be ;. this was done because of
   // the formatting issue associated with , vs . on certain locales
   private static final String ENERGY_STRING_DELIMITER = ";";

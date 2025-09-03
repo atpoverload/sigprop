@@ -13,7 +13,7 @@ import yuca.util.Timestamps;
 
 /** A smoke test to check which components are available and if they are reporting similarly. */
 final class RaplSmokeTest {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("rapl-smoke-test");
 
   private static int fib(int n) {
     if (n == 0 || n == 1) {

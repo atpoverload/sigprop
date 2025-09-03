@@ -5,5 +5,6 @@ java_library(
     deps = [
         "//src/java/charcoal",
         "//src/java/charcoal/prop",
+        "//src/java/charcoal/util",
     ],
 )

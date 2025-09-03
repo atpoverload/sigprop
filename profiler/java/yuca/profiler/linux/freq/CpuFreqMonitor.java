@@ -9,7 +9,7 @@ import yuca.profiler.linux.CpuFrequency;
 
 /** A program that reports the frequencies of each cpu to smoke test the package. */
 final class CpuFreqMonitor {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("cpu-freq-monitor");
 
   public static void main(String[] args) throws Exception {
     while (true) {

@@ -1,10 +1,18 @@
 package charcoal.util;
 
+import static charcoal.util.LoggerUtil.getLogger;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Utilities for algebra with {@link Instants} and {@link Durations}. */
 public final class Timestamps {
+  private static final Logger logger = getLogger("charcoal-timestamps");
+
+  private static final String NATIVE_LIBRARY_PATH = "/c/charcoal/util/libtime.so";
+
   /**
    * Computes the ratio of elapsed time between two {@link Durations}. It is recommended that the
    * {@code dividend} is less than the {@code divisor} otherwise the value is somewhat non-sensical.
@@ -43,12 +51,11 @@ public final class Timestamps {
 
   private static boolean loadLibrary() {
     try {
-      // TODO: Remember to fix this when we migrate the files over to /src/jcarbon.
-      NativeUtils.loadLibraryFromJar("/c/charcoal/util/libtime.so");
+      logger.info(String.format("loading native timestamps library from %s", NATIVE_LIBRARY_PATH));
+      NativeUtils.loadLibraryFromJar(NATIVE_LIBRARY_PATH);
       return true;
-    } catch (Exception e) {
-      LoggerUtil.getLogger().info("couldn't load native timestamps library");
-      e.printStackTrace();
+    } catch (IOException e) {
+      logger.log(Level.WARNING, "couldn't load native timestamps library", e);
       return false;
     }
   }

@@ -1,5 +1,10 @@
 package yuca.profiler.emissions;
 
+import static charcoal.util.LoggerUtil.getLogger;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public enum CarbonLocale {
   ABW("Aruba", 542.8195532899147),
   AFG("Afghanistan", 108.65829596412556),
@@ -257,12 +262,18 @@ public enum CarbonLocale {
     this.carbonIntensity = carbonIntensity;
   }
 
+  private static final Logger logger = getLogger("yuca-carbon-locale");
+  private static final String CARBON_LOCALE_PROPERTY = "yuca.profiler.emissions.locale.default";
+
   public static final CarbonLocale DEFAULT_LOCALE = getDefaultLocale();
 
   private static CarbonLocale getDefaultLocale() {
     try {
-      return CarbonLocale.valueOf(System.getProperty("yuca.profiler.emissions.locale.default", "GLOBAL"));
-    } catch (Exception e) {
+      String carbonLocale = System.getProperty(CARBON_LOCALE_PROPERTY);
+      logger.info(String.format("checking %s=%s", CARBON_LOCALE_PROPERTY, carbonLocale));
+      return CarbonLocale.valueOf(carbonLocale);
+    } catch (IllegalArgumentException | NullPointerException e) {
+      logger.log(Level.WARNING, "unable to determine the system's carbon locale", e);
       return CarbonLocale.GLOBAL;
     }
   }

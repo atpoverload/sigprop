@@ -13,7 +13,7 @@ import yuca.profiler.linux.SocketPower;
 
 /** A smoke test to check which components are available and if they are reporting similarly. */
 final class PowercapSmokeTest {
-  private static final Logger logger = getLogger();
+  private static final Logger logger = getLogger("powercap-smoke-test");
 
   private static int fib(int n) {
     if (n == 0 || n == 1) {
