@@ -1,6 +1,7 @@
 package charcoal.util;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 

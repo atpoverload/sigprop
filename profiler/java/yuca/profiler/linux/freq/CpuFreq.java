@@ -24,7 +24,7 @@ public final class CpuFreq {
 
   public static final long MEAN_FREQUENCY;
   public static final long MEDIAN_FREQUENCY;
-  
+
   static {
     long[] freqs = getSetFrequencies();
     if (freqs.length > 0) {
@@ -68,7 +68,11 @@ public final class CpuFreq {
 
   private static long[] getSetFrequencies() {
     String[] frequencies = readFromComponent(0, "scaling_available_frequencies").trim().split(" ");
-    return Arrays.stream(frequencies).filter(s -> !s.isBlank()).mapToLong(freq -> 1000 * Integer.parseInt(freq)).sorted().toArray();
+    return Arrays.stream(frequencies)
+        .filter(s -> !s.isBlank())
+        .mapToLong(freq -> 1000 * Integer.parseInt(freq))
+        .sorted()
+        .toArray();
   }
 
   private static long readCounter(int cpu, String component) {

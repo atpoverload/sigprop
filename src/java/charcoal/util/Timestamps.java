@@ -1,6 +1,7 @@
 package charcoal.util;
 
 import static charcoal.util.LoggerUtil.getLogger;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;

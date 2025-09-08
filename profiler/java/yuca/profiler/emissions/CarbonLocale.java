@@ -277,4 +277,8 @@ public enum CarbonLocale {
       return CarbonLocale.GLOBAL;
     }
   }
+
+  public static CarbonLocale fromGeoLocation() {
+    return CarbonLocale.GLOBAL;
+  }
 }

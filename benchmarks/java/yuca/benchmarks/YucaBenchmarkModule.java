@@ -53,9 +53,8 @@ final class YucaBenchmarkModule {
 
   static void writeProfile(YucaProfile profile, String fileName) {
     Path filePath = Path.of(getOutputDirectory(), String.format("%s.pb", fileName));
-    try (DataOutputStream out =
-        new DataOutputStream(new FileOutputStream(filePath.toString()))) {
-          logger.info(String.format("writing profile to %s", filePath));
+    try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filePath.toString()))) {
+      logger.info(String.format("writing profile to %s", filePath));
       profile.writeTo(out);
     } catch (Exception e) {
       logger.log(Level.SEVERE, "unable to write profile", e);
