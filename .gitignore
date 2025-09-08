@@ -6,3 +6,7 @@ __pycache__
 *.lock
 
 .venv
+*.egg-info
+build
+.ipynb_checkpoints
+harness-*-*
