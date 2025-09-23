@@ -8,7 +8,7 @@ ITERATIONS=100
 LOCALE=USA
 
 run_benchmark() {
-    python3 run_benchmark.py \
+    python3 benchmarks/run_benchmark.py \
         --profiler ONLINE \
         --period "${PERIOD_MS}" \
         --output "/experiment/test/${BENCHMARK}" \
