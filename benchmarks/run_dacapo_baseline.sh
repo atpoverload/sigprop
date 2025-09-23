@@ -3,18 +3,18 @@ DATA_DIR=baseline
 DATA_DIR="/experiment/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=100
+ITERATIONS=50
 LOCALE=USA
 
 run_benchmark() {
-    python3 benchmarks/run_benchmark.py \
+    $(python3 benchmarks/run_benchmark.py \
         --profiler END2END \
         --output "/experiment/test/${BENCHMARK}" \
         --locale USA \
         dacapo \
         --size "${SIZE}" \
         --iterations "${ITERATIONS}" \
-        "${BENCHMARK}"
+        "${BENCHMARK}")
 }
 
 # default size dacapo benchmarks

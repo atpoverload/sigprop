@@ -4,19 +4,18 @@ DATA_DIR="/experiment/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
 PERIOD_MS=100
-ITERATIONS=100
+ITERATIONS=50
 LOCALE=USA
 
 run_benchmark() {
-    python3 benchmarks/run_benchmark.py \
+    $(python3 benchmarks/run_benchmark.py \
         --profiler ONLINE \
         --period "${PERIOD_MS}" \
         --output "/experiment/test/${BENCHMARK}" \
         --locale USA \
         renaissance \
-        --size "${SIZE}" \
-        --iterations "${ITERATIONS}" \
-        "${BENCHMARK}"
+        --repetitions "${ITERATIONS}" \
+        "${BENCHMARK}")
 }
 
 BENCHMARKS=(
