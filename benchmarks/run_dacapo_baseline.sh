@@ -8,7 +8,7 @@ LOCALE=USA
 
 run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
-        --profiler END2END \
+        --profiler END_TO_END \
         --output "/experiment/test/${BENCHMARK}" \
         --locale USA \
         dacapo \

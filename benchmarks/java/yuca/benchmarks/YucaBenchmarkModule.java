@@ -38,7 +38,7 @@ final class YucaBenchmarkModule {
     try {
       ProfilerKind kind = ProfilerKind.valueOf(System.getProperty("yuca.benchmarks.profiler"));
       switch (kind) {
-        case ENDTOEND:
+        case END_TO_END:
           logger.info("creating end-to-end profiler");
           return PROFILER_FACTORY.createEndToEnd();
         case ONLINE:
@@ -66,7 +66,7 @@ final class YucaBenchmarkModule {
   }
 
   private enum ProfilerKind {
-    ENDTOEND,
+    END_TO_END,
     ONLINE;
   }
 
