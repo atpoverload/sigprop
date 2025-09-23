@@ -1,26 +1,24 @@
 # Script to reproduce the energy accounting experiments with dacapo
-
 DATA_DIR=baseline
-DATA_DIR="/tmp/${DATA_DIR}"
+DATA_DIR="/experiment/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
 ITERATIONS=100
 LOCALE=USA
 
-PERIOD=0
-
 run_benchmark() {
-    java -Dyuca.benchmarks.period=$PERIOD -Dyuca.benchmarks.output=${DATA_DIR} \
-        -jar bazel-bin/benchmarks/java/yuca/benchmarks/dacapo_deploy.jar \
-        --callback yuca.benchmarks.YucaDacapoCallback \
-        --iterations ${ITERATIONS} \
-        --size ${SIZE} \
-        --no-validation \
-        --scratch-directory /tmp/scratch \
-        ${BENCHMARK} 
+    python run_benchmark.py \
+        --profiler END2END \
+        --output "/experiment/test/${BENCHMARK}" \
+        --locale USA \
+        dacapo \
+        --size "${SIZE}" \
+        --iterations "${ITERATIONS}" \
+        "${BENCHMARK}"
 }
 
 # default size dacapo benchmarks
+SIZE=default
 BENCHMARKS=(
     biojava
     cassandra
@@ -37,14 +35,12 @@ BENCHMARKS=(
     xalan
     zxing
 )
-
-SIZE=default
-
 for BENCHMARK in ${BENCHMARKS[@]}; do
     run_benchmark
 done
 
 # large size dacapo benchmarks
+SIZE=large
 BENCHMARKS=(
     avrora
     batik
@@ -56,9 +52,6 @@ BENCHMARKS=(
     sunflow
     tomcat
 )
-
-SIZE=large
-
 for BENCHMARK in ${BENCHMARKS[@]}; do
     run_benchmark
 done

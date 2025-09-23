@@ -61,6 +61,8 @@ def main():
             "--scratch-base=/tmp/scratch",
             f"{args.benchmark}",
         ]
+    else:
+        raise ValueError(f'got an unknown suite {args.suite}')
     if os.path.exists(args.output):
         shutil.rmtree(args.output)
     os.makedirs(args.output)
