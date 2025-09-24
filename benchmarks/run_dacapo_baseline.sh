@@ -9,7 +9,7 @@ LOCALE=USA
 run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
         --profiler END_TO_END \
-        --output "${DATA_DIR}" \
+        --output "${DATA_DIR}/${BENCHMARK}" \
         --locale USA \
         dacapo \
         --size "${SIZE}" \
