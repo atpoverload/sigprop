@@ -9,7 +9,7 @@ LOCALE=USA
 run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
         --profiler END_TO_END \
-        --output "/experiment/test/${BENCHMARK}" \
+        --output "${DATA_DIR}" \
         --locale USA \
         renaissance \
         --repetitions "${ITERATIONS}" \

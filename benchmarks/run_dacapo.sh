@@ -11,7 +11,7 @@ run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
         --profiler ONLINE \
         --period "${PERIOD_MS}" \
-        --output "/experiment/test/${BENCHMARK}" \
+        --output "${DATA_DIR}" \
         --locale USA \
         dacapo \
         --size "${SIZE}" \
