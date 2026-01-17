@@ -35,20 +35,33 @@ final class YucaBenchmarkModule {
           PROCESSING_EXECUTOR);
 
   static YucaProfiler createProfiler() {
+    Duration period;
     try {
       ProfilerKind kind = ProfilerKind.valueOf(System.getProperty("yuca.benchmarks.profiler"));
       switch (kind) {
         case END_TO_END:
           logger.info("creating end-to-end profiler");
           return PROFILER_FACTORY.createEndToEnd();
-        case ONLINE:
+        case ONLINE_POWERCAP:
+          period = getPeriod();
+          logger.info(String.format("creating online power profiler at %s", period));
+          return PROFILER_FACTORY.createOnlinePowercapProfiler(period);
+        case OFFLINE_POWERCAP:
+          period = getPeriod();
+          logger.info(String.format("creating offline power profiler at %s", period));
+          return PROFILER_FACTORY.createOfflinePowercapProfiler(period);
+        case ONLINE_YUCA:
+          period = getPeriod();
+          logger.info(String.format("creating online yuca profiler at %s", period));
+          return PROFILER_FACTORY.createOnlineYucaProfiler(period);
+        case OFFLINE_YUCA:
           break;
       }
     } catch (Exception e) {
     }
-    Duration period = getPeriod();
-    logger.info(String.format("creating online profiler at %s", period));
-    return PROFILER_FACTORY.createFixedPeriod(period);
+    period = getPeriod();
+    logger.info(String.format("creating offline yuca profiler at %s", period));
+    return PROFILER_FACTORY.createOfflineYucaProfiler(period);
   }
 
   static void writeProfile(YucaProfile profile, String fileName) {
@@ -67,7 +80,10 @@ final class YucaBenchmarkModule {
 
   private enum ProfilerKind {
     END_TO_END,
-    ONLINE;
+    ONLINE_POWERCAP,
+    OFFLINE_POWERCAP,
+    ONLINE_YUCA,
+    OFFLINE_YUCA;
   }
 
   private static Duration getPeriod() {

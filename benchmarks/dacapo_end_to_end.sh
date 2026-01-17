@@ -1,9 +1,9 @@
 # Script to reproduce the energy accounting experiments with dacapo
-DATA_DIR=baseline
-DATA_DIR="/experiment/${DATA_DIR}"
+DATA_DIR=end-to-end
+DATA_DIR="experiment-data/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=50
+ITERATIONS=5
 LOCALE=USA
 
 run_benchmark() {

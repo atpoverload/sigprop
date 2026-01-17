@@ -1,14 +1,16 @@
 # Script to reproduce the energy accounting experiments with dacapo
-DATA_DIR=baseline
-DATA_DIR="/experiment/${DATA_DIR}"
+DATA_DIR=offline-powercap
+DATA_DIR="experiment-data/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=50
+PERIOD_MS=100
+ITERATIONS=5
 LOCALE=USA
 
 run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
-        --profiler END_TO_END \
+        --profiler OFFLINE_POWERCAP \
+        --period "${PERIOD_MS}" \
         --output "${DATA_DIR}/${BENCHMARK}" \
         --locale USA \
         renaissance \

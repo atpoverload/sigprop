@@ -1,15 +1,15 @@
 # Script to reproduce the energy accounting experiments with dacapo
-DATA_DIR=profiled
-DATA_DIR="/experiment/${DATA_DIR}"
+DATA_DIR=online-yuca
+DATA_DIR="experiment-data/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
 PERIOD_MS=100
-ITERATIONS=50
+ITERATIONS=5
 LOCALE=USA
 
 run_benchmark() {
     $(python3 benchmarks/run_benchmark.py \
-        --profiler ONLINE \
+        --profiler ONLINE_YUCA \
         --period "${PERIOD_MS}" \
         --output "${DATA_DIR}/${BENCHMARK}" \
         --locale USA \

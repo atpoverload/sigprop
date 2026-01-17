@@ -1,4 +1,6 @@
-bash benchmarks/run_dacapo_baseline.sh
-bash benchmarks/run_renaissance_baseline.sh
-bash benchmarks/run_dacapo.sh
-bash benchmarks/run_renaissance.sh
+bash benchmarks/dacapo_end_to_end.sh
+bash benchmarks/renaissance_end_to_end.sh
+bash benchmarks/dacapo_offline_powercap.sh
+bash benchmarks/renaissance_offline_powercap.sh
+bash benchmarks/dacapo_online_powercap.sh
+bash benchmarks/renaissance_online_powercap.sh

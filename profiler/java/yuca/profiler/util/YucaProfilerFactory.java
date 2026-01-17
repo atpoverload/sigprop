@@ -5,6 +5,9 @@ import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
 import yuca.profiler.EndToEndProfiler;
+import yuca.profiler.OfflinePowercapProfiler;
+import yuca.profiler.OfflineYucaProfiler;
+import yuca.profiler.OnlinePowercapProfiler;
 import yuca.profiler.OnlineYucaProfiler;
 import yuca.profiler.emissions.CarbonLocale;
 
@@ -36,8 +39,29 @@ public final class YucaProfilerFactory {
     return new EndToEndProfiler(timeSource, locale, samplingExecutor);
   }
 
-  public OnlineYucaProfiler createFixedPeriod(Duration period) {
+  public OfflinePowercapProfiler createOfflinePowercapProfiler(Duration period) {
+    return new OfflinePowercapProfiler(
+        timeSource, () -> period, samplingExecutor, processingExecutor);
+  }
+
+  public OnlinePowercapProfiler createOnlinePowercapProfiler(Duration period) {
+    return new OnlinePowercapProfiler(
+        timeSource, () -> period, samplingExecutor, processingExecutor);
+  }
+
+  public OnlineYucaProfiler createOnlineYucaProfiler(Duration period) {
     return new OnlineYucaProfiler(
+        timeSource,
+        () -> period,
+        locale,
+        systemEmbodiedCarbon,
+        normalFrequency,
+        samplingExecutor,
+        processingExecutor);
+  }
+
+  public OfflineYucaProfiler createOfflineYucaProfiler(Duration period) {
+    return new OfflineYucaProfiler(
         timeSource,
         () -> period,
         locale,
