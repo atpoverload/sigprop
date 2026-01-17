@@ -4,3 +4,7 @@ bash benchmarks/dacapo_offline_powercap.sh
 bash benchmarks/renaissance_offline_powercap.sh
 bash benchmarks/dacapo_online_powercap.sh
 bash benchmarks/renaissance_online_powercap.sh
+bash benchmarks/dacapo_offline_yuca.sh
+bash benchmarks/renaissance_offline_yuca.sh
+bash benchmarks/dacapo_online_yuca.sh
+bash benchmarks/renaissance_online_yuca.sh
