@@ -3,7 +3,7 @@ DATA_DIR=end-to-end
 DATA_DIR="experiment-data/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-ITERATIONS=5
+ITERATIONS=50
 LOCALE=USA
 
 run_benchmark() {

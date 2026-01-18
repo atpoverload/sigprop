@@ -3,8 +3,8 @@ DATA_DIR=online-yuca
 DATA_DIR="experiment-data/${DATA_DIR}"
 mkdir -p "${DATA_DIR}"
 
-PERIOD_MS=100
-ITERATIONS=5
+PERIOD_MS=25
+ITERATIONS=50
 LOCALE=USA
 
 run_benchmark() {
