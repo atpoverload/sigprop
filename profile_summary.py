@@ -16,7 +16,7 @@ SIGNALS = [
 ]
 
 
-def process(profile, signals, pbar=None):
+def process(profile, signals, pbar=None, tag=None):
     records = []
     period = None
     if profile.session.HasField('period'):
@@ -36,6 +36,8 @@ def process(profile, signals, pbar=None):
             period = f'{period}ms'
     metadata = dict((m.key, m.value) for m in profile.session.metadata)
     metadata['period'] = period
+    if tag:
+        metadata['tag'] = tag
     if pbar is not None:
         pbar.set_description(
             f'period: {period}', list(map(lambda m: f'{m[0]}: {m[1]}', metadata.items())))
@@ -79,7 +81,7 @@ def main():
             profile = YucaProfile()
             with open(f, 'rb') as f:
                 profile.ParseFromString(f.read())
-            records.extend(process(profile, signals, pbar))
+            records.extend(process(profile, signals, pbar, f))
             pbar.update(i)
         pbar.close()
 
