@@ -77,11 +77,11 @@ def main():
     print(args.files)
     with tqdm(len(args.files)) as pbar:
         records = []
-        for i, f in enumerate(args.files):
+        for i, file_name in enumerate(args.files):
             profile = YucaProfile()
-            with open(f, 'rb') as f:
+            with open(file_name, 'rb') as f:
                 profile.ParseFromString(f.read())
-            records.extend(process(profile, signals, pbar, f))
+            records.extend(process(profile, signals, pbar, file_name))
             pbar.update(i)
         pbar.close()
 
